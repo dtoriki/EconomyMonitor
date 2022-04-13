@@ -14,9 +14,24 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		version.json = version.json
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".github", ".github", "{506696EA-B872-4A1C-8F3D-A276BB196B73}"
+	ProjectSection(SolutionItems) = preProject
+		.github\dependabot.yml = .github\dependabot.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{BFA1111E-A359-4CD2-B4C0-2709FBF16EC0}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build.yml = .github\workflows\build.yml
+		.github\workflows\preview-win-x64.yml = .github\workflows\preview-win-x64.yml
+		.github\workflows\release-win-x64.yml = .github\workflows\release-win-x64.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{BFA1111E-A359-4CD2-B4C0-2709FBF16EC0} = {506696EA-B872-4A1C-8F3D-A276BB196B73}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2EB81BE9-F352-4BB1-A6CC-8233547BCF33}
