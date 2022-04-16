@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace EconomyMonitor.MVVM.Common;
+namespace EconomyMonitor.MVVM.WPF;
 
 /// <summary>
 /// Base <see cref="ICommand"/> implementation.

@@ -1,6 +1,6 @@
 using EconomyMonitor.Helpers;
 
-namespace EconomyMonitor.MVVM.Common;
+namespace EconomyMonitor.MVVM.WPF;
 
 /// <summary>
 /// Relay <see cref="CommandBase"/>'s implementation.
