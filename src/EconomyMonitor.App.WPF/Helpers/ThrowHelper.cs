@@ -1,0 +1,33 @@
+using static EconomyMonitor.App.WPF.Helpers.Internal.ExceptionMessages;
+
+namespace EconomyMonitor.App.WPF.Helpers;
+
+public static class ThrowHelper
+{
+    /// <summary>
+    /// Throws exception.
+    /// </summary>
+    /// <typeparam name="T">
+    /// Exception's type.
+    /// </typeparam>
+    /// <param name="args">
+    /// Arguments' array.
+    /// </param>
+    /// <exception cref="InvalidOperationException">
+    /// Throws when <paramref name="args"/> are empty. Or when exception is obscure.
+    /// </exception>
+    /// <remarks>
+    /// <paramref name="args"/> should include at least one argument as message.
+    /// </remarks>
+    public static void Throw<T>(params string?[] args)
+        where T : Exception
+    {
+        if (args.Length < 1)
+        {
+            Throw<InvalidOperationException>(NEED_AT_LEAST_A_MESSAGE);
+        }
+
+        throw (T)(Activator.CreateInstance(typeof(T), args)
+            ?? throw new InvalidOperationException(OBSCURE_EXCEPTION_THROWN));
+    }
+}
