@@ -1,9 +1,9 @@
 using System.Windows;
 
-namespace EconomyMonitor.App.WPF;
+namespace EconomyMonitor.Wpf;
 
 /// <summary>
-/// Interaction logic for App.
+/// Interaction logic for App.xaml
 /// </summary>
 public partial class App : Application
 {
