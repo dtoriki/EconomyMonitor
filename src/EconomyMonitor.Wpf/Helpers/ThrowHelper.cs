@@ -1,6 +1,6 @@
-using static EconomyMonitor.App.WPF.Helpers.Internal.ExceptionMessages;
+using static EconomyMonitor.Wpf.Helpers.Internal.ExceptionMessages;
 
-namespace EconomyMonitor.App.WPF.Helpers;
+namespace EconomyMonitor.Wpf.Helpers;
 
 public static class ThrowHelper
 {

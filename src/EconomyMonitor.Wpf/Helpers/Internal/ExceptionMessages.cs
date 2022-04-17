@@ -1,4 +1,4 @@
-namespace EconomyMonitor.App.WPF.Helpers.Internal;
+namespace EconomyMonitor.Wpf.Helpers.Internal;
 
 internal static class ExceptionMessages
 {

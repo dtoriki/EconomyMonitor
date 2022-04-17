@@ -1,6 +1,6 @@
-using EconomyMonitor.App.WPF.Helpers;
+using EconomyMonitor.Wpf.Helpers;
 
-namespace EconomyMonitor.App.WPF.MVVM.Abstracts;
+namespace EconomyMonitor.Wpf.MVVM.Abstracts;
 
 /// <summary>
 /// Relay <see cref="CommandBase"/>'s implementation.

@@ -1,6 +1,6 @@
 using System.Windows.Input;
 
-namespace EconomyMonitor.App.WPF.MVVM.Abstracts;
+namespace EconomyMonitor.Wpf.MVVM.Abstracts;
 
 /// <summary>
 /// Base <see cref="ICommand"/> implementation.

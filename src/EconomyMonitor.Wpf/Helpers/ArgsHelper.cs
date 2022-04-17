@@ -1,8 +1,8 @@
 using System.Runtime.CompilerServices;
-using static EconomyMonitor.App.WPF.Helpers.Internal.ExceptionMessages;
-using static EconomyMonitor.App.WPF.Helpers.ThrowHelper;
+using static EconomyMonitor.Wpf.Helpers.Internal.ExceptionMessages;
+using static EconomyMonitor.Wpf.Helpers.ThrowHelper;
 
-namespace EconomyMonitor.App.WPF.Helpers;
+namespace EconomyMonitor.Wpf.Helpers;
 
 /// <summary>
 /// Helps set fields with values.

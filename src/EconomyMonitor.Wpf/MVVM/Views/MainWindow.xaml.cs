@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace EconomyMonitor.App.WPF;
+namespace EconomyMonitor.Wpf.MVVM.Views;
 
 /// <summary>
 /// Interaction logic for MainWindow.
