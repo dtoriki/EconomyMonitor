@@ -2,10 +2,30 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:ws="clr-namespace:EconomyMonitor.Wpf.MVVM.Views" 
+        xmlns:vm="clr-namespace:EconomyMonitor.Wpf.MVVM.ViewModels"
+        mc:Ignorable="d" 
+        Height="450" 
+        Width="800" 
+        Background="{DynamicResource PrimaryHueLightBrush}"
+        TextElement.Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+        ResizeMode="NoResize" 
+        WindowStartupLocation="CenterScreen" 
+        WindowStyle="None">
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="{Binding Source={StaticResource WINDOW_STATE_CONTROL_HEIGHT}}"/>
+        </Grid.RowDefinitions>
+        <ws:WindowStateView Grid.Row="0"
+                            FontSize="{StaticResource APP_TITLE_FONT_SIZE}"
+                            Background="{DynamicResource PrimaryHueDarkBrush}"
+                            Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}">
+            <ws:WindowStateView.DataContext>
+                <vm:WindowStateViewModel ControlHeight="{StaticResource WINDOW_STATE_CONTROL_HEIGHT}"
+                                         ButtonsSize="{StaticResource WINDOW_STATE_BUTTONS_SIZE_HEIGHT}"
+                                         Title="{StaticResource APP_TITLE}"/>
+            </ws:WindowStateView.DataContext>
+        </ws:WindowStateView>
     </Grid>
 </Window>
