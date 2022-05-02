@@ -1,0 +1,20 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    x:Class="EconomyMonitor.Wpf.Styles.Header.WindowDragCard.ResourceDictionary">
+
+    <x:Code>
+        <![CDATA[
+            
+            void OnMouseDown(object sender, MouseButtonEventArgs e)
+            {
+                Application.Current.MainWindow.DragMove();
+            }
+            ]]>
+    </x:Code>
+
+    <Style x:Key="WindowDragCard"
+           TargetType="materialDesign:Card">
+        <EventSetter Event="MouseDown" Handler="OnMouseDown"/>
+    </Style>
+</ResourceDictionary>
