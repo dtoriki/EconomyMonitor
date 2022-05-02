@@ -6,9 +6,12 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Themes/MaterialDesignThemes.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/WindowStateProperties.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Colours/PrimaryColours.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/Header.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Colours/Colours.xaml"/>
+
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Defaults.xaml"/>
+
             </ResourceDictionary.MergedDictionaries>
 
         </ResourceDictionary>
