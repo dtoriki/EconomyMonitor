@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using static EconomyMonitor.Wpf.Helpers.Internal.ExceptionMessages;
 using static EconomyMonitor.Wpf.Helpers.ThrowHelper;
@@ -43,6 +44,7 @@ public static class ArgsHelper
         Action? callback = null)
     {
         ThrowIfNull(value, argumentName);
+
         return Set(ref field, value, callback);
     }
 
@@ -85,13 +87,21 @@ public static class ArgsHelper
     /// <typeparam name="T"><paramref name="value"/>'s type.</typeparam>
     /// <param name="value">Value.</param>
     /// <param name="argumentName">Argument name.</param>
+    /// <returns>
+    /// <see langword="false"/> if <paramref name="value"/> is not <see langword="null"/>,
+    /// otherwise throws an <see cref="ArgumentNullException"/>.
+    /// </returns>
     /// <exception cref="ArgumentNullException">Throw when <paramref name="value"/> is <see langword="null"/>.</exception>
-    public static void ThrowIfNull<T>(T value, [CallerArgumentExpression(VALUE_ARGUMENT_NAME)] string? argumentName = null)
+    public static bool ThrowIfNull<T>(
+        [NotNullWhen(false)]T? value, 
+        [CallerArgumentExpression(VALUE_ARGUMENT_NAME)] string? argumentName = null)
     {
         if (value is null)
         {
             Throw<ArgumentNullException>(argumentName);
         }
+
+        return false;
     }
 
     /// <summary>

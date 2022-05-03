@@ -5,10 +5,10 @@ namespace EconomyMonitor.Wpf.MVVM.Controls.Header;
 /// <summary>
 /// Presents header's application's menu panel.
 /// </summary>
-public partial class HeaderMenuPanel : StackPanel
+public partial class HeaderMenuItemsControl : ItemsControl
 {
     /// <summary>
     /// Creates application menu panel.
     /// </summary>
-    public HeaderMenuPanel() => InitializeComponent();
+    public HeaderMenuItemsControl() => InitializeComponent();
 }
