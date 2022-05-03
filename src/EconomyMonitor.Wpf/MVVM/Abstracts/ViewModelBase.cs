@@ -41,7 +41,7 @@ public abstract class ViewModelBase : INotifyPropertyChanged
     /// After the <paramref name="field"/> has changed, 
     /// method rises <see cref="PropertyChanged"/> event if <paramref name="propertyName"/> not empty. 
     /// </remarks>
-    protected virtual bool SetPropertyNotifiable<T>(ref T? field, T? value, [CallerMemberName] string propertyName = "")
+    protected virtual bool SetPropertyNotifiable<T>(ref T? field, T? value, [CallerMemberName] string? propertyName = null)
     {
         void Notify()
         {

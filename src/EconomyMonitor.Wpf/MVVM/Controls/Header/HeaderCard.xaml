@@ -37,7 +37,7 @@
             <Separator Margin="{StaticResource HEADER_ITEMS_MARGIN}"/>
         </StackPanel>
 
-        <header:HeaderMenuPanel Grid.Column="1"/>
+        <header:HeaderMenuItemsControl Grid.Column="1"/>
         <header:WindowControlPanel Grid.Column="3"/>
     </Grid>
 </materialDesign:Card>

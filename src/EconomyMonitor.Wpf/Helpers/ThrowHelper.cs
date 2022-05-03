@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using static EconomyMonitor.Wpf.Helpers.Internal.ExceptionMessages;
 
 namespace EconomyMonitor.Wpf.Helpers;
@@ -19,6 +20,7 @@ public static class ThrowHelper
     /// <remarks>
     /// <paramref name="args"/> should include at least one argument as message.
     /// </remarks>
+    [DoesNotReturn]
     public static void Throw<T>(params string?[] args)
         where T : Exception
     {
