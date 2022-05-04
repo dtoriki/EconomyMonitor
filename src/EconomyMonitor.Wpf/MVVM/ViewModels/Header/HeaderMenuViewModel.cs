@@ -1,9 +1,9 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using EconomyMonitor.Helpers;
+using EconomyMonitor.MVVM.Abstracts.Commands;
 using EconomyMonitor.MVVM.Abstracts.ViewModels;
 using EconomyMonitor.Resources;
-using EconomyMonitor.Wpf.MVVM.Abstracts;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels.Header;
 
