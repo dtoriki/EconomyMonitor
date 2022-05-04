@@ -1,6 +1,6 @@
 using System.Windows;
 using System.Windows.Input;
-using EconomyMonitor.Wpf.MVVM.Abstracts;
+using EconomyMonitor.MVVM.Abstracts.Commands;
 
 namespace EconomyMonitor.Wpf.MVVM.Commands.Window;
 
