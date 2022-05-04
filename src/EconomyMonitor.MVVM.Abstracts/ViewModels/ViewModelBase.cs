@@ -1,8 +1,8 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using EconomyMonitor.Wpf.Helpers;
+using EconomyMonitor.Helpers;
 
-namespace EconomyMonitor.Wpf.MVVM.Abstracts;
+namespace EconomyMonitor.MVVM.Abstracts.ViewModels;
 
 /// <summary>
 /// Base type of view model.
