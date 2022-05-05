@@ -43,6 +43,8 @@ public class HeaderMenuItem
         }
     }
 
+    public Control? Control { get; set; }
+
     /// <summary>
     /// Rises when <see cref="IsSelected"/> was changed.
     /// </summary>

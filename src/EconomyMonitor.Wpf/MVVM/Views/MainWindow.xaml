@@ -11,7 +11,8 @@
         Background="{StaticResource PrimaryHueLightBrush}"
         ResizeMode="NoResize" 
         WindowStartupLocation="CenterScreen" 
-        WindowStyle="None">
+        WindowStyle="None"
+        DataContext="">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>

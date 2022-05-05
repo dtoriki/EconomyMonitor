@@ -1,12 +1,18 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:header="clr-namespace:EconomyMonitor.Wpf.MVVM.ViewModels.Header">
+                    xmlns:header="clr-namespace:EconomyMonitor.Wpf.MVVM.ViewModels.Header"
+                    xmlns:periods="clr-namespace:EconomyMonitor.Wpf.MVVM.Controls.Periods">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Views/Periods/PeriodsViews.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
     <header:HeaderMenuViewModel x:Key="HeaderMenuViewModel">
         <header:HeaderMenuViewModel.Items>
             <header:HeaderMenuItem IsSelected="True" IconWithText="{StaticResource CONTROL_BUTTON_ICON_WITH_TEXT}"/>
-            <header:HeaderMenuItem IconWithText="{StaticResource PERIOD_BUTTON_ICON_WITH_TEXT}"/>
-            <header:HeaderMenuItem IconWithText="{StaticResource GRAPHICS_BUTTON_ICON_WITH_TEXT}"/>
+            <header:HeaderMenuItem IconWithText="{StaticResource PERIOD_BUTTON_ICON_WITH_TEXT}"
+                                   Control="{StaticResource ADD_PERIOD_VIEW}"/>
+            <!--<header:HeaderMenuItem IconWithText="{StaticResource GRAPHICS_BUTTON_ICON_WITH_TEXT}"/>-->
         </header:HeaderMenuViewModel.Items>
     </header:HeaderMenuViewModel>
     
