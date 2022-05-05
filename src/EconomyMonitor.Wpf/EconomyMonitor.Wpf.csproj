@@ -11,11 +11,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\EconomyMonitor.Helpers\EconomyMonitor.Helpers.csproj" />
-    <ProjectReference Include="..\EconomyMonitor.MVVM.Abstracts\EconomyMonitor.MVVM.Abstracts.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Page Update="Resources\Colours\Colours.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
