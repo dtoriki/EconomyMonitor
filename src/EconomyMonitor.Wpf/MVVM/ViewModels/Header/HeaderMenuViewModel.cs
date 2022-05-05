@@ -1,8 +1,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using EconomyMonitor.Helpers;
-using EconomyMonitor.MVVM.Abstracts.ViewModels;
-using EconomyMonitor.Resources;
+using EconomyMonitor.Wpf.Helpers;
+using EconomyMonitor.Wpf.Helpers.Internal;
 using EconomyMonitor.Wpf.MVVM.Abstracts;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels.Header;
@@ -44,7 +43,6 @@ public sealed class HeaderMenuViewModel : ViewModelBase
     }
 
     private bool CanSelect(object? parameter) => !ReferenceEquals(SelectedItem, parameter);
-
     private void Select(object? parameter)
     {
         if (ArgsHelper.ThrowIfNull(parameter, nameof(parameter)))
