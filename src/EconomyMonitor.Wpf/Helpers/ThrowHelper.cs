@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
-using static EconomyMonitor.Resources.ExceptionMessages;
+using static EconomyMonitor.Wpf.Helpers.Internal.ExceptionMessages;
 
-namespace EconomyMonitor.Helpers;
+namespace EconomyMonitor.Wpf.Helpers;
 
 public static class ThrowHelper
 {

@@ -1,4 +1,4 @@
-using EconomyMonitor.Helpers;
+using EconomyMonitor.Wpf.Helpers;
 
 namespace EconomyMonitor.Wpf.MVVM.Abstracts;
 
