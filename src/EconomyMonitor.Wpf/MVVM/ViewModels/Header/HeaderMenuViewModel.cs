@@ -1,8 +1,11 @@
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Windows.Input;
-using EconomyMonitor.Wpf.Helpers;
-using EconomyMonitor.Wpf.Helpers.Internal;
 using EconomyMonitor.Wpf.MVVM.Abstracts;
+using static EconomyMonitor.Wpf.Helpers.ArgsHelper;
+using static EconomyMonitor.Wpf.Helpers.ThrowHelper;
+using static EconomyMonitor.Wpf.Helpers.Internal.ExceptionMessages;
+using EconomyMonitor.Wpf.EventArguments;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels.Header;
 
@@ -25,7 +28,7 @@ public sealed class HeaderMenuViewModel : ViewModelBase
     public HeaderMenuItem? SelectedItem
     {
         get => _selectedItem;
-        set => _ = ArgsHelper.Set(ref _selectedItem, value);
+        set => _ = Set(ref _selectedItem, value);
     }
 
     /// <summary>
@@ -40,27 +43,93 @@ public sealed class HeaderMenuViewModel : ViewModelBase
     {
         Items = new ObservableCollection<HeaderMenuItem>();
         SelectCommand = new RelayCommand(Select, CanSelect);
+
+        Items.CollectionChanged += OnCollectionChanged;
     }
 
-    private bool CanSelect(object? parameter) => !ReferenceEquals(SelectedItem, parameter);
+    private void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        if (e.Action is not NotifyCollectionChangedAction.Add
+            || e.NewItems is null)
+        {
+            return;
+        }
+
+        foreach(object? item in e.NewItems)
+        {
+            var menuItem = (HeaderMenuItem)item;
+
+            if (menuItem.IsSelected)
+            {
+                if (SelectedItem is not null)
+                {
+                    Throw<InvalidOperationException>(SELECTED_ITEM_ALREADY_EXISTS);
+                }
+
+                SelectedItem = menuItem;
+            }
+
+            menuItem.SelectedChanged += OnIntemSelectedChanged;
+        }
+    }
+
+    private void OnIntemSelectedChanged(object? sender, PropertyValueChangedEventArgs<bool> e)
+    {
+        if (sender is null)
+        {
+            Throw<ArgumentNullException>(nameof(sender));
+        }
+
+        if (e.NewValue)
+        {
+            SelectedItem = (HeaderMenuItem)sender;
+        }
+    }
+
+    private bool CanSelect(object? parameter)
+    {
+        if (parameter is null)
+        {
+            return false;
+        }
+
+        if (parameter is not HeaderMenuItem menuItem)
+        {
+            Throw<InvalidCastException>(
+                string.Format(
+                    WRONG_TYPE_RECEIVED,
+                    nameof(HeaderMenuItem),
+                    parameter.GetType().Name));
+
+            return false;
+        }
+
+        return !ReferenceEquals(parameter, SelectedItem);
+    }
+
     private void Select(object? parameter)
     {
-        if (ArgsHelper.ThrowIfNull(parameter, nameof(parameter)))
+        if (ThrowIfNull(parameter, nameof(parameter)))
         {
             return;
         }
 
         if (parameter is not HeaderMenuItem selected)
         {
-            ThrowHelper.Throw<InvalidCastException>(
+            Throw<InvalidCastException>(
                 string.Format(
-                    ExceptionMessages.WRONG_TYPE_RECEIVED,
+                    WRONG_TYPE_RECEIVED,
                     nameof(HeaderMenuItem),
                     parameter.GetType().Name));
 
             return;
         }
 
-        SelectedItem = selected;
+        if (SelectedItem is not null)
+        {
+            SelectedItem.IsSelected = false;
+        }
+
+        selected.IsSelected = true;
     }
 }
