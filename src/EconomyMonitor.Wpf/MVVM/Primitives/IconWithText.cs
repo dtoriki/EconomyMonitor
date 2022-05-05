@@ -1,3 +1,4 @@
+using EconomyMonitor.Wpf.Helpers;
 using MaterialDesignThemes.Wpf;
 
 namespace EconomyMonitor.Wpf.MVVM.Primitives;
@@ -16,7 +17,7 @@ public sealed class IconWithText
     public PackIconKind Icon 
     { 
         get => _icon ??= PackIconKind.None;
-        set => _icon = value;
+        set => _ = ArgsHelper.NullCheckSet(ref _icon, value);
     }
 
     /// <summary>
@@ -25,7 +26,7 @@ public sealed class IconWithText
     public string Text 
     { 
         get => _text ??= string.Empty;
-        set => _text = value;
+        set => _ = ArgsHelper.NullCheckSet(ref _text, value);
     }
 
     /// <summary>
