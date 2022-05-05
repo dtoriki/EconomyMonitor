@@ -1,5 +1,5 @@
 using System.Windows;
-using EconomyMonitor.Helpers;
+using EconomyMonitor.Wpf.Helpers;
 using EconomyMonitor.Wpf.MVVM.Primitives;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels.Header;
