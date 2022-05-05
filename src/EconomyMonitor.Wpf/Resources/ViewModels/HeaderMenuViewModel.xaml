@@ -4,7 +4,7 @@
 
     <header:HeaderMenuViewModel x:Key="HeaderMenuViewModel">
         <header:HeaderMenuViewModel.Items>
-            <header:HeaderMenuItem IconWithText="{StaticResource CONTROL_BUTTON_ICON_WITH_TEXT}"/>
+            <header:HeaderMenuItem IsSelected="True" IconWithText="{StaticResource CONTROL_BUTTON_ICON_WITH_TEXT}"/>
             <header:HeaderMenuItem IconWithText="{StaticResource PERIOD_BUTTON_ICON_WITH_TEXT}"/>
             <header:HeaderMenuItem IconWithText="{StaticResource GRAPHICS_BUTTON_ICON_WITH_TEXT}"/>
         </header:HeaderMenuViewModel.Items>
