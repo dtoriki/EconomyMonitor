@@ -21,9 +21,11 @@ public static class ThrowHelper
     /// <paramref name="args"/> should include at least one argument as message.
     /// </remarks>
     [DoesNotReturn]
-    public static void Throw<T>(params string?[] args)
+    public static void Throw<T>(params object?[] args)
         where T : Exception
     {
+        ArgsHelper.ThrowIfNull(args, nameof(args));
+
         if (args.Length < 1)
         {
             Throw<InvalidOperationException>(NEED_AT_LEAST_A_MESSAGE);

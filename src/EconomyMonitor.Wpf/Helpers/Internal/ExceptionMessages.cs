@@ -8,4 +8,5 @@ internal static class ExceptionMessages
     public static string OBSCURE_EXCEPTION_THROWN => "Obscure exception thrown.";
     public static string NEED_AT_LEAST_A_MESSAGE => "Need at least an exception message.";
     public static string WRONG_TYPE_RECEIVED => "Type \"{0}\" one was expected, but type \"{1}\" was received";
+    public static string SELECTED_ITEM_ALREADY_EXISTS => "Selected item already exists.";
 }
