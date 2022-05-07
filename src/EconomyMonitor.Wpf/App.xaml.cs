@@ -3,8 +3,15 @@ using System.Windows;
 namespace EconomyMonitor.Wpf;
 
 /// <summary>
-/// Interaction logic for App.xaml
+/// Application class.
 /// </summary>
 public partial class App : Application
 {
+    /// <summary>
+    /// Creates application.
+    /// </summary>
+    public App()
+    {
+
+    }
 }
