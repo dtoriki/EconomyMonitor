@@ -3,8 +3,8 @@
                     xmlns:sys="clr-namespace:System;assembly=netstandard">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/Header.Menu.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/Header.WindowCotrol.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/Header/Header.Menu.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/Header/Header.WindowCotrol.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <sys:String x:Key="APP_TITLE">Концепт</sys:String>

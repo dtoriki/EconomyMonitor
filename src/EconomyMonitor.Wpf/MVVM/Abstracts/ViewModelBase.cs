@@ -22,7 +22,9 @@ public abstract class ViewModelBase : INotifyPropertyChanged
     /// Rises event of property changing.
     /// </summary>
     /// <param name="propertyName">Property's name.</param>
-    /// <exception cref="ArgumentNullException">Throws when <paramref name="propertyName"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentNullException">
+    /// Throws when <paramref name="propertyName"/> is <see langword="null"/>.
+    /// </exception>
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null) =>
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
@@ -41,14 +43,14 @@ public abstract class ViewModelBase : INotifyPropertyChanged
     /// After the <paramref name="field"/> has changed, 
     /// method rises <see cref="PropertyChanged"/> event if <paramref name="propertyName"/> not empty. 
     /// </remarks>
+    /// <exception cref="ArgumentNullException">
+    /// Throws when <paramref name="propertyName"/> is <see langword="null"/>.
+    /// </exception>
     protected virtual bool SetPropertyNotifiable<T>(ref T? field, T? value, [CallerMemberName] string? propertyName = null)
     {
         void Notify()
         {
-            if (!string.IsNullOrWhiteSpace(propertyName))
-            {
-                OnPropertyChanged(propertyName);
-            }
+            OnPropertyChanged(propertyName);
         }
 
         return ArgsHelper.Set(ref field, value, Notify);
