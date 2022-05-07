@@ -6,7 +6,7 @@
         <ResourceDictionary>
 
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/Header.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/Header/Header.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Colours/Colours.xaml"/>
 
                 <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/Generic.xaml" />

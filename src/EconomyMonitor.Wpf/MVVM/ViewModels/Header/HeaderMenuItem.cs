@@ -12,6 +12,7 @@ public class HeaderMenuItem
 {
     private IconWithText? _iconWithText;
     private bool _isSelected;
+    private Control? _control;
 
     /// <summary>
     /// Gets or sets icon with text.
@@ -41,6 +42,15 @@ public class HeaderMenuItem
                 });
             }
         }
+    }
+
+    /// <summary>
+    /// Gets or sets control for present.
+    /// </summary>
+    public Control? Control
+    {
+        get => _control;
+        set => _ = ArgsHelper.Set(ref _control, value);
     }
 
     /// <summary>

@@ -7,7 +7,6 @@
               mc:Ignorable="d" 
               d:DesignHeight="450" 
               d:DesignWidth="800"
-              DataContext="{DynamicResource HeaderMenuViewModel}"
               ItemsSource="{Binding Items}"
               d:DataContext="{d:DesignInstance header:HeaderMenuViewModel}"
               x:Name="HeaderMenu">
@@ -34,9 +33,8 @@
         </ItemsPanelTemplate>
     </ItemsControl.ItemsPanel>
     <ItemsControl.ItemTemplate>
-
         <DataTemplate DataType="header:HeaderMenuItem">
-            <Button DataContext="{Binding IconWithText}"
+            <Button Content="{Binding IconWithText}"
                     Style="{StaticResource HeaderMenuButton}"
                     Command="{Binding ElementName=HeaderMenu, Path=DataContext.SelectCommand}"
                     CommandParameter="{Binding Content, RelativeSource={RelativeSource Mode=TemplatedParent}}"/>

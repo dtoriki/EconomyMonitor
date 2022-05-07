@@ -11,16 +11,27 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Page Update="DataTemplates\LeftIconWithTextDataTemplate.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
     <Page Update="Resources\Colours\Colours.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\Properties\Header.WindowCotrol.xaml">
+    <Page Update="Resources\Properties\Header\Header.WindowCotrol.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
+    <Page Update="Styles\Buttons\Dialog\DialogButton.Cancel.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+      <SubType>Designer</SubType>
     </Page>
     <Page Update="Styles\StackPanels\HorizontalOrientedCenterAlignmentStackPanel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Dialogs\" />
   </ItemGroup>
 
 </Project>

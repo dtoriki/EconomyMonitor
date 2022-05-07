@@ -2,13 +2,15 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/DataTemplates/CenterIconWithTextDataTemplate.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Styles/Buttons/Dialog/DialogButton.Base.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="ButtonWithIconHorizontal"
+    <Style x:Key="DialogCancelButton"
            TargetType="Button"
-           BasedOn="{StaticResource MaterialDesignFlatMidBgButton}">
+           BasedOn="{StaticResource DialogButton}">
         <Setter Property="ContentTemplate" Value="{StaticResource CenterIconWithTextDataTemplate}"/>
+        <Setter Property="Content" Value="{DynamicResource CANCEL_BUTTON}"/>
+        <Setter Property="IsCancel" Value="True"/>
     </Style>
     
 </ResourceDictionary>

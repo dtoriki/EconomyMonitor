@@ -4,14 +4,24 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
-        xmlns:header="clr-namespace:EconomyMonitor.Wpf.MVVM.Controls.Header"
-        mc:Ignorable="d" 
-        Height="450" 
-        Width="800" 
+        xmlns:header="clr-namespace:EconomyMonitor.Wpf.MVVM.Controls.Header" 
+        xmlns:viewmodels="clr-namespace:EconomyMonitor.Wpf.MVVM.ViewModels"
+        mc:Ignorable="d"
+        Height="450"
+        Width="800"
         Background="{StaticResource PrimaryHueLightBrush}"
-        ResizeMode="NoResize" 
-        WindowStartupLocation="CenterScreen" 
-        WindowStyle="None">
+        ResizeMode="NoResize"
+        WindowStartupLocation="CenterScreen"
+        WindowStyle="None"
+        DataContext="{DynamicResource ApplicationViewModel}"
+        d:DataContext="{d:DesignInstance viewmodels:ApplicationViewModel}">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/ViewModels/ApplicationViewModel.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -24,7 +34,9 @@
                                   materialDesign:ShadowAssist.ShadowDepth="Depth1"
                                   materialDesign:ShadowAssist.Darken="False"
                                   materialDesign:ShadowAssist.ShadowEdges="Bottom">
-            <header:HeaderCard/>
+            <header:HeaderCard DataContext="{Binding Header}"/>
         </materialDesign:ColorZone>
+        <ContentControl Grid.Row="1" 
+                        Content="{Binding Header.SelectedItem.Control}"/>
     </Grid>
 </Window>
