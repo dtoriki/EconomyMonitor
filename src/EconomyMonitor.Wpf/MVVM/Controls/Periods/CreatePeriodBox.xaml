@@ -1,0 +1,65 @@
+<GroupBox x:Class="EconomyMonitor.Wpf.MVVM.Controls.Periods.CreatePeriodBox"
+          xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+          xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+          xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+          xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+          xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+          xmlns:periods="clr-namespace:EconomyMonitor.Wpf.MVVM.ViewModels.Periods"
+          mc:Ignorable="d"
+          d:DesignHeight="450"
+          d:DesignWidth="800"
+          Header="{DynamicResource CREATE_PERIOD_HEADER}"
+          Style="{StaticResource MaterialDesignCardGroupBox}"
+          HeaderTemplate="{DynamicResource LeftIconWithTextDataTemplate}"
+          d:DataContext="{d:DesignInstance periods:AddPeriodViewModel}">
+
+    <GroupBox.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Styles/Buttons/Dialog/DialogButtons.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Styles/StackPanels/DialogPanel.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/Periods/Periods.Create.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/DataTemplates/LeftIconWithTextDataTemplate.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Converters/DateTimeToDateOnlyConverter.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </GroupBox.Resources>
+
+    <StackPanel Style="{DynamicResource DialogPanel}">
+        <StackPanel Style="{DynamicResource HorizontalOrientedCenterAlignmentStackPanel}"
+                    Margin="10 30 10 10">
+            <DatePicker Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                        SelectedDate="{Binding StartPeriod, Converter={StaticResource DateTimeToDateOnlyConverter}}"
+                        materialDesign:HintAssist.Hint="Дата начала"
+                        Width="140"
+                        Margin="0 0 10 0"/>
+            <DatePicker Style="{StaticResource MaterialDesignOutlinedDatePicker}"
+                        SelectedDate="{Binding EndPeriod, Converter={StaticResource DateTimeToDateOnlyConverter}}"
+                        materialDesign:HintAssist.Hint="Дата окончания"
+                        Width="140"/>
+        </StackPanel>
+        <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
+                 Text="{Binding Income}"
+                 materialDesign:HintAssist.Hint="Прибыль">
+        </TextBox>
+        <StackPanel Orientation="Horizontal" 
+                    HorizontalAlignment="Right">
+            <Button Style="{StaticResource DialogCancelButton}"
+                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                <Button.CommandParameter>
+                    <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
+                        False
+                    </system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+            <Button Style="{StaticResource DialogAcceptButton}"
+                        Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}">
+                <Button.CommandParameter>
+                    <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
+                        True
+                    </system:Boolean>
+                </Button.CommandParameter>
+            </Button>
+        </StackPanel>
+    </StackPanel>
+</GroupBox>
