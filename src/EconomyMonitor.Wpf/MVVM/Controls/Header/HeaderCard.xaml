@@ -3,13 +3,16 @@
                       xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                      xmlns:header="clr-namespace:EconomyMonitor.Wpf.MVVM.Controls.Header"
-                      mc:Ignorable="d" 
-                      d:DesignHeight="450" 
+                      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                      xmlns:headerviewmodels="clr-namespace:EconomyMonitor.Wpf.MVVM.ViewModels.Header" 
+                      xmlns:headercontrols="clr-namespace:EconomyMonitor.Wpf.MVVM.Controls.Header"
+                      mc:Ignorable="d"
+                      d:DesignHeight="450"
                       d:DesignWidth="800"
                       HorizontalAlignment="Stretch"
-                      Style="{DynamicResource WindowDragCard}">
+                      Style="{DynamicResource WindowDragCard}"
+                      d:DataContext="{d:DesignInstance headerviewmodels:HeaderMenuViewModel}"
+                      x:Name="HeaderMenu">
     <materialDesign:Card.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
@@ -37,7 +40,8 @@
             <Separator Margin="{StaticResource HEADER_ITEMS_MARGIN}"/>
         </StackPanel>
 
-        <header:HeaderMenuItemsControl Grid.Column="1"/>
-        <header:WindowControlPanel Grid.Column="3"/>
+        <headercontrols:HeaderMenuItemsControl Grid.Column="1"
+                                               DataContext="{Binding DataContext, ElementName=HeaderMenu}"/>
+        <headercontrols:WindowControlPanel Grid.Column="3"/>
     </Grid>
 </materialDesign:Card>

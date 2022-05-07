@@ -28,7 +28,7 @@ public sealed class HeaderMenuViewModel : ViewModelBase
     public HeaderMenuItem? SelectedItem
     {
         get => _selectedItem;
-        set => _ = Set(ref _selectedItem, value);
+        set => _ = SetPropertyNotifiable(ref _selectedItem, value);
     }
 
     /// <summary>
