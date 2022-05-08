@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Windows.Data;
-using EconomyMonitor.Wpf.Helpers;
-using EconomyMonitor.Wpf.Helpers.Internal;
+using static EconomyMonitor.Helpers.ThrowHelper;
+using static EconomyMonitor.Literals.ExceptionMessages;
 
 namespace EconomyMonitor.Wpf.MVVM.Converters;
 
@@ -19,8 +19,8 @@ public class DateTimeToDateOnlyConverter : IValueConverter
     {
         if (value is not DateTime dateTime)
         {
-            ThrowHelper.Throw<InvalidCastException>(string.Format(
-                ExceptionMessages.WRONG_TYPE_RECEIVED,
+            Throw<InvalidCastException>(string.Format(
+                WRONG_TYPE_RECEIVED,
                 nameof(DateTime),
                 value.GetType().Name));
 
@@ -38,8 +38,8 @@ public class DateTimeToDateOnlyConverter : IValueConverter
     {
         if (value is not DateOnly dateOnly)
         {
-            ThrowHelper.Throw<InvalidCastException>(string.Format(
-                ExceptionMessages.WRONG_TYPE_RECEIVED,
+            Throw<InvalidCastException>(string.Format(
+                WRONG_TYPE_RECEIVED,
                 nameof(DateTime),
                 value.GetType().Name));
 

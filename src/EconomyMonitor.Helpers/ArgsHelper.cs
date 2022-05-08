@@ -1,9 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
-using static EconomyMonitor.Wpf.Helpers.Internal.ExceptionMessages;
-using static EconomyMonitor.Wpf.Helpers.ThrowHelper;
+using static EconomyMonitor.Helpers.ThrowHelper;
+using static EconomyMonitor.Literals.ExceptionMessages;
 
-namespace EconomyMonitor.Wpf.Helpers;
+namespace EconomyMonitor.Helpers;
 
 /// <summary>
 /// Helps set fields with values.
@@ -93,7 +93,7 @@ public static class ArgsHelper
     /// </returns>
     /// <exception cref="ArgumentNullException">Throw when <paramref name="value"/> is <see langword="null"/>.</exception>
     public static bool ThrowIfNull<T>(
-        [NotNullWhen(false)]T? value, 
+        [NotNullWhen(false)] T? value,
         [CallerArgumentExpression(VALUE_ARGUMENT_NAME)] string? argumentName = null)
     {
         if (value is null)
