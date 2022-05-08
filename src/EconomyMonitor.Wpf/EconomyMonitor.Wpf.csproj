@@ -47,6 +47,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EconomyMonitor.Abstacts\EconomyMonitor.Abstacts.csproj" />
     <ProjectReference Include="..\EconomyMonitor.Helpers\EconomyMonitor.Helpers.csproj" />
   </ItemGroup>
 
