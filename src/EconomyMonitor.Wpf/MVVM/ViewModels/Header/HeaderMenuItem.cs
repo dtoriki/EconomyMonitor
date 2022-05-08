@@ -1,7 +1,7 @@
 using System.Windows.Controls;
 using EconomyMonitor.Wpf.EventArguments;
-using EconomyMonitor.Wpf.Helpers;
 using EconomyMonitor.Wpf.MVVM.Primitives;
+using static EconomyMonitor.Helpers.ArgsHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels.Header;
 
@@ -20,7 +20,7 @@ public class HeaderMenuItem
     public IconWithText IconWithText
     {
         get => _iconWithText ??= new IconWithText();
-        set => _ = ArgsHelper.NullCheckSet(ref _iconWithText, value);
+        set => _ = NullCheckSet(ref _iconWithText, value);
     }
 
     /// <summary>
@@ -33,7 +33,7 @@ public class HeaderMenuItem
         {
             bool oldValue = _isSelected;
 
-            if (ArgsHelper.NullCheckSet(ref _isSelected, value))
+            if (NullCheckSet(ref _isSelected, value))
             {
                 SelectedChanged?.Invoke(this, new PropertyValueChangedEventArgs<bool>
                 {
@@ -50,7 +50,7 @@ public class HeaderMenuItem
     public Control? Control
     {
         get => _control;
-        set => _ = ArgsHelper.Set(ref _control, value);
+        set => _ = Set(ref _control, value);
     }
 
     /// <summary>

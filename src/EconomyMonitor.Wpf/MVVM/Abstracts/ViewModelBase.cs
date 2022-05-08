@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using EconomyMonitor.Wpf.Helpers;
+using static EconomyMonitor.Helpers.ArgsHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.Abstracts;
 
@@ -53,6 +53,6 @@ public abstract class ViewModelBase : INotifyPropertyChanged
             OnPropertyChanged(propertyName);
         }
 
-        return ArgsHelper.Set(ref field, value, Notify);
+        return Set(ref field, value, Notify);
     }
 }

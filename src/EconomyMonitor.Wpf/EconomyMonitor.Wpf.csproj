@@ -46,4 +46,8 @@
     <Folder Include="Resources\Dialogs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EconomyMonitor.Helpers\EconomyMonitor.Helpers.csproj" />
+  </ItemGroup>
+
 </Project>

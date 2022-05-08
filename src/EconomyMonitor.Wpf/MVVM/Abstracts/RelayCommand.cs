@@ -1,4 +1,4 @@
-using EconomyMonitor.Wpf.Helpers;
+using static EconomyMonitor.Helpers.ArgsHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.Abstracts;
 
@@ -21,7 +21,7 @@ public sealed class RelayCommand : CommandBase
     /// <exception cref="ArgumentNullException">Throws when <paramref name="execute"/> is <see langword="null"/>.</exception>
     public RelayCommand(Action<object?> execute, Func<object?, bool>? canExecute = null)
     {
-        ArgsHelper.ThrowIfNull(execute);
+        ThrowIfNull(execute);
 
         _execute = execute;
         _canExecute = canExecute ?? AlwaysCan;
