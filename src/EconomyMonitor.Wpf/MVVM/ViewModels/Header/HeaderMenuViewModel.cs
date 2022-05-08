@@ -1,11 +1,11 @@
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Input;
-using EconomyMonitor.Wpf.MVVM.Abstracts;
-using static EconomyMonitor.Wpf.Helpers.ArgsHelper;
-using static EconomyMonitor.Wpf.Helpers.ThrowHelper;
-using static EconomyMonitor.Wpf.Helpers.Internal.ExceptionMessages;
 using EconomyMonitor.Wpf.EventArguments;
+using EconomyMonitor.Wpf.MVVM.Abstracts;
+using static EconomyMonitor.Helpers.ArgsHelper;
+using static EconomyMonitor.Helpers.ThrowHelper;
+using static EconomyMonitor.Literals.ExceptionMessages;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels.Header;
 
