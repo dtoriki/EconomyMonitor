@@ -362,3 +362,6 @@ tab_width = 4
 dotnet_style_namespace_match_folder = true:warning
 dotnet_code_quality_unused_parameters = all:warning
 dotnet_style_allow_multiple_blank_lines_experimental = true:warning
+# CS8600: Converting null literal or possible null value to non-nullable type.
+dotnet_diagnostic.CS8600.severity = error
+csharp_style_unused_value_assignment_preference = discard_variable:warning
