@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using static EconomyMonitor.Helpers.ThrowHelper;
@@ -11,6 +12,7 @@ namespace EconomyMonitor.Helpers;
 public static class ArgsHelper
 {
     private const string VALUE_ARGUMENT_NAME = "value";
+    private const string SEQUENCE_ARGUMENT_NAME = "sequence";
 
     /// <summary>
     /// Check <paramref name="value"/> for <see langword="null"/> reference and sets <paramref name="field"/> with it when it is not <see langword="null"/>. 
@@ -179,5 +181,33 @@ public static class ArgsHelper
         {
             action();
         }
+    }
+
+    /// <summary>
+    /// Throws <see cref="NullReferenceException"/> 
+    /// if any item in sequence <paramref name="sequence"/> is <see langword="null"/>
+    /// </summary>
+    /// <param name="sequence">Sequence.</param>
+    /// <param name="argumentName">Argument's name.</param>
+    /// <returns>
+    /// <see langword="false"/> if all items are not <see langword="null"/>,
+    /// otherwise throws <see cref="NullReferenceException"/>.
+    /// </returns>
+    /// <exception cref="NullReferenceException"/>
+    public static bool ThrowIfAnyItemIsNull(
+        IEnumerable sequence,
+        [CallerArgumentExpression(SEQUENCE_ARGUMENT_NAME)] string? argumentName = null)
+    {
+        foreach (object enumeable in sequence)
+        {
+            if (enumeable is null)
+            {
+                Throw<NullReferenceException>(string.Format(SEQUENCE_HAS_NULL_REFERENCE, argumentName));
+
+                return true;
+            }
+        }
+
+        return false;
     }
 }

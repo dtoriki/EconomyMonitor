@@ -34,10 +34,15 @@ public static class ExceptionMessages
     /// <summary>
     /// Gets WRONG_TYPE_RECEIVED message.
     /// </summary>
-    public static string WRONG_TYPE_RECEIVED => "Type \"{0}\" one was expected, but type \"{1}\" was received";
+    public static string WRONG_TYPE_RECEIVED => "Type \"{0}\" one was expected, but type \"{1}\" was received.";
 
     /// <summary>
     /// Gets SELECTED_ITEM_ALREADY_EXISTS message.
     /// </summary>
     public static string SELECTED_ITEM_ALREADY_EXISTS => "Selected item already exists.";
+
+    /// <summary>
+    /// Gets SEQUENCE_HAS_NULL_REFERENCE message.
+    /// </summary>
+    public static string SEQUENCE_HAS_NULL_REFERENCE => "Sequence \"{0}\" has null reference.";
 }
