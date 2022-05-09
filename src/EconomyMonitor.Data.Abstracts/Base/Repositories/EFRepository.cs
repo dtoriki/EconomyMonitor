@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using EconomyMonitor.Data.Abstracts.Interfaces;
+using EconomyMonitor.Extensions;
 using Microsoft.EntityFrameworkCore;
 using static EconomyMonitor.Helpers.ArgsHelper;
 
@@ -59,8 +60,8 @@ public abstract class EFRepository : DbContext, IRepository
         where TEntity : class, IEntity
     {
         _ = ThrowIfNull(entities);
+        _ = entities.ThrowIfAnyItemIsNull();
 
-        // ToDo: проверить итемы на null.
 
         TEntity[] entitiesArray = entities as TEntity[] ?? entities.ToArray();
 
@@ -179,8 +180,7 @@ public abstract class EFRepository : DbContext, IRepository
         where TEntity : class, IEntity
     {
         _ = ThrowIfNull(entities);
-
-        // ToDo: проверить итемы на null.
+        _ = entities.ThrowIfAnyItemIsNull();
 
         TEntity[] entitiesArray = entities as TEntity[] ?? entities.ToArray();
 
@@ -253,8 +253,7 @@ public abstract class EFRepository : DbContext, IRepository
         where TEntity : class, IEntity
     {
         _ = ThrowIfNull(entities);
-
-        // ToDo: проверить итемы на null.
+        _ = entities.ThrowIfAnyItemIsNull();
 
         TEntity[] entitiesArray = entities as TEntity[] ?? entities.ToArray();
 
