@@ -46,6 +46,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EconomyMonitor.Services", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EconomyMonitor.Domain", "src\EconomyMonitor.Domain\EconomyMonitor.Domain.csproj", "{A5C4BBC5-EFFD-4943-B451-7731B3B3E80F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EconomyMonitor.Mapping", "EconomyMonitor.Mapping\EconomyMonitor.Mapping.csproj", "{02BA9A47-43E9-4557-B0DE-45C4B8825546}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,6 +90,10 @@ Global
 		{A5C4BBC5-EFFD-4943-B451-7731B3B3E80F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A5C4BBC5-EFFD-4943-B451-7731B3B3E80F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A5C4BBC5-EFFD-4943-B451-7731B3B3E80F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02BA9A47-43E9-4557-B0DE-45C4B8825546}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02BA9A47-43E9-4557-B0DE-45C4B8825546}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02BA9A47-43E9-4557-B0DE-45C4B8825546}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02BA9A47-43E9-4557-B0DE-45C4B8825546}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -103,6 +109,7 @@ Global
 		{C5D470A4-1BD2-4227-BC0C-ED4A8B972FF1} = {4C20BAA6-9DD3-4757-A448-11402ECB8A2D}
 		{0EABCE73-EDD9-4C04-A1E0-249002283DF2} = {4C20BAA6-9DD3-4757-A448-11402ECB8A2D}
 		{A5C4BBC5-EFFD-4943-B451-7731B3B3E80F} = {4C20BAA6-9DD3-4757-A448-11402ECB8A2D}
+		{02BA9A47-43E9-4557-B0DE-45C4B8825546} = {4C20BAA6-9DD3-4757-A448-11402ECB8A2D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2EB81BE9-F352-4BB1-A6CC-8233547BCF33}
