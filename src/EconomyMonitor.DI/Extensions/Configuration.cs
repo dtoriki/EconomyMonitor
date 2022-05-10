@@ -34,8 +34,7 @@ public static class Configuration
 
         string upperResourcePath = resourcePath.ToUpperInvariant();
         string resourceName = assembly.GetManifestResourceNames()
-            .Where(n => n.ToUpperInvariant().Contains(upperResourcePath))
-            .Single();
+            .Single(n => n.ToUpperInvariant().Contains(upperResourcePath));
 
         Stream? stream = assembly.GetManifestResourceStream(resourceName);
 
