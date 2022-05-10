@@ -2,7 +2,7 @@ using EconomyMonitor.Data.Abstracts.Base.Repositories;
 using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using static EconomyMonitor.Helpers.ArgsHelper;
+using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Data;
 
@@ -23,6 +23,6 @@ internal sealed class EconomyMonitorRepository : EfRepository, IEconomyMonitorRe
     public EconomyMonitorRepository(DbContextOptions dbContextOptions) : base(dbContextOptions)
 #pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
     {
-        _ = ThrowIfNull(dbContextOptions);
+        _ = ThrowIfArgumentNull(dbContextOptions);
     }
 }

@@ -1,5 +1,5 @@
 using MaterialDesignThemes.Wpf;
-using static EconomyMonitor.Helpers.ArgsHelper;
+using static EconomyMonitor.Helpers.SetHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.Primitives;
 

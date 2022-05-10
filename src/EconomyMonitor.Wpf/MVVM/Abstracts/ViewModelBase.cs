@@ -1,6 +1,6 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using static EconomyMonitor.Helpers.ArgsHelper;
+using static EconomyMonitor.Helpers.SetHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.Abstracts;
 
