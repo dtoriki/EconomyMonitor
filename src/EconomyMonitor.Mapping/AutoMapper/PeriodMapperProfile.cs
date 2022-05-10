@@ -8,7 +8,7 @@ namespace EconomyMonitor.Mapping.AutoMapper;
 /// <summary>
 /// Economy monitor mapper profile for entities with dtos.
 /// </summary>
-public class EntityWithDtoProfile : Profile
+public sealed class EntityWithDtoProfile : Profile
 {
     /// <summary>
     /// Creates mapper profile for entities with dtos

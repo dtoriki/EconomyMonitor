@@ -9,7 +9,7 @@ namespace EconomyMonitor.Wpf.MVVM.Converters;
 /// Converts <see cref="DateOnly"/> in <see cref="DateTime"/> and back.
 /// </summary>
 /// <exception cref="InvalidCastException"/>
-public class DateTimeToDateOnlyConverter : IValueConverter
+public sealed class DateTimeToDateOnlyConverter : IValueConverter
 {
     /// <inheritdoc/>
     /// <exception cref="InvalidCastException">
