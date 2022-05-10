@@ -1,7 +1,7 @@
 using System.Windows.Controls;
 using EconomyMonitor.Wpf.EventArguments;
 using EconomyMonitor.Wpf.MVVM.Primitives;
-using static EconomyMonitor.Helpers.ArgsHelper;
+using static EconomyMonitor.Helpers.SetHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels.Header;
 

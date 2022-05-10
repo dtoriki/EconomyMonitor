@@ -3,7 +3,7 @@ using System.Collections.Specialized;
 using System.Windows.Input;
 using EconomyMonitor.Wpf.EventArguments;
 using EconomyMonitor.Wpf.MVVM.Abstracts;
-using static EconomyMonitor.Helpers.ArgsHelper;
+using static EconomyMonitor.Helpers.SetHelper;
 using static EconomyMonitor.Helpers.ThrowHelper;
 using static EconomyMonitor.Literals.ExceptionMessages;
 
@@ -109,7 +109,7 @@ public sealed class HeaderMenuViewModel : ViewModelBase
 
     private void Select(object? parameter)
     {
-        if (ThrowIfNull(parameter, nameof(parameter)))
+        if (ThrowIfArgumentNull(parameter, nameof(parameter)))
         {
             return;
         }

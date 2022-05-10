@@ -26,6 +26,6 @@ public static class EnumerableExtensions
         this IEnumerable enumerable,
         [CallerArgumentExpression(SEQUENCE_ARGUMENT_NAME)] string? argumentName = null)
     {
-        return ArgsHelper.ThrowIfAnyItemIsNull(enumerable, argumentName);
+        return ThrowHelper.ThrowIfAnyItemIsNull(enumerable, argumentName);
     }
 }
