@@ -16,7 +16,7 @@ public static class Configuration
     /// </summary>
     /// <param name="configurationBuilder">Configuration builder.</param>
     /// <param name="resourcePath">Path to configuration resources.</param>
-    /// <returns>Configured vonfiguration builder.</returns>
+    /// <returns>Configured configuration builder.</returns>
     /// <exception cref="ArgumentNullException"/>
     public static IConfigurationBuilder ConfigureConfiguration(
         this IConfigurationBuilder configurationBuilder,

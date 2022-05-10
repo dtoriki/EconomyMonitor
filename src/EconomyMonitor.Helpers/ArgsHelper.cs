@@ -184,7 +184,7 @@ public static class ArgsHelper
     }
 
     /// <summary>
-    /// Throws <see cref="NullReferenceException"/> 
+    /// Throws <see cref="NullReferenceException"/>.
     /// if any item in sequence <paramref name="sequence"/> is <see langword="null"/>
     /// </summary>
     /// <param name="sequence">Sequence.</param>
