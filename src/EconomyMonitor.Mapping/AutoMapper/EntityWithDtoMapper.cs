@@ -19,5 +19,3 @@ public sealed class EntityWithDtoMapper : Mapper, IEntityWithDtoMapper
         _ = ThrowIfNull(configurationProvider);
     }
 }
-
-
