@@ -2,7 +2,7 @@ using System.Runtime.CompilerServices;
 using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Extensions;
 using Microsoft.EntityFrameworkCore;
-using static EconomyMonitor.Helpers.ArgsHelper;
+using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Data.Abstracts.Base.Repositories;
 
@@ -41,7 +41,7 @@ public abstract class EfRepository : DbContext, IRepository
     public async Task<Guid> CreateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
-        _ = ThrowIfNull(entity);
+        _ = ThrowIfArgumentNull(entity);
 
         await Set<TEntity>().AddAsync(entity, cancellationToken)
             .ConfigureAwait(false);
@@ -59,7 +59,7 @@ public abstract class EfRepository : DbContext, IRepository
     public async Task CreateBulkAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
-        _ = ThrowIfNull(entities);
+        _ = ThrowIfArgumentNull(entities);
         _ = entities.ThrowIfAnyItemIsNull();
 
 
@@ -127,7 +127,7 @@ public abstract class EfRepository : DbContext, IRepository
     public async Task DeleteByIdBulkAsync<TEntity>(IEnumerable<Guid> ids, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
-        _ = ThrowIfNull(ids);
+        _ = ThrowIfArgumentNull(ids);
 
         Guid[] idsArray = ids as Guid[] ?? ids.ToArray();
 
@@ -164,7 +164,7 @@ public abstract class EfRepository : DbContext, IRepository
     public Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
-        _ = ThrowIfNull(entity);
+        _ = ThrowIfArgumentNull(entity);
 
         Set<TEntity>().Update(entity);
 
@@ -179,7 +179,7 @@ public abstract class EfRepository : DbContext, IRepository
     public Task UpdateBulkAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
-        _ = ThrowIfNull(entities);
+        _ = ThrowIfArgumentNull(entities);
         _ = entities.ThrowIfAnyItemIsNull();
 
         TEntity[] entitiesArray = entities as TEntity[] ?? entities.ToArray();
@@ -214,7 +214,7 @@ public abstract class EfRepository : DbContext, IRepository
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
-        _ = ThrowIfNull(ids);
+        _ = ThrowIfArgumentNull(ids);
 
         Guid[] idsArray = ids as Guid[] ?? ids.ToArray();
 
@@ -252,7 +252,7 @@ public abstract class EfRepository : DbContext, IRepository
     private void DeleteBulkInternal<TEntity>(IEnumerable<TEntity> entities)
         where TEntity : class, IEntity
     {
-        _ = ThrowIfNull(entities);
+        _ = ThrowIfArgumentNull(entities);
         _ = entities.ThrowIfAnyItemIsNull();
 
         TEntity[] entitiesArray = entities as TEntity[] ?? entities.ToArray();
@@ -263,7 +263,7 @@ public abstract class EfRepository : DbContext, IRepository
     private void DeleteInternal<TEntity>(TEntity entity)
         where TEntity : class, IEntity
     {
-        _ = ThrowIfNull(entity);
+        _ = ThrowIfArgumentNull(entity);
 
         Set<TEntity>().Remove(entity);
     }
