@@ -9,7 +9,7 @@ namespace EconomyMonitor.Wpf.MVVM.ViewModels.Periods;
 /// <remarks>
 /// Inherits <see cref="ViewModelBase"/>.
 /// </remarks>
-public class AddPeriodViewModel : ViewModelBase, IPeriod
+public sealed class AddPeriodViewModel : ViewModelBase, IPeriod
 {
     private DateOnly? _startPeriod;
     private DateOnly? _endPeriod;
