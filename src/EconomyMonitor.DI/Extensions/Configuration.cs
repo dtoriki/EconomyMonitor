@@ -27,7 +27,7 @@ public static class Configuration
 
         Assembly? assembly = GetEntryAssembly();
 
-        if (ThrowIfArgumentNull(assembly))
+        if (ThrowIfNull(assembly))
         {
             return configurationBuilder;
         }
@@ -38,7 +38,7 @@ public static class Configuration
 
         Stream? stream = assembly.GetManifestResourceStream(resourceName);
 
-        if (ThrowIfArgumentNull(stream))
+        if (ThrowIfNull(stream))
         {
             return configurationBuilder;
         }
