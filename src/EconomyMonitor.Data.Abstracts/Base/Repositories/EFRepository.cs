@@ -3,6 +3,7 @@ using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Extensions;
 using Microsoft.EntityFrameworkCore;
 using static EconomyMonitor.Helpers.ThrowHelper;
+using static EconomyMonitor.Literals.ExceptionMessages;
 
 namespace EconomyMonitor.Data.Abstracts.Base.Repositories;
 
@@ -16,12 +17,14 @@ namespace EconomyMonitor.Data.Abstracts.Base.Repositories;
 /// <exception cref="OperationCanceledException"/>
 public abstract class EfRepository : DbContext, IRepository
 {
+    protected bool _isDisposed;
+
     /// <summary>
     /// Creates EntityFramework repository.
     /// </summary>
     protected EfRepository() : base()
     {
-
+        _isDisposed = false;
     }
 
     /// <summary>
@@ -30,7 +33,7 @@ public abstract class EfRepository : DbContext, IRepository
     /// <param name="options">Context options.</param>
     protected EfRepository(DbContextOptions options) : base(options)
     {
-
+        _isDisposed = false;
     }
 
     /// <inheritdoc/>
@@ -41,6 +44,11 @@ public abstract class EfRepository : DbContext, IRepository
     public async Task<Guid> CreateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
+        if (_isDisposed)
+        {
+            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+        }
+
         _ = ThrowIfArgumentNull(entity);
 
         await Set<TEntity>().AddAsync(entity, cancellationToken)
@@ -59,9 +67,13 @@ public abstract class EfRepository : DbContext, IRepository
     public async Task CreateBulkAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
+        if (_isDisposed)
+        {
+            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+        }
+
         _ = ThrowIfArgumentNull(entities);
         _ = entities.ThrowIfAnyItemIsNull();
-
 
         TEntity[] entitiesArray = entities as TEntity[] ?? entities.ToArray();
 
@@ -148,6 +160,11 @@ public abstract class EfRepository : DbContext, IRepository
     public IQueryable<TEntity> ReadAll<TEntity>(Func<TEntity, bool>? predicate = null, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
+        if (_isDisposed)
+        {
+            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+        }
+
         if (predicate is null)
         {
             return Set<TEntity>();
@@ -164,6 +181,11 @@ public abstract class EfRepository : DbContext, IRepository
     public Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
+        if (_isDisposed)
+        {
+            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+        }
+
         _ = ThrowIfArgumentNull(entity);
 
         Set<TEntity>().Update(entity);
@@ -179,6 +201,11 @@ public abstract class EfRepository : DbContext, IRepository
     public Task UpdateBulkAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
+        if (_isDisposed)
+        {
+            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+        }
+
         _ = ThrowIfArgumentNull(entities);
         _ = entities.ThrowIfAnyItemIsNull();
 
@@ -197,6 +224,11 @@ public abstract class EfRepository : DbContext, IRepository
         Guid id,
         CancellationToken cancellationToken = default) where TEntity : class, IEntity
     {
+        if (_isDisposed)
+        {
+            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+        }
+
         TEntity? entity = await Set<TEntity>()
             .FindAsync(new object?[] { id, cancellationToken }, cancellationToken: cancellationToken)
             .ConfigureAwait(false);
@@ -214,6 +246,11 @@ public abstract class EfRepository : DbContext, IRepository
         [EnumeratorCancellation] CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
+        if (_isDisposed)
+        {
+            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+        }
+
         _ = ThrowIfArgumentNull(ids);
 
         Guid[] idsArray = ids as Guid[] ?? ids.ToArray();
@@ -227,6 +264,29 @@ public abstract class EfRepository : DbContext, IRepository
                 yield return entity;
             }
         }
+    }
+
+    /// <inheritdoc/>
+    public override void Dispose()
+    {
+        if (_isDisposed)
+        {
+            return;
+        }
+
+        base.Dispose();
+        _isDisposed = true;
+    }
+
+    /// <inheritdoc/>
+    public override ValueTask DisposeAsync()
+    {
+        if (_isDisposed)
+        {
+            return ValueTask.CompletedTask;
+        }
+
+        return base.DisposeAsync();
     }
 
     /// <inheritdoc/>
@@ -252,6 +312,11 @@ public abstract class EfRepository : DbContext, IRepository
     private void DeleteBulkInternal<TEntity>(IEnumerable<TEntity> entities)
         where TEntity : class, IEntity
     {
+        if (_isDisposed)
+        {
+            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+        }
+
         _ = ThrowIfArgumentNull(entities);
         _ = entities.ThrowIfAnyItemIsNull();
 
@@ -263,6 +328,11 @@ public abstract class EfRepository : DbContext, IRepository
     private void DeleteInternal<TEntity>(TEntity entity)
         where TEntity : class, IEntity
     {
+        if (_isDisposed)
+        {
+            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+        }
+
         _ = ThrowIfArgumentNull(entity);
 
         Set<TEntity>().Remove(entity);
