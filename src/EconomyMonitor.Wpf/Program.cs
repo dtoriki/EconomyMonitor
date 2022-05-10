@@ -1,5 +1,8 @@
-using Microsoft.Extensions.Configuration;
+using EconomyMonitor.DI;
+using EconomyMonitor.DI.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using static EconomyMonitor.DI.EconomyMonitorHosting;
 
 namespace EconomyMonitor.Wpf;
 
@@ -8,8 +11,8 @@ namespace EconomyMonitor.Wpf;
 /// </summary>
 internal sealed class Program
 {
-    private const string APP_SETTINGS_FILE = "appsettings.json";
-    private const string APP_SETTINGS_DEV_FILE = "appsettings.Development.json";
+    private static readonly string CONNECTION_NAME = "LocalStorage";
+    private static readonly long CACHE_SIZE_LIMIT = 400000000;
 
     private Program() { }
 
@@ -19,29 +22,23 @@ internal sealed class Program
     [STAThread]
     public static void Main()
     {
-        App app = new();
+        IHost host = BuildHost(ConfigureServices);
+        App app = new(host);
         app.InitializeComponent();
         app.Run();
     }
 
-    /// <summary>
-    /// Creates, configure and returns host builder.
-    /// </summary>
-    /// <param name="args">CL arguments.</param>
-    /// <returns>Host builder.</returns>
-    public static IHostBuilder CreateHostBuilder(string[] args) =>
-        Host.CreateDefaultBuilder(args)
-            .UseContentRoot(Environment.CurrentDirectory)
-            .ConfigureAppConfiguration((host, config) =>
-            {
-                config
-                    .SetBasePath(Environment.CurrentDirectory)
-                    .AddJsonFile(APP_SETTINGS_FILE);
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        DIOptions.ConnectionStringName = CONNECTION_NAME;
 
-                if (host.HostingEnvironment.IsDevelopment())
-                {
-                    config.AddJsonFile(APP_SETTINGS_DEV_FILE);
-                }
+        services.AddSqlLiteEconomyMonitorRepositoryScoped();
 
-            });
+        services.AddMemoryCache(x =>
+        {
+            x.TrackLinkedCacheEntries = true;
+            x.SizeLimit = CACHE_SIZE_LIMIT;
+        });
+        
+    }
 }

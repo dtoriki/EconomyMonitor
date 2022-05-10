@@ -10,12 +10,18 @@ namespace EconomyMonitor.Data.Abstracts.Base;
 /// </remarks>
 public abstract class EntityBase : IEntity
 {
-    /// <inheritdoc/>
-    public Guid Id { get; }
+    /// <summary>
+    /// Gets or sets unique identifier.
+    /// </summary>
+    public Guid Id { get; set; }
 
-    /// <inheritdoc/>
-    public DateTime DateCreated { get; }
+    /// <summary>
+    /// Gets or sets creation date.
+    /// </summary>
+    public DateTime DateCreated { get; set; }
 
-    /// <inheritdoc/>
-    public DateTime DateModified { get; }
+    /// <summary>
+    /// Gets or sets modification date.
+    /// </summary>
+    public DateTime DateModified { get; set; }
 }

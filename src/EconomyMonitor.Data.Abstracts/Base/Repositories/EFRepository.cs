@@ -14,12 +14,12 @@ namespace EconomyMonitor.Data.Abstracts.Base.Repositories;
 /// <exception cref="DbUpdateException"/>
 /// <exception cref="DbUpdateConcurrencyException"/>
 /// <exception cref="OperationCanceledException"/>
-public abstract class EFRepository : DbContext, IRepository
+public abstract class EfRepository : DbContext, IRepository
 {
     /// <summary>
     /// Creates EntityFramework repository.
     /// </summary>
-    protected EFRepository() : base()
+    protected EfRepository() : base()
     {
 
     }
@@ -28,7 +28,7 @@ public abstract class EFRepository : DbContext, IRepository
     /// Creates EntityFramework repository.
     /// </summary>
     /// <param name="options">Context options.</param>
-    protected EFRepository(DbContextOptions<EFRepository> options) : base(options)
+    protected EfRepository(DbContextOptions options) : base(options)
     {
 
     }

@@ -1,15 +1,13 @@
+using EconomyMonitor.Abstacts;
+
 namespace EconomyMonitor.Data.Abstracts.Interfaces;
 
 /// <summary>
 /// Defines entity properties.
 /// </summary>
-public interface IEntity
+/// <remarks>Inherits <see cref="IUniqueRequired"/>.</remarks>
+public interface IEntity : IUniqueRequired
 {
-    /// <summary>
-    /// Gets unique identifier.
-    /// </summary>
-    Guid Id { get; }
-
     /// <summary>
     /// Gets creation date.
     /// </summary>
