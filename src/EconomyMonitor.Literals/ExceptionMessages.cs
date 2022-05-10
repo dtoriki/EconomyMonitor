@@ -50,4 +50,9 @@ public static class ExceptionMessages
     /// Gets OBJECT_DISPOSED message.
     /// </summary>
     public static string OBJECT_DISPOSED => "Object has disposed.";
+
+    /// <summary>
+    /// Gets NULL_REFERENCE message.
+    /// </summary>
+    public static string NULL_REFERENCE => "The \"{0}\" reference \"{1}\" is null.";
 }
