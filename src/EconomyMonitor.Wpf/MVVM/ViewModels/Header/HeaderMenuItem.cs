@@ -8,7 +8,7 @@ namespace EconomyMonitor.Wpf.MVVM.ViewModels.Header;
 /// <summary>
 /// Presents header's menu item.
 /// </summary>
-public class HeaderMenuItem
+public sealed class HeaderMenuItem
 {
     private IconWithText? _iconWithText;
     private bool _isSelected;
