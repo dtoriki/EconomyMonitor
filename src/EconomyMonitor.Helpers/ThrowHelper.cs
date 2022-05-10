@@ -64,6 +64,32 @@ public static class ThrowHelper
     }
 
     /// <summary>
+    /// Throws <see cref="NullReferenceException"/> when <paramref name="value"/> is <see langword="null"/>.
+    /// </summary>
+    /// <typeparam name="T"><paramref name="value"/>'s type.</typeparam>
+    /// <param name="value">Value.</param>
+    /// <param name="argumentName">Argument name.</param>
+    /// <returns>
+    /// <see langword="false"/> if <paramref name="value"/> is not <see langword="null"/>,
+    /// otherwise throws an <see cref="NullReferenceException"/>.
+    /// </returns>
+    /// <exception cref="NullReferenceException">Throw when <paramref name="value"/> is <see langword="null"/>.</exception>
+    public static bool ThrowIfNull<T>(
+        [NotNullWhen(false)] T? value,
+        [CallerArgumentExpression(VALUE_ARGUMENT_NAME)] string? argumentName = null)
+    {
+        if (value is null)
+        {
+            Throw<NullReferenceException>(
+                string.Format(NULL_REFERENCE),
+                typeof(T).Name,
+                argumentName);
+        }
+
+        return false;
+    }
+
+    /// <summary>
     /// Throws <see cref="ArgumentOutOfRangeException"/> when <paramref name="value"/>
     /// is out of bounds.
     /// </summary>
