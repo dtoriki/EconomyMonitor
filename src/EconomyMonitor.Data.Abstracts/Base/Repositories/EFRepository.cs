@@ -275,18 +275,21 @@ public abstract class EfRepository : DbContext, IRepository
         }
 
         base.Dispose();
+        GC.SuppressFinalize(this);
         _isDisposed = true;
     }
 
     /// <inheritdoc/>
-    public override ValueTask DisposeAsync()
+    public override async ValueTask DisposeAsync()
     {
         if (_isDisposed)
         {
-            return ValueTask.CompletedTask;
+            return;
         }
 
-        return base.DisposeAsync();
+        await base.DisposeAsync().ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+        _isDisposed = true;
     }
 
     /// <inheritdoc/>
