@@ -45,4 +45,9 @@ public static class ExceptionMessages
     /// Gets SEQUENCE_HAS_NULL_REFERENCE message.
     /// </summary>
     public static string SEQUENCE_HAS_NULL_REFERENCE => "Sequence \"{0}\" has null reference.";
+
+    /// <summary>
+    /// Gets OBJECT_DISPOSED message.
+    /// </summary>
+    public static string OBJECT_DISPOSED => "Object has disposed.";
 }
