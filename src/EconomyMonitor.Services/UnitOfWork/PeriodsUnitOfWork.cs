@@ -4,7 +4,6 @@ using EconomyMonitor.Data.EfSets;
 using EconomyMonitor.Data.Entities;
 using EconomyMonitor.Domain;
 using EconomyMonitor.Mapping.AutoMapper;
-using static EconomyMonitor.Helpers.SetHelper;
 using static EconomyMonitor.Helpers.ThrowHelper;
 using static EconomyMonitor.Literals.ExceptionMessages;
 
@@ -49,7 +48,7 @@ internal sealed class PeriodsUnitOfWork<TRepository> : IPeriodsUnitOfWork, IDisp
 
     /// <inheritdoc/>
     /// <exception cref="ObjectDisposedException"/>
-    public async Task<IPeriod> CreatePeriodAsync<TPeriod>(TPeriod period)
+    public async Task<IPeriod> CreatePeriodAsync<TPeriod>(TPeriod period, CancellationToken cancellationToken = default)
         where TPeriod : class, IPeriod
     {
         if (_isDisposed)
@@ -57,9 +56,11 @@ internal sealed class PeriodsUnitOfWork<TRepository> : IPeriodsUnitOfWork, IDisp
             Throw<ObjectDisposedException>(OBJECT_DISPOSED);
         }
 
+        _ = ThrowIfArgumentNull(period);
+
         PeriodEntity periodEntity = _mapper.Map<PeriodEntity>(period);
 
-        _ = await _periodRepository.CreateAsync(periodEntity)
+        _ = await _periodRepository.CreateAsync(periodEntity, cancellationToken)
             .ConfigureAwait(false);
 
         Period result = _mapper.Map<Period>(periodEntity);
