@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EconomyMonitor.Abstacts\EconomyMonitor.Abstacts.csproj" />
     <ProjectReference Include="..\EconomyMonitor.Extensions\EconomyMonitor.Extensions.csproj" />
     <ProjectReference Include="..\EconomyMonitor.Helpers\EconomyMonitor.Helpers.csproj" />
   </ItemGroup>
