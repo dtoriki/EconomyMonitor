@@ -25,7 +25,7 @@ public static class Scoped
 
         string connectionName = DIOptions.ConnectionStringName ?? DefaultConnectionStringName;
         string? connectionString = configuration.GetConnectionString(connectionName);
-        if (ThrowIfArgumentNull(connectionString))
+        if (ThrowIfNull(connectionString))
         {
             return services;
         }
