@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
 using static System.Reflection.Assembly;
-using static EconomyMonitor.Helpers.ArgsHelper;
+using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.DI.Extensions;
 
@@ -22,12 +22,12 @@ public static class Configuration
         this IConfigurationBuilder configurationBuilder,
         string resourcePath)
     {
-        _ = ThrowIfNull(configurationBuilder);
-        _ = ThrowIfNull(resourcePath);
+        _ = ThrowIfArgumentNull(configurationBuilder);
+        _ = ThrowIfArgumentNull(resourcePath);
 
         Assembly? assembly = GetEntryAssembly();
 
-        if (ThrowIfNull(assembly))
+        if (ThrowIfArgumentNull(assembly))
         {
             return configurationBuilder;
         }
@@ -38,7 +38,7 @@ public static class Configuration
 
         Stream? stream = assembly.GetManifestResourceStream(resourceName);
 
-        if (ThrowIfNull(stream))
+        if (ThrowIfArgumentNull(stream))
         {
             return configurationBuilder;
         }

@@ -1,8 +1,8 @@
 using EconomyMonitor.Data;
-using EconomyMonitor.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.DI.Extensions;
 
@@ -25,7 +25,7 @@ public static class Scoped
 
         string connectionName = DIOptions.ConnectionStringName ?? DefaultConnectionStringName;
         string? connectionString = configuration.GetConnectionString(connectionName);
-        if (ArgsHelper.ThrowIfNull(connectionString))
+        if (ThrowIfArgumentNull(connectionString))
         {
             return services;
         }

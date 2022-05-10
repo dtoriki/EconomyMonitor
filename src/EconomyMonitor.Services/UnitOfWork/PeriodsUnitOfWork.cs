@@ -4,7 +4,7 @@ using EconomyMonitor.Data.EfSets;
 using EconomyMonitor.Data.Entities;
 using EconomyMonitor.Domain;
 using EconomyMonitor.Mapping.AutoMapper;
-using static EconomyMonitor.Helpers.ArgsHelper;
+using static EconomyMonitor.Helpers.SetHelper;
 using static EconomyMonitor.Helpers.ThrowHelper;
 using static EconomyMonitor.Literals.ExceptionMessages;
 
@@ -39,8 +39,8 @@ internal sealed class PeriodsUnitOfWork<TRepository> : IPeriodsUnitOfWork, IDisp
     /// <exception cref="ArgumentNullException"/>
     public PeriodsUnitOfWork(TRepository periodRepository, IEntityWithDtoMapper mapper)
     {
-        _ = ThrowIfNull(periodRepository);
-        _ = ThrowIfNull(mapper);
+        _ = ThrowIfArgumentNull(periodRepository);
+        _ = ThrowIfArgumentNull(mapper);
 
         _isDisposed = false;
         _periodRepository = periodRepository;

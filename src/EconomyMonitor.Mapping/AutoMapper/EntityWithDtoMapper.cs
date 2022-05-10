@@ -1,5 +1,5 @@
 using AutoMapper;
-using static EconomyMonitor.Helpers.ArgsHelper;
+using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Mapping.AutoMapper;
 
@@ -16,6 +16,6 @@ public sealed class EntityWithDtoMapper : Mapper, IEntityWithDtoMapper
     /// <exception cref="ArgumentNullException"/>
     public EntityWithDtoMapper(IConfigurationProvider configurationProvider) : base(configurationProvider)
     {
-        _ = ThrowIfNull(configurationProvider);
+        _ = ThrowIfArgumentNull(configurationProvider);
     }
 }
