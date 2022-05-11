@@ -32,13 +32,17 @@ internal sealed class Program
     {
         DIOptions.ConnectionStringName = CONNECTION_NAME;
 
-        services.AddSqlLiteEconomyMonitorRepositoryScoped();
-
         services.AddMemoryCache(x =>
         {
             x.TrackLinkedCacheEntries = true;
             x.SizeLimit = CACHE_SIZE_LIMIT;
         });
+
+        services
+            .AddSqlLiteEconomyMonitorRepositoryScoped()
+            .AddEntityWithDtoMappers();
+
+        
         
     }
 }
