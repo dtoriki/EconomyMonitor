@@ -1,8 +1,11 @@
+using AutoMapper;
 using EconomyMonitor.Data;
+using EconomyMonitor.Mapping.AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using static EconomyMonitor.Helpers.ThrowHelper;
+using IMapperConfigurationProvider = AutoMapper.IConfigurationProvider;
 
 namespace EconomyMonitor.DI.Extensions;
 
@@ -36,6 +39,46 @@ public static class Scoped
             .Options;
 
         services.AddScoped(_ => IEconomyMonitorRepository.Create(options));
+
+        return services;
+    }
+
+    /// <summary>
+    /// Adds <see cref="IEntityWithDtoMapper"/> mapper into <paramref name="services"/>.
+    /// </summary>
+    /// <param name="services">Services collection.</param>
+    /// <returns>Services collection.</returns>
+    public static IServiceCollection AddEntityWithDtoMappers(this IServiceCollection services)
+    {
+        services.ConfigureMapper<EntityWithDtoProfile, IEntityWithDtoMapper>(p => new EntityWithDtoMapper(p));
+
+        return services;
+    }
+
+    /// <summary>
+    /// Configures mapper and adds it into <paramref name="services"/>
+    /// </summary>
+    /// <typeparam name="TProfile">Type of mapper profile.</typeparam>
+    /// <typeparam name="TMapper">Type of mapper.</typeparam>
+    /// <param name="services">Services collection.</param>
+    /// <param name="implementationFactory">Factory for implement instance.</param>
+    /// <returns>Services collection.</returns>
+    /// <exception cref="ArgumentNullException"/>
+    public static IServiceCollection ConfigureMapper<TProfile, TMapper>(
+        this IServiceCollection services, 
+        Func<IMapperConfigurationProvider, TMapper> implementationFactory) where TProfile : Profile, new() where TMapper : class, IMapper
+    {
+        _ = ThrowIfArgumentNull(implementationFactory);
+
+        var config = new MapperConfiguration(cfg =>
+        {
+            var profile = new TProfile();
+            cfg.AddProfile(profile);
+        });
+
+        TMapper mapper = implementationFactory(config);
+
+        services.AddScoped(sp => mapper);
 
         return services;
     }
