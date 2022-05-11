@@ -1,6 +1,8 @@
 using AutoMapper;
 using EconomyMonitor.Data;
+using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Mapping.AutoMapper;
+using EconomyMonitor.Services.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -38,7 +40,32 @@ public static class Scoped
             .EnableThreadSafetyChecks()
             .Options;
 
+        services.AddScoped<IRepository>(_ => IEconomyMonitorRepository.Create(options));
         services.AddScoped(_ => IEconomyMonitorRepository.Create(options));
+
+        return services;
+    }
+
+    /// <summary>
+    /// Configures scoped unit of works.
+    /// </summary>
+    /// <param name="services">Services collection.</param>
+    /// <returns>Services collection</returns>
+    /// <remarks>
+    /// Configures:
+    /// <list type="bullet">
+    /// <item><see cref="IPeriodsUnitOfWork"/>.</item>
+    /// </list>
+    /// </remarks>
+    public static IServiceCollection ConfigureUnitsOfWorkScoped(this IServiceCollection services)
+    {
+        services.AddScoped(provider =>
+        {
+            IEconomyMonitorRepository repository = provider.GetRequiredService<IEconomyMonitorRepository>();
+            IEntityWithDtoMapper mapper = provider.GetRequiredService<IEntityWithDtoMapper>();
+
+            return IPeriodsUnitOfWork.Create(repository, mapper);
+        });
 
         return services;
     }
@@ -65,7 +92,7 @@ public static class Scoped
     /// <returns>Services collection.</returns>
     /// <exception cref="ArgumentNullException"/>
     public static IServiceCollection ConfigureMapper<TProfile, TMapper>(
-        this IServiceCollection services, 
+        this IServiceCollection services,
         Func<IMapperConfigurationProvider, TMapper> implementationFactory) where TProfile : Profile, new() where TMapper : class, IMapper
     {
         _ = ThrowIfArgumentNull(implementationFactory);

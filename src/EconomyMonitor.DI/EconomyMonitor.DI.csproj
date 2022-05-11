@@ -14,6 +14,7 @@
     <ProjectReference Include="..\EconomyMonitor.Data\EconomyMonitor.Data.csproj" />
     <ProjectReference Include="..\EconomyMonitor.Helpers\EconomyMonitor.Helpers.csproj" />
     <ProjectReference Include="..\EconomyMonitor.Mapping\EconomyMonitor.Mapping.csproj" />
+    <ProjectReference Include="..\EconomyMonitor.Services\EconomyMonitor.Services.csproj" />
   </ItemGroup>
 
 </Project>

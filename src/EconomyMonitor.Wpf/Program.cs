@@ -40,9 +40,7 @@ internal sealed class Program
 
         services
             .AddSqlLiteEconomyMonitorRepositoryScoped()
-            .AddEntityWithDtoMappers();
-
-        
-        
+            .AddEntityWithDtoMappers()
+            .ConfigureUnitsOfWorkScoped();
     }
 }
