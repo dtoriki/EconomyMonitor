@@ -19,11 +19,11 @@ public static class Scoped
     private static readonly string DefaultConnectionStringName = "DefaultConnectionString";
 
     /// <summary>
-    /// Adds scoped <see cref="IEconomyMonitorRepository"/> with Sql Lite provider.
+    /// Configures scoped <see cref="IEconomyMonitorRepository"/> with Sql Lite provider.
     /// </summary>
     /// <param name="services">Service collection.</param>
     /// <returns>Service collection.</returns>
-    public static IServiceCollection AddSqlLiteEconomyMonitorRepositoryScoped(this IServiceCollection services)
+    public static IServiceCollection ConfigureSqlLiteEconomyMonitorRepositoryScoped(this IServiceCollection services)
     {
         IConfiguration configuration = services.BuildServiceProvider()
             .GetRequiredService<IConfiguration>();
@@ -71,19 +71,19 @@ public static class Scoped
     }
 
     /// <summary>
-    /// Adds <see cref="IEntityWithDtoMapper"/> mapper into <paramref name="services"/>.
+    /// Configures scoped <see cref="IEntityWithDtoMapper"/> mapper into <paramref name="services"/>.
     /// </summary>
     /// <param name="services">Services collection.</param>
     /// <returns>Services collection.</returns>
-    public static IServiceCollection AddEntityWithDtoMappers(this IServiceCollection services)
+    public static IServiceCollection ConfigureEntityWithDtoMappers(this IServiceCollection services)
     {
-        services.ConfigureMapper<EntityWithDtoProfile, IEntityWithDtoMapper>(p => new EntityWithDtoMapper(p));
+        services.ConfigureMapperScoped<EntityWithDtoProfile, IEntityWithDtoMapper>(p => new EntityWithDtoMapper(p));
 
         return services;
     }
 
     /// <summary>
-    /// Configures mapper and adds it into <paramref name="services"/>
+    /// Configures scoped mapper and adds it into <paramref name="services"/>
     /// </summary>
     /// <typeparam name="TProfile">Type of mapper profile.</typeparam>
     /// <typeparam name="TMapper">Type of mapper.</typeparam>
@@ -91,7 +91,7 @@ public static class Scoped
     /// <param name="implementationFactory">Factory for implement instance.</param>
     /// <returns>Services collection.</returns>
     /// <exception cref="ArgumentNullException"/>
-    public static IServiceCollection ConfigureMapper<TProfile, TMapper>(
+    public static IServiceCollection ConfigureMapperScoped<TProfile, TMapper>(
         this IServiceCollection services,
         Func<IMapperConfigurationProvider, TMapper> implementationFactory) where TProfile : Profile, new() where TMapper : class, IMapper
     {

@@ -39,8 +39,8 @@ internal sealed class Program
         });
 
         services
-            .AddSqlLiteEconomyMonitorRepositoryScoped()
-            .AddEntityWithDtoMappers()
+            .ConfigureSqlLiteEconomyMonitorRepositoryScoped()
+            .ConfigureEntityWithDtoMappers()
             .ConfigureUnitsOfWorkScoped();
     }
 }
