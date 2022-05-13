@@ -1,5 +1,9 @@
 using System.Windows;
+using EconomyMonitor.DI;
+using EconomyMonitor.DI.Extensions;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using static EconomyMonitor.DI.EconomyMonitorHosting;
 
 namespace EconomyMonitor.Wpf;
 
@@ -8,24 +12,23 @@ namespace EconomyMonitor.Wpf;
 /// </summary>
 public partial class App : Application
 {
-    private readonly IHost _host;
+    private static readonly string CONNECTION_NAME = "LocalStorage";
+    private static readonly long CACHE_SIZE_LIMIT = 400000000;
+
+    private IHost? _host;
 
     /// <summary>
     /// Creates application.
     /// </summary>
     /// <param name="host">Application host.</param>
-    public App(IHost host) => _host = host;
-
-    
-#pragma warning disable CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
-    private App() { }
-#pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
+    public App() { }
 
     /// <inheritdoc/>
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
 
+        _host = BuildHost(ConfigureServices);
         await _host.StartAsync().ConfigureAwait(false);
     }
 
@@ -34,7 +37,26 @@ public partial class App : Application
     {
         base.OnExit(e);
 
-        await _host.StopAsync().ConfigureAwait(false);
-        _host.Dispose();
+        if (_host is not null)
+        {
+            await _host.StopAsync().ConfigureAwait(false);
+            _host.Dispose(); 
+        }
+    }
+
+    private static void ConfigureServices(IServiceCollection services)
+    {
+        DIOptions.ConnectionStringName = CONNECTION_NAME;
+
+        services.AddMemoryCache(x =>
+        {
+            x.TrackLinkedCacheEntries = true;
+            x.SizeLimit = CACHE_SIZE_LIMIT;
+        });
+
+        services
+            .ConfigureSqlLiteEconomyMonitorRepositoryScoped()
+            .ConfigureEntityWithDtoMappers()
+            .ConfigureUnitsOfWorkScoped();
     }
 }
