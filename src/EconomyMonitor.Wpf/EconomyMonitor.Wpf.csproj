@@ -8,6 +8,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Resources\Dialogs\**" />
+    <EmbeddedResource Remove="Resources\Dialogs\**" />
+    <None Remove="Resources\Dialogs\**" />
+    <Page Remove="Resources\Dialogs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="appsettings.Development.json" />
     <None Remove="appsettings.json" />
   </ItemGroup>
@@ -39,10 +46,6 @@
     <Page Update="Styles\StackPanels\HorizontalOrientedCenterAlignmentStackPanel.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Resources\Dialogs\" />
   </ItemGroup>
 
   <ItemGroup>
