@@ -1,7 +1,7 @@
 using EconomyMonitor.Wpf.MVVM.Abstracts;
 using EconomyMonitor.Wpf.MVVM.ViewModels.Header;
 
-namespace EconomyMonitor.Wpf.MVVM.ViewModels;
+namespace EconomyMonitor.Wpf.MVVM.ViewModels.Application;
 
 /// <summary>
 /// Present the application view model.
