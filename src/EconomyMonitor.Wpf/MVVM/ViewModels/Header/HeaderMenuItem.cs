@@ -1,3 +1,4 @@
+using System.Windows;
 using System.Windows.Controls;
 using EconomyMonitor.Wpf.EventArguments;
 using EconomyMonitor.Wpf.MVVM.Primitives;
@@ -12,7 +13,7 @@ public sealed class HeaderMenuItem
 {
     private IconWithText? _iconWithText;
     private bool _isSelected;
-    private Control? _control;
+    private UIElement? _uiElement;
 
     /// <summary>
     /// Gets or sets icon with text.
@@ -47,10 +48,10 @@ public sealed class HeaderMenuItem
     /// <summary>
     /// Gets or sets control for present.
     /// </summary>
-    public Control? Control
+    public UIElement? UIElement
     {
-        get => _control;
-        set => _ = Set(ref _control, value);
+        get => _uiElement;
+        set => _ = Set(ref _uiElement, value);
     }
 
     /// <summary>
