@@ -15,7 +15,7 @@ public partial class App : Application
     private static readonly string CONNECTION_NAME = "LocalStorage";
     private static readonly long CACHE_SIZE_LIMIT = 400000000;
 
-    private IHost? _host;
+    public static IHost? Host { get; private set; }
 
     /// <summary>
     /// Creates application.
@@ -28,8 +28,8 @@ public partial class App : Application
     {
         base.OnStartup(e);
 
-        _host = BuildHost(ConfigureServices);
-        await _host.StartAsync().ConfigureAwait(false);
+        Host = BuildHost(ConfigureServices);
+        await Host.StartAsync().ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -37,10 +37,10 @@ public partial class App : Application
     {
         base.OnExit(e);
 
-        if (_host is not null)
+        if (Host is not null)
         {
-            await _host.StopAsync().ConfigureAwait(false);
-            _host.Dispose(); 
+            await Host.StopAsync().ConfigureAwait(false);
+            Host.Dispose(); 
         }
     }
 
