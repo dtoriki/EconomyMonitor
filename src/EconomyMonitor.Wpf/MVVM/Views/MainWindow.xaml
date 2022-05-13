@@ -37,6 +37,6 @@
             <header:HeaderCard DataContext="{Binding Header}"/>
         </materialDesign:ColorZone>
         <ContentControl Grid.Row="1" 
-                        Content="{Binding Header.SelectedItem.Control}"/>
+                        Content="{Binding Header.SelectedItem.UIElement}"/>
     </Grid>
 </Window>
