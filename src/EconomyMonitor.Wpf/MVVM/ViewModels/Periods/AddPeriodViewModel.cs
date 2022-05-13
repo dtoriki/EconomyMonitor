@@ -1,7 +1,4 @@
-using AutoMapper;
 using EconomyMonitor.Abstacts;
-using EconomyMonitor.Mapping.AutoMapper;
-using EconomyMonitor.Services.UnitOfWork;
 using EconomyMonitor.Wpf.MVVM.Abstracts;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels.Periods;
@@ -14,9 +11,6 @@ namespace EconomyMonitor.Wpf.MVVM.ViewModels.Periods;
 /// </remarks>
 public sealed class AddPeriodViewModel : ViewModelBase, IPeriod
 {
-    private readonly IPeriodsUnitOfWork _unitOfWork;
-    private readonly IMapper _mapper;
-
     private DateOnly? _startPeriod;
     private DateOnly? _endPeriod;
     private decimal? _income;
@@ -40,11 +34,5 @@ public sealed class AddPeriodViewModel : ViewModelBase, IPeriod
     {
         get => _income ??= decimal.Zero;
         set => _ = SetPropertyNotifiable(ref _income, value);
-    }
-
-    public AddPeriodViewModel(IPeriodsUnitOfWork periodsUnitOfWork, IEntityWithDtoMapper mapper)
-    {
-        _unitOfWork = periodsUnitOfWork;
-        _mapper = mapper;
     }
 }
