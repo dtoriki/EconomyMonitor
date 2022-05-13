@@ -1,11 +1,11 @@
 <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:viewmodels="clr-namespace:EconomyMonitor.Wpf.MVVM.ViewModels">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:application="clr-namespace:EconomyMonitor.Wpf.MVVM.ViewModels.Application">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/ViewModels/HeaderMenuViewModel.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <viewmodels:ApplicationViewModel x:Key="ApplicationViewModel" 
+    <application:ApplicationViewModel x:Key="ApplicationViewModel" 
                                      Header="{StaticResource HeaderMenuViewModel}"/>
 </ResourceDictionary>
