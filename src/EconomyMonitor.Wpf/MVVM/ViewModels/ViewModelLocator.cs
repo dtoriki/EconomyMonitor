@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using EconomyMonitor.Services.Exceptions;
 using EconomyMonitor.Wpf.MVVM.ViewModels.Application;
 using EconomyMonitor.Wpf.MVVM.ViewModels.Header;
@@ -15,16 +16,19 @@ public class ViewModelLocator
     /// <summary>
     /// Gets <see cref="ApplicationViewModel"/>.
     /// </summary>
+    [SuppressMessage("Performance", "CA1822:Пометьте члены как статические", Justification = "<Ожидание>")]
     public ApplicationViewModel ApplicationViewModel => GetServiceOrThrow<ApplicationViewModel>();
 
     /// <summary>
     /// Gets <see cref="HeaderMenuViewModel"/>.
     /// </summary>
+    [SuppressMessage("Performance", "CA1822:Пометьте члены как статические", Justification = "<Ожидание>")]
     public HeaderMenuViewModel HeaderMenuViewModel => GetServiceOrThrow<HeaderMenuViewModel>();
 
     /// <summary>
     /// Gets <see cref="AddPeriodViewModel"/>.
     /// </summary>
+    [SuppressMessage("Performance", "CA1822:Пометьте члены как статические", Justification = "<Ожидание>")]
     public AddPeriodViewModel AddPeriodViewModel => GetServiceOrThrow<AddPeriodViewModel>();
 
     /// <summary>
