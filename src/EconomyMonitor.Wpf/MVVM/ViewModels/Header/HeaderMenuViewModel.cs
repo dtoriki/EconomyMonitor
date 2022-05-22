@@ -3,7 +3,6 @@ using System.Collections.Specialized;
 using System.Windows.Input;
 using EconomyMonitor.Wpf.EventArguments;
 using EconomyMonitor.Wpf.MVVM.Abstracts;
-using static EconomyMonitor.Helpers.SetHelper;
 using static EconomyMonitor.Helpers.ThrowHelper;
 using static EconomyMonitor.Literals.ExceptionMessages;
 
