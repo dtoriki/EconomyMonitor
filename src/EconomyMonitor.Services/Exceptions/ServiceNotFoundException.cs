@@ -1,3 +1,4 @@
+using System.Runtime.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
@@ -6,7 +7,10 @@ namespace EconomyMonitor.Services.Exceptions;
 /// <summary>
 /// Presents an <see cref="Exception"/> of missing DI service in <see cref="IServiceCollection"/>.
 /// </summary>
-/// <remarks>Has default message: "The "<see cref="Type.FullName"/>" type service not found."</remarks>
+/// <remarks>
+/// Has default message: "The "<see cref="Type.FullName"/>" type service not found.".
+/// </remarks>
+[Serializable]
 public class ServiceNotFoundException : Exception
 {
     private static string MessagePattern => "The \"{0}\" type service not found.";
@@ -42,7 +46,12 @@ public class ServiceNotFoundException : Exception
         Exception? innerException) : base(GetMessage(serviceType, message), innerException)
     {
 
-    } 
+    }
+
+    protected ServiceNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
+    {
+
+    }
 
     private static string GetMessage(Type serviceType, string? outerMessage = null)
     {
