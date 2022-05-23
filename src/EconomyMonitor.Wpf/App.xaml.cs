@@ -12,7 +12,7 @@ namespace EconomyMonitor.Wpf;
 /// </summary>
 public partial class App : Application
 {
-    private static readonly string CONNECTION_NAME = "LocalStorage";
+    
     private static readonly long CACHE_SIZE_LIMIT = 400000000;
 
     public static IHost? Host { get; private set; }
@@ -29,6 +29,8 @@ public partial class App : Application
         base.OnStartup(e);
 
         Host = BuildHost(ConfigureServices);
+
+        await Host.InitDatabaseAsync().ConfigureAwait(false);
         await Host.StartAsync().ConfigureAwait(false);
     }
 
@@ -46,8 +48,6 @@ public partial class App : Application
 
     private static void ConfigureServices(IServiceCollection services)
     {
-        DIOptions.ConnectionStringName = CONNECTION_NAME;
-
         services.AddMemoryCache(x =>
         {
             x.TrackLinkedCacheEntries = true;
@@ -55,7 +55,7 @@ public partial class App : Application
         });
 
         services
-            .ConfigureSqlLiteEconomyMonitorRepositoryScoped()
+            .ConfigureSqliteEconomyMonitorRepository()
             .ConfigureEntityWithDtoMappers()
             .ConfigureUnitsOfWorkScoped();
     }

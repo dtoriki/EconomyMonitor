@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -8,17 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="appsettings.Development.json" />
-    <None Remove="appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <EmbeddedResource Include="appsettings.Development.json" />
-    <EmbeddedResource Include="appsettings.json" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="MaterialDesignThemes" Version="4.6.0-ci172" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0-preview.4.22229.2">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -46,6 +40,11 @@
     <ProjectReference Include="..\EconomyMonitor.Data\EconomyMonitor.Data.csproj" />
     <ProjectReference Include="..\EconomyMonitor.DI\EconomyMonitor.DI.csproj" />
     <ProjectReference Include="..\EconomyMonitor.Helpers\EconomyMonitor.Helpers.csproj" />
+    <ProjectReference Include="..\EconomyMonitor.Migrations\EconomyMonitor.Migrations.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
 
 </Project>
