@@ -1,10 +1,8 @@
 using AutoMapper;
 using EconomyMonitor.Data;
-using EconomyMonitor.Data.Abstracts.Interfaces;
+using EconomyMonitor.Data.DI;
 using EconomyMonitor.Mapping.AutoMapper;
 using EconomyMonitor.Services.UnitOfWork;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using static EconomyMonitor.Helpers.ThrowHelper;
 using IMapperConfigurationProvider = AutoMapper.IConfigurationProvider;
@@ -14,34 +12,22 @@ namespace EconomyMonitor.DI.Extensions;
 /// <summary>
 /// Provides adds for scope services.
 /// </summary>
-public static class Scoped
+public static class ScopedExtensions
 {
-    private static readonly string DefaultConnectionStringName = "DefaultConnectionString";
-
     /// <summary>
     /// Configures scoped <see cref="IEconomyMonitorRepository"/> with Sql Lite provider.
     /// </summary>
     /// <param name="services">Service collection.</param>
     /// <returns>Service collection.</returns>
-    public static IServiceCollection ConfigureSqlLiteEconomyMonitorRepositoryScoped(this IServiceCollection services)
+    public static IServiceCollection ConfigureSqliteEconomyMonitorRepository(this IServiceCollection services)
     {
-        IConfiguration configuration = services.BuildServiceProvider()
-            .GetRequiredService<IConfiguration>();
-
-        string connectionName = DIOptions.ConnectionStringName ?? DefaultConnectionStringName;
-        string? connectionString = configuration.GetConnectionString(connectionName);
+        string? connectionString = services.GetConnectionString();
         if (ThrowIfNull(connectionString))
         {
             return services;
         }
 
-        DbContextOptions options = new DbContextOptionsBuilder()
-            .UseSqlite(connectionString)
-            .EnableThreadSafetyChecks()
-            .Options;
-
-        services.AddScoped<IRepository>(_ => IEconomyMonitorRepository.Create(options));
-        services.AddScoped(_ => IEconomyMonitorRepository.Create(options));
+        services.ConfigureEconomyMonitorRepositoryScoped(connectionString);
 
         return services;
     }

@@ -81,9 +81,9 @@ public static class ThrowHelper
         if (value is null)
         {
             Throw<NullReferenceException>(
-                string.Format(NULL_REFERENCE),
+                string.Format(NULL_REFERENCE,
                 typeof(T).Name,
-                argumentName);
+                argumentName));
         }
 
         return false;
