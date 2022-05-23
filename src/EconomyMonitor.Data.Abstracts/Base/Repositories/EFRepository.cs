@@ -292,26 +292,6 @@ public abstract class EfRepository : DbContext, IRepository
         _isDisposed = true;
     }
 
-    /// <inheritdoc/>
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<IEntity>()
-            .HasIndex(x => x.Id)
-            .IsUnique();
-
-        modelBuilder.Entity<IEntity>()
-            .Property(x => x.DateCreated)
-            .IsRequired()
-            .ValueGeneratedOnAdd();
-
-        modelBuilder.Entity<IEntity>()
-            .Property(x => x.DateModified)
-            .IsRequired()
-            .ValueGeneratedOnAddOrUpdate();
-
-        base.OnModelCreating(modelBuilder);
-    }
-
     private void DeleteBulkInternal<TEntity>(IEnumerable<TEntity> entities)
         where TEntity : class, IEntity
     {
