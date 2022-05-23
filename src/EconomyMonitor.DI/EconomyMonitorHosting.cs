@@ -1,6 +1,10 @@
-using EconomyMonitor.DI.Extensions;
+using EconomyMonitor.Configuration;
+using EconomyMonitor.Data;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.DI;
 
@@ -9,9 +13,6 @@ namespace EconomyMonitor.DI;
 /// </summary>
 public static class EconomyMonitorHosting
 {
-    private static readonly string APP_SETTINGS_FILE = "appsettings.json";
-    private static readonly string APP_SETTINGS_DEV_FILE = "appsettings.Development.json";
-
     /// <summary>
     /// Builds host.
     /// </summary>
@@ -23,15 +24,57 @@ public static class EconomyMonitorHosting
             .UseContentRoot(Environment.CurrentDirectory)
             .ConfigureAppConfiguration((host, config) =>
             {
-                config.ConfigureConfiguration(APP_SETTINGS_FILE);
+#if DEBUG
+                config.ConfigureDevConfiguration();
+#else
+                config.ConfigureConfiguration();
+#endif
 
-                if (host.HostingEnvironment.IsDevelopment())
-                {
-                    config.ConfigureConfiguration(APP_SETTINGS_DEV_FILE);
-                }
             })
             .ConfigureServices((_, services) => servicesConfiguration?.Invoke(services))
             .Build();
+
+        return host;
+    }
+
+    /// <summary>
+    /// Asynchronusly initializes data base. 
+    /// </summary>
+    /// <param name="host">Host.</param>
+    /// <returns>Host.</returns>
+    public static async Task<IHost> InitDatabaseAsync(this IHost host)
+    {
+        using IServiceScope scope = host.Services.CreateScope();
+
+        string[]? relativePathSegments = scope.ServiceProvider
+            .GetRequiredService<IConfiguration>()
+            .GetConnectionString()?
+            .Split(Path.PathSeparator, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+            .FirstOrDefault(x => x.ToUpper().Contains("DATA SOURCE"))?
+            .Split('=', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+            .LastOrDefault()?
+            .Split(Path.DirectorySeparatorChar, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+
+        if (ThrowIfNull(relativePathSegments))
+        {
+            return null!;
+        }
+
+        IEnumerable<string> pathSegments = Environment.CurrentDirectory
+            .Split(Path.DirectorySeparatorChar, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
+            .Concat(relativePathSegments);
+
+        string folderPath = Path.Combine(pathSegments.Take(pathSegments.Count() - 1).ToArray());
+        if (!Directory.Exists(folderPath))
+        {
+            Directory.CreateDirectory(folderPath);
+        }
+        
+        var context = (DbContext)scope.ServiceProvider.GetRequiredService<IEconomyMonitorRepository>();
+
+        await context.Database
+            .MigrateAsync()
+            .ConfigureAwait(false);
 
         return host;
     }
