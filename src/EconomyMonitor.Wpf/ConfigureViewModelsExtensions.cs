@@ -1,4 +1,3 @@
-using EconomyMonitor.Wpf.MVVM.Abstracts;
 using EconomyMonitor.Wpf.MVVM.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
