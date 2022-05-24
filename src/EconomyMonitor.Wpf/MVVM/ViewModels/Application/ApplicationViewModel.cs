@@ -1,4 +1,3 @@
-using EconomyMonitor.Wpf.MVVM.Abstracts;
 using EconomyMonitor.Wpf.MVVM.ViewModels.Header;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels.Application;

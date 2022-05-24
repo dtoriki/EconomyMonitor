@@ -2,7 +2,7 @@ using System.Windows.Input;
 using EconomyMonitor.Abstacts;
 using EconomyMonitor.Domain;
 using EconomyMonitor.Services.UnitOfWork;
-using EconomyMonitor.Wpf.MVVM.Abstracts;
+using EconomyMonitor.Wpf.MVVM.Commands;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels.Periods;
