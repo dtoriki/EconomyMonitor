@@ -2,7 +2,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows.Input;
 using EconomyMonitor.Wpf.EventArguments;
-using EconomyMonitor.Wpf.MVVM.Abstracts;
+using EconomyMonitor.Wpf.MVVM.Commands;
 using static EconomyMonitor.Helpers.ThrowHelper;
 using static EconomyMonitor.Literals.ExceptionMessages;
 

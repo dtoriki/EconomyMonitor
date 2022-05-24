@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -41,10 +41,7 @@
     <ProjectReference Include="..\EconomyMonitor.DI\EconomyMonitor.DI.csproj" />
     <ProjectReference Include="..\EconomyMonitor.Helpers\EconomyMonitor.Helpers.csproj" />
     <ProjectReference Include="..\EconomyMonitor.Migrations\EconomyMonitor.Migrations.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Properties\" />
+    <ProjectReference Include="..\EconomyMonitor.Wpf.MVVM\EconomyMonitor.Wpf.MVVM.csproj" />
   </ItemGroup>
 
 </Project>
