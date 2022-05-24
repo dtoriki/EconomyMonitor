@@ -2,13 +2,13 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using static EconomyMonitor.Helpers.SetHelper;
 
-namespace EconomyMonitor.Wpf.MVVM.ViewModels;
+namespace EconomyMonitor.Wpf.MVVM;
 
 /// <summary>
 /// Base type of view model.
 /// </summary>
 /// <exception cref="ArgumentNullException"/>
-public abstract class ViewModelBase : INotifyPropertyChanged
+public abstract class NotifyPropertyChangedBase : INotifyPropertyChanged
 {
     /// <inheritdoc/>
     public event PropertyChangedEventHandler? PropertyChanged;
@@ -16,7 +16,7 @@ public abstract class ViewModelBase : INotifyPropertyChanged
     /// <summary>
     /// Creates a view model exemplar.
     /// </summary>
-    protected ViewModelBase() { }
+    protected NotifyPropertyChangedBase() { }
 
     /// <summary>
     /// Rises event of property changing.
