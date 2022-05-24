@@ -50,9 +50,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EconomyMonitor.DI", "src\Ec
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EconomyMonitor.Mapping", "src\EconomyMonitor.Mapping\EconomyMonitor.Mapping.csproj", "{4981EFAE-3C7A-4AF2-9520-986F051F77A6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EconomyMonitor.Configuration", "src\EconomyMonitor.Configuration\EconomyMonitor.Configuration.csproj", "{D80B457B-FEB3-4CBA-A8CA-841A545865F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EconomyMonitor.Configuration", "src\EconomyMonitor.Configuration\EconomyMonitor.Configuration.csproj", "{D80B457B-FEB3-4CBA-A8CA-841A545865F2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EconomyMonitor.Migrations", "src\EconomyMonitor.Migrations\EconomyMonitor.Migrations.csproj", "{649BCFC6-E36D-4D5C-B583-46D8052A2B21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EconomyMonitor.Migrations", "src\EconomyMonitor.Migrations\EconomyMonitor.Migrations.csproj", "{649BCFC6-E36D-4D5C-B583-46D8052A2B21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EconomyMonitor.Wpf.MVVM", "src\EconomyMonitor.Wpf.MVVM\EconomyMonitor.Wpf.MVVM.csproj", "{B35F68A7-8770-43B7-AB81-2C04082CE305}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -112,6 +114,10 @@ Global
 		{649BCFC6-E36D-4D5C-B583-46D8052A2B21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{649BCFC6-E36D-4D5C-B583-46D8052A2B21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{649BCFC6-E36D-4D5C-B583-46D8052A2B21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B35F68A7-8770-43B7-AB81-2C04082CE305}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B35F68A7-8770-43B7-AB81-2C04082CE305}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B35F68A7-8770-43B7-AB81-2C04082CE305}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B35F68A7-8770-43B7-AB81-2C04082CE305}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -131,6 +137,7 @@ Global
 		{4981EFAE-3C7A-4AF2-9520-986F051F77A6} = {4C20BAA6-9DD3-4757-A448-11402ECB8A2D}
 		{D80B457B-FEB3-4CBA-A8CA-841A545865F2} = {4C20BAA6-9DD3-4757-A448-11402ECB8A2D}
 		{649BCFC6-E36D-4D5C-B583-46D8052A2B21} = {4C20BAA6-9DD3-4757-A448-11402ECB8A2D}
+		{B35F68A7-8770-43B7-AB81-2C04082CE305} = {4C20BAA6-9DD3-4757-A448-11402ECB8A2D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {2EB81BE9-F352-4BB1-A6CC-8233547BCF33}

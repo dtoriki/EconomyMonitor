@@ -1,6 +1,6 @@
 using static EconomyMonitor.Helpers.ThrowHelper;
 
-namespace EconomyMonitor.Wpf.MVVM.Abstracts;
+namespace EconomyMonitor.Wpf.MVVM.Commands;
 
 /// <summary>
 /// Relay <see cref="CommandBase"/>'s implementation.
