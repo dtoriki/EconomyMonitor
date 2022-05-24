@@ -2,6 +2,7 @@ using System.Runtime.CompilerServices;
 using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Extensions;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using static EconomyMonitor.Helpers.ThrowHelper;
 using static EconomyMonitor.Literals.ExceptionMessages;
 
@@ -290,6 +291,59 @@ public abstract class EfRepository : DbContext, IRepository
         await base.DisposeAsync().ConfigureAwait(false);
         GC.SuppressFinalize(this);
         _isDisposed = true;
+    }
+
+    /// <inheritdoc/>
+    public override int SaveChanges()
+    {
+        SetDates();
+
+        return base.SaveChanges();
+    }
+
+    /// <inheritdoc/>
+    public override int SaveChanges(bool acceptAllChangesOnSuccess)
+    {
+        SetDates();
+
+        return base.SaveChanges(acceptAllChangesOnSuccess);
+    }
+
+    /// <inheritdoc/>
+    public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+    {
+        SetDates();
+
+        return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+    }
+
+    /// <inheritdoc/>
+    public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+    {
+        SetDates();
+
+        return base.SaveChangesAsync(cancellationToken);
+    }
+
+    private void SetDates()
+    {
+        foreach(EntityEntry entry in ChangeTracker.Entries())
+        {
+            switch (entry.State)
+            {
+                case EntityState.Added:
+                    ((EntityBase)entry.Entity).DateCreated = DateTime.UtcNow;
+                    ((EntityBase)entry.Entity).DateModified = DateTime.UtcNow;
+                    break;
+
+                case EntityState.Modified:
+                    ((EntityBase)entry.Entity).DateModified = DateTime.UtcNow;
+                    break;
+
+                default:
+                    break;
+            }
+        }
     }
 
     private void DeleteBulkInternal<TEntity>(IEnumerable<TEntity> entities)
