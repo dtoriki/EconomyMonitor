@@ -49,7 +49,7 @@ public static class ExceptionMessages
     /// <summary>
     /// Gets OBJECT_DISPOSED message.
     /// </summary>
-    public static string OBJECT_DISPOSED => "Object has disposed.";
+    public static string OBJECT_DISPOSED => "Object \"{0}\" with type \"{1}\" has disposed.";
 
     /// <summary>
     /// Gets NULL_REFERENCE message.

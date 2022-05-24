@@ -5,7 +5,6 @@ using EconomyMonitor.Data.Entities;
 using EconomyMonitor.Domain;
 using EconomyMonitor.Mapping.AutoMapper;
 using static EconomyMonitor.Helpers.ThrowHelper;
-using static EconomyMonitor.Literals.ExceptionMessages;
 
 namespace EconomyMonitor.Services.UnitOfWork;
 
@@ -53,7 +52,7 @@ internal sealed class PeriodsUnitOfWork<TRepository> : IPeriodsUnitOfWork, IDisp
     {
         if (_isDisposed)
         {
-            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+            ThrowDisposed(this);
         }
 
         _ = ThrowIfArgumentNull(period);
