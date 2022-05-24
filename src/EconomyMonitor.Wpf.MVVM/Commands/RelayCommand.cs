@@ -3,7 +3,7 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 namespace EconomyMonitor.Wpf.MVVM.Commands;
 
 /// <summary>
-/// Relay <see cref="CommandBase"/>'s implementation.
+/// Relay <see cref="Windows.Input.ICommand"/>'s implementation.
 /// </summary>
 /// <remarks>
 /// <inheritdoc/>
@@ -28,10 +28,10 @@ public sealed class RelayCommand : CommandBase
     }
 
     /// <inheritdoc/>
-    public override bool CanExecute(object? parameter) => _canExecute(parameter);
+    protected override bool CanExecute(object? parameter) => _canExecute(parameter);
 
     /// <inheritdoc/>
-    public override void Execute(object? parameter) => _execute(parameter);
+    protected override void Execute(object? parameter) => _execute(parameter);
 
     private static bool AlwaysCan(object? _) => true;
 }
