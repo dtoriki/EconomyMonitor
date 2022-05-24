@@ -41,6 +41,28 @@ public static class ThrowHelper
     }
 
     /// <summary>
+    /// Throws <see cref="ObjectDisposedException"/>.
+    /// </summary>
+    /// <typeparam name="T">Type of disposed object.</typeparam>
+    /// <param name="value">Disposed object.</param>
+    /// <param name="argumentName">Name of disposed object.</param>
+    /// <exception cref="ObjectDisposedException"/>
+    [DoesNotReturn]
+    [SuppressMessage("Style", "IDE0060:Удалите неиспользуемый параметр", Justification = "<Ожидание>")]
+    public static bool ThrowDisposed<T>(
+        [NotNullWhen(false)] T? value,
+        [CallerArgumentExpression(VALUE_ARGUMENT_NAME)] string? argumentName = null)
+    {
+        Throw<ObjectDisposedException>(string.Format(
+                OBJECT_DISPOSED,
+                argumentName,
+                typeof(T)
+            ));
+
+        return false;
+    }
+
+    /// <summary>
     /// Throws <see cref="ArgumentNullException"/> when <paramref name="value"/> is <see langword="null"/>.
     /// </summary>
     /// <typeparam name="T"><paramref name="value"/>'s type.</typeparam>
