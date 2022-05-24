@@ -4,7 +4,6 @@ using EconomyMonitor.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using static EconomyMonitor.Helpers.ThrowHelper;
-using static EconomyMonitor.Literals.ExceptionMessages;
 
 namespace EconomyMonitor.Data.Abstracts.Base.Repositories;
 
@@ -47,7 +46,7 @@ public abstract class EfRepository : DbContext, IRepository
     {
         if (_isDisposed)
         {
-            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+            ThrowDisposed(this);
         }
 
         _ = ThrowIfArgumentNull(entity);
@@ -70,7 +69,7 @@ public abstract class EfRepository : DbContext, IRepository
     {
         if (_isDisposed)
         {
-            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+            ThrowDisposed(this);
         }
 
         _ = ThrowIfArgumentNull(entities);
@@ -163,7 +162,7 @@ public abstract class EfRepository : DbContext, IRepository
     {
         if (_isDisposed)
         {
-            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+            ThrowDisposed(this);
         }
 
         if (predicate is null)
@@ -184,7 +183,7 @@ public abstract class EfRepository : DbContext, IRepository
     {
         if (_isDisposed)
         {
-            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+            ThrowDisposed(this);
         }
 
         _ = ThrowIfArgumentNull(entity);
@@ -204,7 +203,7 @@ public abstract class EfRepository : DbContext, IRepository
     {
         if (_isDisposed)
         {
-            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+            ThrowDisposed(this);
         }
 
         _ = ThrowIfArgumentNull(entities);
@@ -227,7 +226,7 @@ public abstract class EfRepository : DbContext, IRepository
     {
         if (_isDisposed)
         {
-            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+            ThrowDisposed(this);
         }
 
         TEntity? entity = await Set<TEntity>()
@@ -249,7 +248,7 @@ public abstract class EfRepository : DbContext, IRepository
     {
         if (_isDisposed)
         {
-            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+            ThrowDisposed(this);
         }
 
         _ = ThrowIfArgumentNull(ids);
@@ -351,7 +350,7 @@ public abstract class EfRepository : DbContext, IRepository
     {
         if (_isDisposed)
         {
-            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+            ThrowDisposed(this);
         }
 
         _ = ThrowIfArgumentNull(entities);
@@ -367,7 +366,7 @@ public abstract class EfRepository : DbContext, IRepository
     {
         if (_isDisposed)
         {
-            Throw<ObjectDisposedException>(OBJECT_DISPOSED);
+            ThrowDisposed(this);
         }
 
         _ = ThrowIfArgumentNull(entity);
