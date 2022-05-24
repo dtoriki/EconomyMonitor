@@ -39,7 +39,6 @@
     <ProjectReference Include="..\EconomyMonitor.Abstacts\EconomyMonitor.Abstacts.csproj" />
     <ProjectReference Include="..\EconomyMonitor.Data\EconomyMonitor.Data.csproj" />
     <ProjectReference Include="..\EconomyMonitor.DI\EconomyMonitor.DI.csproj" />
-    <ProjectReference Include="..\EconomyMonitor.Helpers\EconomyMonitor.Helpers.csproj" />
     <ProjectReference Include="..\EconomyMonitor.Migrations\EconomyMonitor.Migrations.csproj" />
     <ProjectReference Include="..\EconomyMonitor.Wpf.MVVM\EconomyMonitor.Wpf.MVVM.csproj" />
   </ItemGroup>
