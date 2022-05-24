@@ -21,7 +21,10 @@ public partial class App : Application
     /// Creates application.
     /// </summary>
     /// <param name="host">Application host.</param>
-    public App() { }
+    public App() 
+    { 
+
+    }
 
     /// <inheritdoc/>
     protected override async void OnStartup(StartupEventArgs e)
@@ -57,6 +60,7 @@ public partial class App : Application
         services
             .ConfigureSqliteEconomyMonitorRepository()
             .ConfigureEntityWithDtoMappers()
-            .ConfigureUnitsOfWorkScoped();
-    }
+            .ConfigureUnitsOfWorkScoped()
+            .ConfigureViewModels();
+    }    
 }

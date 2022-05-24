@@ -29,7 +29,7 @@ public class ViewModelLocator
     /// Gets <see cref="AddPeriodViewModel"/>.
     /// </summary>
     [SuppressMessage("Performance", "CA1822:Пометьте члены как статические", Justification = "<Ожидание>")]
-    public AddPeriodViewModel AddPeriodViewModel => GetServiceOrThrow<AddPeriodViewModel>();
+    public AddPeriodDialogViewModel AddPeriodViewModel => GetServiceOrThrow<AddPeriodDialogViewModel>();
 
     /// <summary>
     /// Creates view model locator.

@@ -9,19 +9,13 @@
                             d:DesignHeight="450" 
                             d:DesignWidth="800"
                             Style="{StaticResource MaterialDesignEmbeddedDialogHost}"
-                            DialogMargin="8">
-    
-    <materialDesign:DialogHost.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/ViewModels/AddPeriodViewModel.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </materialDesign:DialogHost.Resources>
+                            DataContext="{Binding AddPeriodViewModel, Source={StaticResource ViewModels}}"
+                            DialogMargin="8"
+                            IsOpen="{Binding IsOpen}">
     
     <materialDesign:DialogHost.DialogContent>
         <materialDesign:ColorZone Mode="PrimaryDark">
-            <periods:CreatePeriodBox DataContext="{DynamicResource AddPeriodViewModel}"/>
+            <periods:CreatePeriodBox DataContext="{Binding}"/>
         </materialDesign:ColorZone>
     </materialDesign:DialogHost.DialogContent>
     
