@@ -11,9 +11,9 @@ namespace EconomyMonitor.Wpf.MVVM.ViewModels.Periods;
 /// Presents add period view model.
 /// </summary>
 /// <remarks>
-/// Inherits <see cref="ViewModelBase"/>.
+/// Inherits <see cref="NotifyPropertyChangedBase"/>.
 /// </remarks>
-public sealed class AddPeriodDialogViewModel : ViewModelBase, IPeriod, IDisposable, IAsyncDisposable
+public sealed class AddPeriodDialogViewModel : NotifyPropertyChangedBase, IPeriod, IDisposable, IAsyncDisposable
 {
     private readonly IPeriodsUnitOfWork _periodsUnitOfWork;
 

@@ -5,7 +5,7 @@ namespace EconomyMonitor.Wpf.MVVM.ViewModels.Application;
 /// <summary>
 /// Present the application view model.
 /// </summary>
-public sealed class ApplicationViewModel : ViewModelBase
+public sealed class ApplicationViewModel : NotifyPropertyChangedBase
 {
     private HeaderMenuViewModel? _header;
 

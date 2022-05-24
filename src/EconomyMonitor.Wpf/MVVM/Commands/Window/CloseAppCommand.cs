@@ -9,10 +9,10 @@ namespace EconomyMonitor.Wpf.MVVM.Commands.Window;
 public sealed class CloseAppCommand : CommandBase
 {
     /// <inheritdoc/>
-    public override bool CanExecute(object? parameter) => true;
+    protected override bool CanExecute(object? parameter) => true;
 
     /// <inheritdoc/>
-    public override void Execute(object? parameter) => Application.Current.Shutdown();
+    protected override void Execute(object? parameter) => Application.Current.Shutdown();
 
     /// <summary>
     /// Creates close app <see cref="ICommand"/> exemplar.

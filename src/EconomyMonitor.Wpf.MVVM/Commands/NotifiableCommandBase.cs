@@ -3,13 +3,14 @@ using System.Windows.Input;
 namespace EconomyMonitor.Wpf.MVVM.Commands;
 
 /// <summary>
-/// Base <see cref="ICommand"/> implementation.
+/// Base notifiable <see cref="ICommand"/> implementation.
 /// </summary>
 /// <remarks>
+/// Inherits <see cref="NotifyPropertyChangedBase"/>.
 /// Implements <see cref="ICommand"/>.
 /// Delegates <see cref="CanExecuteChanged"/> event suscribing/unsubscribing to <see cref="CommandManager.RequerySuggested"/>.
 /// </remarks>
-public abstract class CommandBase : ICommand
+public abstract class NotifiableCommandBase : NotifyPropertyChangedBase, ICommand
 {
     /// <inheritdoc/>
     public event EventHandler? CanExecuteChanged
@@ -21,7 +22,7 @@ public abstract class CommandBase : ICommand
     /// <summary>
     /// Creates command exemplar.
     /// </summary>
-    protected CommandBase() { }
+    protected NotifiableCommandBase() { }
 
     /// <inheritdoc/>
     bool ICommand.CanExecute(object? parameter) => CanExecute(parameter);
