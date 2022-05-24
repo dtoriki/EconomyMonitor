@@ -3,6 +3,7 @@ using EconomyMonitor.Abstacts;
 using EconomyMonitor.Domain;
 using EconomyMonitor.Services.UnitOfWork;
 using EconomyMonitor.Wpf.MVVM.Abstracts;
+using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels.Periods;
 
@@ -12,7 +13,7 @@ namespace EconomyMonitor.Wpf.MVVM.ViewModels.Periods;
 /// <remarks>
 /// Inherits <see cref="ViewModelBase"/>.
 /// </remarks>
-public sealed class AddPeriodDialogViewModel : ViewModelBase, IPeriod
+public sealed class AddPeriodDialogViewModel : ViewModelBase, IPeriod, IDisposable, IAsyncDisposable
 {
     private readonly IPeriodsUnitOfWork _periodsUnitOfWork;
 
@@ -20,6 +21,7 @@ public sealed class AddPeriodDialogViewModel : ViewModelBase, IPeriod
     private DateOnly? _endPeriod;
     private decimal? _income;
     private bool _isOpen;
+    private bool _disposed;
 
     /// <summary>
     /// Gets or sets opened state of dialog.
@@ -64,6 +66,11 @@ public sealed class AddPeriodDialogViewModel : ViewModelBase, IPeriod
 
     private bool CanCreatePeriod(object? parameter)
     {
+        if (_disposed)
+        {
+            ThrowDisposed(this);
+        }
+
         if (_endPeriod < _startPeriod)
         {
             return false;
@@ -79,6 +86,11 @@ public sealed class AddPeriodDialogViewModel : ViewModelBase, IPeriod
 
     private async void ExecuteCreatePeriod(object? parameter)
     {
+        if (_disposed)
+        {
+            ThrowDisposed(this);
+        }
+
         await _periodsUnitOfWork.CreatePeriodAsync(new Period
         {
             EndPeriod = EndPeriod,
@@ -87,5 +99,37 @@ public sealed class AddPeriodDialogViewModel : ViewModelBase, IPeriod
         });
 
         IsOpen = false;
+    }
+
+    /// <inheritdoc/>
+    public void Dispose()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        if (_periodsUnitOfWork is IDisposable disposable)
+        {
+            disposable.Dispose();
+            _disposed = true;
+            GC.SuppressFinalize(this);
+        }
+    }
+
+    /// <inheritdoc/>
+    public async ValueTask DisposeAsync()
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        if (_periodsUnitOfWork is IAsyncDisposable disposable)
+        {
+            await disposable.DisposeAsync();
+            _disposed = true;
+            GC.SuppressFinalize(this);
+        }
     }
 }
