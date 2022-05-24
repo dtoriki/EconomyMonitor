@@ -1,3 +1,4 @@
+using EconomyMonitor.Wpf.MVVM;
 using EconomyMonitor.Wpf.MVVM.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -18,13 +19,13 @@ public static class ConfigureViewModelsExtensions
         Type[] viewModelTypes = typeof(ViewModelLocator)
             .GetProperties()
             .Where(x => x.PropertyType.BaseType is not null)
-            .Where(x => x.PropertyType.BaseType!.Equals(typeof(ViewModelBase)))
+            .Where(x => x.PropertyType.BaseType!.Equals(typeof(NotifyPropertyChangedBase)))
             .Select(x => x.PropertyType)
             .ToArray();
 
         foreach (Type viewModelType in viewModelTypes)
         {
-            services.AddSingleton(viewModelType);
+            services.AddScoped(viewModelType);
         }
 
         return services;

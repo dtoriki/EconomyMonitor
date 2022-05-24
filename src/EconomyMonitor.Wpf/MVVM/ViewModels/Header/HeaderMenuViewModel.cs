@@ -11,8 +11,8 @@ namespace EconomyMonitor.Wpf.MVVM.ViewModels.Header;
 /// <summary>
 /// Presents header's menu view model.
 /// </summary>
-/// <remarks>Inherits <see cref="ViewModelBase"/>.</remarks>
-public sealed class HeaderMenuViewModel : ViewModelBase
+/// <remarks>Inherits <see cref="NotifyPropertyChangedBase"/>.</remarks>
+public sealed class HeaderMenuViewModel : NotifyPropertyChangedBase
 {
     private HeaderMenuItem? _selectedItem;
 
