@@ -39,7 +39,7 @@
                         Width="140"/>
         </StackPanel>
         <TextBox Style="{StaticResource MaterialDesignFloatingHintTextBox}" 
-                 Text="{Binding Income}"
+                 Text="{Binding Income, UpdateSourceTrigger=PropertyChanged}"
                  materialDesign:HintAssist.Hint="Прибыль">
         </TextBox>
         <StackPanel Orientation="Horizontal" 
