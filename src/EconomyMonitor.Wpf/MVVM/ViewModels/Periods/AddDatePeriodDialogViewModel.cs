@@ -13,9 +13,9 @@ namespace EconomyMonitor.Wpf.MVVM.ViewModels.Periods;
 /// <remarks>
 /// Inherits <see cref="NotifyPropertyChangedBase"/>.
 /// </remarks>
-public sealed class AddPeriodDialogViewModel : NotifyPropertyChangedBase, IPeriod, IDisposable, IAsyncDisposable
+public sealed class AddDatePeriodDialogViewModel : NotifyPropertyChangedBase, IDatePeriod, IDisposable, IAsyncDisposable
 {
-    private readonly IPeriodsUnitOfWork _periodsUnitOfWork;
+    private readonly IDatePeriodsUnitOfWork _periodsUnitOfWork;
 
     private DateOnly? _startPeriod;
     private DateOnly? _endPeriod;
@@ -33,14 +33,14 @@ public sealed class AddPeriodDialogViewModel : NotifyPropertyChangedBase, IPerio
     }
 
     /// <inheritdoc/>
-    public DateOnly StartPeriod
+    public DateOnly StartingDate
     {
         get => _startPeriod ??= DateOnly.FromDateTime(DateTime.Now);
         set => _ = SetPropertyNotifiable(ref _startPeriod, value);
     }
 
     /// <inheritdoc/>
-    public DateOnly EndPeriod
+    public DateOnly EndingDate
     {
         get => _endPeriod ??= DateOnly.FromDateTime(DateTime.Now);
         set => _ = SetPropertyNotifiable(ref _endPeriod, value);
@@ -56,15 +56,15 @@ public sealed class AddPeriodDialogViewModel : NotifyPropertyChangedBase, IPerio
     /// <summary>
     /// Gets create period command.
     /// </summary>
-    public IAsyncCommand CreatePeriodCommand { get; }
+    public IAsyncCommand CreateDatePeriodCommand { get; }
 
-    public AddPeriodDialogViewModel(IPeriodsUnitOfWork periodsUnitOfWork)
+    public AddDatePeriodDialogViewModel(IDatePeriodsUnitOfWork periodsUnitOfWork)
     {
         _periodsUnitOfWork = periodsUnitOfWork;
-        CreatePeriodCommand = new RelayAsyncCommand(ExecuteCreatePeriod, CanCreatePeriod);
+        CreateDatePeriodCommand = new RelayAsyncCommand(ExecuteCreateDatePeriod, CanCreateDatePeriod);
     }
 
-    private bool CanCreatePeriod(object? parameter)
+    private bool CanCreateDatePeriod(object? parameter)
     {
         if (_disposed)
         {
@@ -84,17 +84,17 @@ public sealed class AddPeriodDialogViewModel : NotifyPropertyChangedBase, IPerio
         return true;
     }
 
-    private async Task ExecuteCreatePeriod(object? parameter, CancellationToken cancellationToken)
+    private async Task ExecuteCreateDatePeriod(object? parameter, CancellationToken cancellationToken)
     {
         if (_disposed)
         {
             ThrowDisposed(this);
         }
 
-        await _periodsUnitOfWork.CreatePeriodAsync(new Period
+        await _periodsUnitOfWork.CreatePeriodAsync(new DatePeriod
         {
-            EndPeriod = EndPeriod,
-            StartPeriod = StartPeriod,
+            EndingDate = EndingDate,
+            StartingDate = StartingDate,
             Income = Income
         }, cancellationToken);
 

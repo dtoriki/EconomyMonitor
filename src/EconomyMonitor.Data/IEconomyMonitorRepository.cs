@@ -8,8 +8,8 @@ namespace EconomyMonitor.Data;
 /// <summary>
 /// Defines Economy monitor repository.
 /// </summary>
-/// <remarks>Inherits <see cref="IRepository"/>, <see cref="IPeriodSet"/>.</remarks>
-public interface IEconomyMonitorRepository : IPeriodSet, IRepository
+/// <remarks>Inherits <see cref="IRepository"/>, <see cref="IDatePeriodSet"/>.</remarks>
+public interface IEconomyMonitorRepository : IDatePeriodSet, IRepository
 {
     /// <summary>
     /// Creates <see cref="IEconomyMonitorRepository"/> implementation.

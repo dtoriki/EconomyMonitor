@@ -5,7 +5,7 @@ namespace EconomyMonitor.Domain;
 /// <summary>
 /// Present period data.
 /// </summary>
-public sealed class Period : IPeriod, IUniqueRequired
+public sealed class DatePeriod : IDatePeriod, IUniqueRequired
 {
     /// <summary>
     /// Gets or sets unique identifier.
@@ -13,10 +13,10 @@ public sealed class Period : IPeriod, IUniqueRequired
     public Guid Id { get; set; }
 
     /// <inheritdoc/>
-    public DateOnly StartPeriod { get; set; }
+    public DateOnly StartingDate { get; set; }
 
     /// <inheritdoc/>
-    public DateOnly EndPeriod { get; set; }
+    public DateOnly EndingDate { get; set; }
 
     /// <inheritdoc/>
     public decimal Income { get; set; }

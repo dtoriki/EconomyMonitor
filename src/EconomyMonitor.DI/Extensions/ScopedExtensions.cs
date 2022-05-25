@@ -40,7 +40,7 @@ public static class ScopedExtensions
     /// <remarks>
     /// Configures:
     /// <list type="bullet">
-    /// <item><see cref="IPeriodsUnitOfWork"/>.</item>
+    /// <item><see cref="IDatePeriodsUnitOfWork"/>.</item>
     /// </list>
     /// </remarks>
     public static IServiceCollection ConfigureUnitsOfWorkScoped(this IServiceCollection services)
@@ -50,7 +50,7 @@ public static class ScopedExtensions
             IEconomyMonitorRepository repository = provider.GetRequiredService<IEconomyMonitorRepository>();
             IEntityWithDtoMapper mapper = provider.GetRequiredService<IEntityWithDtoMapper>();
 
-            return IPeriodsUnitOfWork.Create(repository, mapper);
+            return IDatePeriodsUnitOfWork.Create(repository, mapper);
         });
 
         return services;

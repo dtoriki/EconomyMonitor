@@ -11,7 +11,7 @@
           Header="{DynamicResource CREATE_PERIOD_HEADER}"
           Style="{StaticResource MaterialDesignCardGroupBox}"
           HeaderTemplate="{DynamicResource LeftIconWithTextDataTemplate}"
-          d:DataContext="{d:DesignInstance periods:AddPeriodDialogViewModel}">
+          d:DataContext="{d:DesignInstance periods:AddDatePeriodDialogViewModel}">
 
     <GroupBox.Resources>
         <ResourceDictionary>
@@ -29,12 +29,12 @@
         <StackPanel Style="{DynamicResource HorizontalOrientedCenterAlignmentStackPanel}"
                     Margin="10 30 10 10">
             <DatePicker Style="{StaticResource MaterialDesignOutlinedDatePicker}"
-                        SelectedDate="{Binding StartPeriod, Converter={StaticResource DateTimeToDateOnlyConverter}}"
+                        SelectedDate="{Binding StartingDate, Converter={StaticResource DateTimeToDateOnlyConverter}}"
                         materialDesign:HintAssist.Hint="Дата начала"
                         Width="140"
                         Margin="0 0 10 0"/>
             <DatePicker Style="{StaticResource MaterialDesignOutlinedDatePicker}"
-                        SelectedDate="{Binding EndPeriod, Converter={StaticResource DateTimeToDateOnlyConverter}}"
+                        SelectedDate="{Binding EndingDate, Converter={StaticResource DateTimeToDateOnlyConverter}}"
                         materialDesign:HintAssist.Hint="Дата окончания"
                         Width="140"/>
         </StackPanel>
@@ -53,7 +53,7 @@
                 </Button.CommandParameter>
             </Button>
             <Button Style="{StaticResource DialogAcceptButton}"
-                    Command="{Binding CreatePeriodCommand, IsAsync=True}">
+                    Command="{Binding CreateDatePeriodCommand, IsAsync=True}">
                 <Button.CommandParameter>
                     <system:Boolean xmlns:system="clr-namespace:System;assembly=mscorlib">
                         True
