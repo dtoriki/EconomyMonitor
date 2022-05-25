@@ -56,12 +56,12 @@ public sealed class AddPeriodDialogViewModel : NotifyPropertyChangedBase, IPerio
     /// <summary>
     /// Gets create period command.
     /// </summary>
-    public ICommand CreatePeriodCommand { get; }
+    public IAsyncCommand CreatePeriodCommand { get; }
 
     public AddPeriodDialogViewModel(IPeriodsUnitOfWork periodsUnitOfWork)
     {
         _periodsUnitOfWork = periodsUnitOfWork;
-        CreatePeriodCommand = new RelayCommand(ExecuteCreatePeriod, CanCreatePeriod);
+        CreatePeriodCommand = new RelayAsyncCommand(ExecuteCreatePeriod, CanCreatePeriod);
     }
 
     private bool CanCreatePeriod(object? parameter)
@@ -84,7 +84,7 @@ public sealed class AddPeriodDialogViewModel : NotifyPropertyChangedBase, IPerio
         return true;
     }
 
-    private async void ExecuteCreatePeriod(object? parameter)
+    private async Task ExecuteCreatePeriod(object? parameter, CancellationToken cancellationToken)
     {
         if (_disposed)
         {
@@ -96,7 +96,7 @@ public sealed class AddPeriodDialogViewModel : NotifyPropertyChangedBase, IPerio
             EndPeriod = EndPeriod,
             StartPeriod = StartPeriod,
             Income = Income
-        });
+        }, cancellationToken);
 
         IsOpen = false;
     }
