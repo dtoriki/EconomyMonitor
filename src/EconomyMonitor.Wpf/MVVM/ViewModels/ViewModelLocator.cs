@@ -26,10 +26,10 @@ public class ViewModelLocator
     public HeaderMenuViewModel HeaderMenuViewModel => GetServiceOrThrow<HeaderMenuViewModel>();
 
     /// <summary>
-    /// Gets <see cref="AddPeriodViewModel"/>.
+    /// Gets <see cref="AddDatePeriodViewModel"/>.
     /// </summary>
     [SuppressMessage("Performance", "CA1822:Пометьте члены как статические", Justification = "<Ожидание>")]
-    public AddPeriodDialogViewModel AddPeriodViewModel => GetServiceOrThrow<AddPeriodDialogViewModel>();
+    public AddDatePeriodDialogViewModel AddDatePeriodViewModel => GetServiceOrThrow<AddDatePeriodDialogViewModel>();
 
     /// <summary>
     /// Creates view model locator.

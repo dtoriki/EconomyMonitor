@@ -7,15 +7,15 @@ namespace EconomyMonitor.Data.Entities;
 /// </summary>
 /// <remarks>
 /// Inherits <see cref="EntityBase"/>.
-/// Implements <see cref="IPeriodEntity"/>.
+/// Implements <see cref="IDatePeriodEntity"/>.
 /// </remarks>
-public sealed class PeriodEntity : EntityBase, IPeriodEntity
+public sealed class DatePeriodEntity : EntityBase, IDatePeriodEntity
 {
     /// <inheritdoc/>
-    public DateOnly StartPeriod { get; set; }
+    public DateOnly StartingDate { get; set; }
 
     /// <inheritdoc/>
-    public DateOnly EndPeriod { get; set; }
+    public DateOnly EndingDate { get; set; }
 
     /// <inheritdoc/>
     public decimal Income { get; set; }

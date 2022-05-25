@@ -12,15 +12,15 @@ namespace EconomyMonitor.Services.UnitOfWork;
 /// Unit of work for periods.
 /// </summary>
 /// <typeparam name="TRepository">
-/// Type of <see cref="IRepository"/>. Also have to inherit <seealso cref="IPeriodSet"/>.
+/// Type of <see cref="IRepository"/>. Also have to inherit <seealso cref="IDatePeriodSet"/>.
 /// </typeparam>
 /// <remarks>
-/// Implements: <see cref="IPeriodsUnitOfWork"/>, <see cref="IDisposable"/>, <see cref="IAsyncDisposable"/>.
+/// Implements: <see cref="IDatePeriodsUnitOfWork"/>, <see cref="IDisposable"/>, <see cref="IAsyncDisposable"/>.
 /// </remarks>
 /// <exception cref="ArgumentNullException"/>
 /// <exception cref="ObjectDisposedException"/>
-internal sealed class PeriodsUnitOfWork<TRepository> : IPeriodsUnitOfWork, IDisposable, IAsyncDisposable
-    where TRepository : class, IRepository, IPeriodSet
+internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWork, IDisposable, IAsyncDisposable
+    where TRepository : class, IRepository, IDatePeriodSet
 {
     private readonly TRepository _periodRepository;
     private readonly IEntityWithDtoMapper _mapper;
@@ -31,11 +31,11 @@ internal sealed class PeriodsUnitOfWork<TRepository> : IPeriodsUnitOfWork, IDisp
     /// Creates unit of work for periods.
     /// </summary>
     /// <param name="periodRepository">
-    /// <see cref="IRepository"/> instance. It have to impement <see cref="IPeriodSet"/>.
+    /// <see cref="IRepository"/> instance. It have to impement <see cref="IDatePeriodSet"/>.
     /// </param>
     /// <param name="mapper">Mapper.</param>
     /// <exception cref="ArgumentNullException"/>
-    public PeriodsUnitOfWork(TRepository periodRepository, IEntityWithDtoMapper mapper)
+    public DatePeriodsUnitOfWork(TRepository periodRepository, IEntityWithDtoMapper mapper)
     {
         _ = ThrowIfArgumentNull(periodRepository);
         _ = ThrowIfArgumentNull(mapper);
@@ -47,8 +47,8 @@ internal sealed class PeriodsUnitOfWork<TRepository> : IPeriodsUnitOfWork, IDisp
 
     /// <inheritdoc/>
     /// <exception cref="ObjectDisposedException"/>
-    public async Task<IPeriod> CreatePeriodAsync<TPeriod>(TPeriod period, CancellationToken cancellationToken = default)
-        where TPeriod : class, IPeriod
+    public async Task<IDatePeriod> CreatePeriodAsync<TPeriod>(TPeriod period, CancellationToken cancellationToken = default)
+        where TPeriod : class, IDatePeriod
     {
         if (_isDisposed)
         {
@@ -57,12 +57,12 @@ internal sealed class PeriodsUnitOfWork<TRepository> : IPeriodsUnitOfWork, IDisp
 
         _ = ThrowIfArgumentNull(period);
 
-        PeriodEntity periodEntity = _mapper.Map<PeriodEntity>(period);
+        DatePeriodEntity periodEntity = _mapper.Map<DatePeriodEntity>(period);
 
         _ = await _periodRepository.CreateAsync(periodEntity, cancellationToken)
             .ConfigureAwait(false);
 
-        Period result = _mapper.Map<Period>(periodEntity);
+        DatePeriod result = _mapper.Map<DatePeriod>(periodEntity);
 
         return result;
     }

@@ -9,7 +9,7 @@
                             d:DesignHeight="450" 
                             d:DesignWidth="800"
                             Style="{StaticResource MaterialDesignEmbeddedDialogHost}"
-                            DataContext="{Binding AddPeriodViewModel, Source={StaticResource ViewModels}}"
+                            DataContext="{Binding AddDatePeriodViewModel, Source={StaticResource ViewModels}}"
                             DialogMargin="8"
                             IsOpen="{Binding IsOpen}">
     

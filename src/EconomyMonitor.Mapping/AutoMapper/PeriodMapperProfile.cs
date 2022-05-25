@@ -15,12 +15,12 @@ public sealed class EntityWithDtoProfile : Profile
     /// </summary>
     public EntityWithDtoProfile()
     {
-        SetPeriodMap();
+        SetDatePeriodMap();
     }
 
-    private void SetPeriodMap()
+    private void SetDatePeriodMap()
     {
-        CreateMap<PeriodEntity, Period>();
-        CreateMap<IPeriod, PeriodEntity>();
+        CreateMap<DatePeriodEntity, DatePeriod>();
+        CreateMap<IDatePeriod, DatePeriodEntity>();
     }
 }

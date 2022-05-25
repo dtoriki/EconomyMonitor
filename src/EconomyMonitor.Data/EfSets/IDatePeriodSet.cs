@@ -5,13 +5,13 @@ using Microsoft.EntityFrameworkCore;
 namespace EconomyMonitor.Data.EfSets;
 
 /// <summary>
-/// Defines the set of <see cref="PeriodEntity"/> as <see cref="DbSet{TEntity}"/>.
+/// Defines the set of <see cref="DatePeriodEntity"/> as <see cref="DbSet{TEntity}"/>.
 /// </summary>
 /// <remarks>Inherits <see cref="IRepositorySet{TEntity}"/>.</remarks>
-public interface IPeriodSet : IRepositorySet<IPeriodEntity>
+public interface IDatePeriodSet : IRepositorySet<IDatePeriodEntity>
 {
     /// <summary>
-    /// Gets the <see cref="PeriodEntity"/> set.
+    /// Gets the <see cref="DatePeriodEntity"/> set.
     /// </summary>
-    public DbSet<PeriodEntity> Periods { get; }
+    public DbSet<DatePeriodEntity> DatePeriods { get; }
 }
