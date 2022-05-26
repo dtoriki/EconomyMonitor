@@ -3,18 +3,18 @@ using EconomyMonitor.Abstacts;
 namespace EconomyMonitor.Data.Abstracts.Interfaces;
 
 /// <summary>
-/// Defines entity properties.
+/// Представляет тип сущности, хранимой в хранилище данных.
 /// </summary>
-/// <remarks>Inherits <see cref="IUniqueRequired"/>.</remarks>
+/// <remarks>Наследует <see cref="IUniqueRequired"/>.</remarks>
 public interface IEntity : IUniqueRequired
 {
     /// <summary>
-    /// Gets creation date.
+    /// Возвращает дату создания сущности.
     /// </summary>
     DateTime DateCreated { get; }
 
     /// <summary>
-    /// Gets modification date.
+    /// Возвращает дату модификации сущности.
     /// </summary>
     DateTime DateModified { get; }
 }

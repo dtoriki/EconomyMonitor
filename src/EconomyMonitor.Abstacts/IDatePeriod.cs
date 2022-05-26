@@ -1,22 +1,22 @@
 namespace EconomyMonitor.Abstacts;
 
 /// <summary>
-/// Defines a period properties.
+/// Представляет тип периода дат.
 /// </summary>
 public interface IDatePeriod
 {
     /// <summary>
-    /// Gets or sets period starting date.
+    /// Возвращает дату начала периода.
     /// </summary>
     DateOnly StartingDate { get; set; }
 
     /// <summary>
-    /// Gets or sets period ending date.
+    /// Возвращает дату окончания периода.
     /// </summary>
     DateOnly EndingDate { get; set; }
 
     /// <summary>
-    /// Gets or sets income value for period.
+    /// Возвращает или задаёт доход за период.
     /// </summary>
     decimal Income { get; set; }
 }

@@ -4,29 +4,55 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 namespace EconomyMonitor.Wpf.MVVM.Commands;
 
 /// <summary>
-/// Base <see cref="IAsyncCommand"/> implementation.
+/// Базовая реализация асинхронной команды <see cref="IAsyncCommand"/>.
 /// </summary>
 /// <remarks>
-/// Inherits <see cref="NotifiableCommandBase"/>.
-/// Implements 
+/// <para>
+/// Наследует <see cref="NotifiableCommandBase"/>.
+/// </para>
+/// <para>
+/// Реализует 
 /// <see cref="IAsyncCommand"/>,
 /// <see cref="IDisposable"/>,
 /// <see cref="IAsyncDisposable"/>.
-/// Delegates <see cref="CanExecuteChanged"/> event suscribing/unsubscribing to <see cref="CommandManager.RequerySuggested"/>.
+/// </para>
+/// <para>
+/// Событием <see cref="CanExecuteChanged"/> подписывается/отписывается на/от событие(я) <see cref="CommandManager.RequerySuggested"/>.
+/// </para>
 /// </remarks>
+/// <exception cref="ObjectDisposedException"/>
 public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, IDisposable, IAsyncDisposable
 {
     private readonly CancelCommand _cancelCommand;
-    private INotifyTaskCompletion? _execution;
+    private ITaskCompletion? _execution;
     private Task? _executionTask;
-    private bool _disposed;
+    private bool _isDisposed;
+
+    /// <summary>
+    /// Возвращает или задаёт статус того, является ли объект высвобожденным.
+    /// </summary>
+    /// <value>
+    /// <see langword="true"/>, если текущий экземпляр высвобожден, иначе - <see langword="false"/>.
+    /// </value>
+    /// <remarks>
+    /// Если объект был высвобожден, то всегда имеет значение <see langword="true"/>, 
+    /// даже если попытаться задать <see langword="false"/>.
+    /// </remarks>
+    protected bool IsDisposed 
+    { 
+        get => _isDisposed; 
+        set => _isDisposed |= value; 
+    }
 
     /// <inheritdoc/>
-    public INotifyTaskCompletion? Execution
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
+    public ITaskCompletion? Execution
     {
         get
         {
-            if (_disposed)
+            if (IsDisposed)
             {
                 ThrowDisposed(this);
             }
@@ -36,7 +62,7 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
 
         protected set
         {
-            if (_disposed)
+            if (IsDisposed)
             {
                 ThrowDisposed(this);
             }
@@ -46,11 +72,14 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
     }
 
     /// <inheritdoc/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
     public ICancelCommand CancelCommand
     {
         get
         {
-            if (_disposed)
+            if (IsDisposed)
             {
                 ThrowDisposed(this);
             }
@@ -60,19 +89,23 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
     }
 
     /// <summary>
-    /// Creates aync command.
+    /// Создаёт экземпляр асинхронной команды.
     /// </summary>
-    /// <param name="execute"></param>
-    protected AsyncCommandBase() => _cancelCommand = new CancelCommand();
+    protected AsyncCommandBase() : base() => _cancelCommand = new CancelCommand();
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Высвобождает текущий экземпляр.
+    /// </summary>
     public void Dispose()
     {
+        // ToDo: нужен protected метод типа Flush, чтобы очищать подписчиков.
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Асинхронно высвобождает текущий экземпляр.
+    /// </summary>
     public async ValueTask DisposeAsync()
     {
         await DisposeAsync(disposing: true).ConfigureAwait(false);
@@ -80,9 +113,12 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
     }
 
     /// <inheritdoc/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
     Task IAsyncCommand.ExecuteAsync(object? parameter)
     {
-        if (_disposed)
+        if (IsDisposed)
         {
             ThrowDisposed(this);
         }
@@ -90,8 +126,17 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
         return ExecuteAsync(parameter);
     }
 
+    /// <inheritdoc/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
     protected override void Execute(object? parameter)
     {
+        if (IsDisposed)
+        {
+            ThrowDisposed(this);
+        }
+
         _executionTask?.Dispose();
         _executionTask = ExecuteAsync(parameter);
     }
@@ -99,10 +144,13 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
     /// <inheritdoc cref="IAsyncCommand.ExecuteAsync(object?)"/>
     protected abstract Task ExecuteAsync(object? parameter);
 
-    /// <inheritdoc cref="IAsyncDisposable.DisposeAsync"/>
+    /// <inheritdoc cref="DisposeAsync"/>
+    /// <param name="disposing">
+    /// Указывает, нужно ли высвобождать управляемые ресурсы.
+    /// </param>
     protected virtual async ValueTask DisposeAsync(bool disposing)
     {
-        if (!_disposed)
+        if (!IsDisposed)
         {
             return;
         }
@@ -122,13 +170,16 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
             Dispose(disposing);
         }
 
-        _disposed = true;
+        IsDisposed = true;
     }
 
-    /// <inheritdoc cref="IDisposable.Dispose"/>
+    /// <inheritdoc cref="Dispose"/>
+    /// <param name="disposing">
+    /// Указывает, нужно ли высвобождать управляемые ресурсы.
+    /// </param>
     protected virtual void Dispose(bool disposing)
     {
-        if (!_disposed)
+        if (!IsDisposed)
         {
             return;
         }
@@ -148,6 +199,6 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
             _executionTask?.Dispose();
         }
 
-        _disposed = true;
+        IsDisposed = true;
     }
 }

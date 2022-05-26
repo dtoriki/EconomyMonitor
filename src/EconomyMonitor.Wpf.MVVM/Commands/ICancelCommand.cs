@@ -3,23 +3,25 @@ using System.Windows.Input;
 namespace EconomyMonitor.Wpf.MVVM.Commands;
 
 /// <summary>
-/// Defines cancel command interface.
+/// Тип команды отмены операции.
 /// </summary>
-/// Inherits <see cref="ICommand"/>.
+/// <remarks>
+/// Наследует <see cref="ICommand"/>.
+/// </remarks>
 public interface ICancelCommand : ICommand
 {
     /// <summary>
-    /// Gets caneclation token.
+    /// Возвращает токен отмены операции.
     /// </summary>
     CancellationToken CancellationToken { get; }
 
     /// <summary>
-    /// Notifies command execution starting.
+    /// Уведомляет о начале выполнения команды.
     /// </summary>
     void NotifyCommandStarting();
 
     /// <summary>
-    /// Notifies command execution finishing.
+    /// Уведомляет об окончании выполнения команды.
     /// </summary>
     void NotifyCommandFinished();
 }

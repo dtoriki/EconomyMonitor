@@ -3,18 +3,22 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 namespace EconomyMonitor.Wpf.MVVM;
 
 /// <summary>
-/// Presents notification for <see cref="Task"/> completion.
+/// Уведомляет об изменении состояния выполнения задачи <see cref="Task"/>.
 /// </summary>
 /// <remarks>
-/// Inherits <see cref="NotifyPropertyChangedBase"/>.
-/// Implements 
-/// <see cref="INotifyTaskCompletion"/>,
+/// <para>
+/// Наследует <see cref="NotifyPropertyChangedBase"/>.
+/// </para>
+/// <para>
+/// Реализует 
+/// <see cref="ITaskCompletion"/>,
 /// <see cref="IDisposable"/>,
 /// <see cref="IAsyncDisposable"/>.
+/// </para>
 /// </remarks>
 /// <exception cref="ObjectDisposedException"/>
 /// <exception cref="ArgumentNullException"/>
-public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsyncDisposable, INotifyTaskCompletion
+public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsyncDisposable, ITaskCompletion
 {
     private Task? _taskCompletion;
 
@@ -25,9 +29,11 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
 
     /// <inheritdoc/>
     /// <remarks>
-    /// Decorates <see cref="Task.Status"/>.
+    /// Оборачивает <see cref="Task.Status"/>.
     /// </remarks>
-    /// <exception cref="ObjectDisposedException"/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
     public TaskStatus Status
     {
         get
@@ -43,9 +49,11 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
 
     /// <inheritdoc/>
     /// <remarks>
-    /// Decorates <see cref="Task.IsCompleted"/>.
+    /// Оборачивает <see cref="Task.IsCompleted"/>.
     /// </remarks>
-    /// <exception cref="ObjectDisposedException"/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
     public bool IsCompleted
     {
         get
@@ -60,11 +68,15 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
     }
 
     /// <inheritdoc/>
-    /// <exception cref="ObjectDisposedException"/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
     public bool IsNotCompleted => !IsCompleted;
 
     /// <inheritdoc/>
-    /// <exception cref="ObjectDisposedException"/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
     public bool IsSuccessfullyCompleted
     {
         get
@@ -80,9 +92,11 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
 
     /// <inheritdoc/>
     /// <remarks>
-    /// Decorates <see cref="Task.IsCanceled"/>.
+    /// Оборачивает <see cref="Task.IsCanceled"/>.
     /// </remarks>
-    /// <exception cref="ObjectDisposedException"/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
     public bool IsCanceled
     {
         get
@@ -98,9 +112,11 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
 
     /// <inheritdoc/>
     /// <remarks>
-    /// Decorates <see cref="Task.IsFaulted"/>.
+    /// Оборачивает <see cref="Task.IsFaulted"/>.
     /// </remarks>
-    /// <exception cref="ObjectDisposedException"/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
     public bool IsFaulted
     {
         get
@@ -115,7 +131,9 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
     }
 
     /// <inheritdoc/>
-    /// <exception cref="ObjectDisposedException"/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
     public Exception? Exception
     {
         get
@@ -131,9 +149,11 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
 
     /// <inheritdoc/>
     /// <remarks>
-    /// Decorates <see cref="Exception.Message"/> in <see cref="Exception"/>.
+    /// Оборачивает <see cref="Exception.Message"/> из <see cref="Exception"/>.
     /// </remarks>
-    /// <exception cref="ObjectDisposedException"/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
     public string? ErrorMessage
     {
         get
@@ -148,10 +168,12 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
     }
 
     /// <summary>
-    /// Creates notification for <paramref name="task"/> completion.
+    /// Создаёт экземпляр, уведомляющий об изменении состояния выполнения задачи <paramref name="task"/>.
     /// </summary>
-    /// <param name="task"><see cref="Task"/> for observe.</param>
-    /// <exception cref="ArgumentNullException"/>
+    /// <param name="task"><see cref="Task"/> для отслеживания состояния выполнения.</param>
+    /// <exception cref="ArgumentNullException">
+    /// Возникает, если <paramref name="task"/> оказался <see langword="null"/>.
+    /// </exception>
     public NotifyTaskCompletion(Task task)
     {
         ThrowIfArgumentNull(task);
@@ -160,8 +182,10 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
     }
 
     /// <inheritdoc/>
-    /// <exception cref="ObjectDisposedException"/>
-    public Task TaskCompletion()
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
+    public Task TaskCompletionAsync()
     {
         if (_disposed)
         {
@@ -171,14 +195,18 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
         return _taskCompletion ??= WatchTaskAsync();
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Высвобождает текущий экземпляр.
+    /// </summary>
     public void Dispose()
     {
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Асинхронно высвобождает текущий экземпляр.
+    /// </summary>
     public async ValueTask DisposeAsync()
     {
         await DisposeAsync(disposing: true).ConfigureAwait(false);
@@ -186,7 +214,7 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
     }
 
     /// <summary>
-    /// Awaits when <see cref="Task"/> will complete and notifies about completion.
+    /// Ожидает когда задача <see cref="Task"/> завершит выполнение, после чего уводомит об её завршении.
     /// </summary>
     protected virtual async Task WatchTaskAsync()
     {
@@ -222,8 +250,10 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
         OnPropertyChanged(nameof(IsSuccessfullyCompleted));
     }
 
-    /// <inheritdoc cref="Dispose"/>.
-    /// <param name="disposing">Have to dispose managed state.</param>
+    /// <inheritdoc cref="Dispose"/>
+    /// <param name="disposing">
+    /// Указывает, нужно ли высвобождать управляемые ресурсы.
+    /// </param>
     protected virtual void Dispose(bool disposing)
     {
         if (_disposed)
@@ -248,8 +278,10 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
         _disposed = true;
     }
 
-    /// <inheritdoc cref="DisposeAsync"/>.
-    /// <param name="disposing">Have to dispose managed state.</param>
+    /// <inheritdoc cref="DisposeAsync"/>
+    /// <param name="disposing">
+    /// Указывает, нужно ли высвобождать управляемые ресурсы.
+    /// </param>
     protected virtual async ValueTask DisposeAsync(bool disposing)
     {
         if (_disposed)

@@ -8,36 +8,20 @@ using static EconomyMonitor.Literals.ExceptionMessages;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels.Header;
 
-/// <summary>
-/// Presents header's menu view model.
-/// </summary>
-/// <remarks>Inherits <see cref="NotifyPropertyChangedBase"/>.</remarks>
-public sealed class HeaderMenuViewModel : NotifyPropertyChangedBase
+internal sealed class HeaderMenuViewModel : NotifyPropertyChangedBase
 {
     private HeaderMenuItem? _selectedItem;
 
-    /// <summary>
-    /// Gets menu items' collection.
-    /// </summary>
     public ObservableCollection<HeaderMenuItem> Items { get; }
 
-    /// <summary>
-    /// Gets or sets selected item.
-    /// </summary>
     public HeaderMenuItem? SelectedItem
     {
         get => _selectedItem;
         set => _ = SetPropertyNotifiable(ref _selectedItem, value);
     }
 
-    /// <summary>
-    /// Gets select command.
-    /// </summary>
     public ICommand SelectCommand { get; }
 
-    /// <summary>
-    /// Creates header's menu view model.
-    /// </summary>
     public HeaderMenuViewModel()
     {
         Items = new ObservableCollection<HeaderMenuItem>();

@@ -3,24 +3,24 @@ using System.Windows.Input;
 namespace EconomyMonitor.Wpf.MVVM.Commands;
 
 /// <summary>
-/// Defines asynchronusly executing command.
+/// Тип, описывающий асинхронную команду.
 /// </summary>
-/// <remarks>Inherits <see cref="ICommand"/>.</remarks>
+/// <remarks>Наследует <see cref="ICommand"/>.</remarks>
 public interface IAsyncCommand : ICommand
 {
     /// <summary>
-    /// Gets <see cref="Task"/> execution completion.
+    /// Возвращает объект уведомления завершения работы задачи <see cref="Task"/>.
     /// </summary>
-    INotifyTaskCompletion? Execution { get; }
+    ITaskCompletion? Execution { get; }
 
     /// <summary>
-    /// Gets cancel command.
+    /// Возвращает команду отмены операции.
     /// </summary>
     ICancelCommand CancelCommand { get; }
 
     /// <summary>
-    /// Executes command asynchronusly.
+    /// Асинхронно запускает команду.
     /// </summary>
-    /// <param name="parameter">Command parameter.</param>
+    /// <param name="parameter">Параметр команды.</param>
     Task ExecuteAsync(object? parameter);
 }

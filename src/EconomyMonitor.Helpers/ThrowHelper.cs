@@ -104,8 +104,8 @@ public static class ThrowHelper
         {
             Throw<NullReferenceException>(
                 string.Format(NULL_REFERENCE,
-                typeof(T).Name,
-                argumentName));
+                argumentName,
+                typeof(T).Name));
         }
 
         return false;

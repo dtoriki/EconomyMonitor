@@ -6,35 +6,48 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 namespace EconomyMonitor.Configuration;
 
 /// <summary>
-/// Contains <see cref="IConfigurationBuilder"/> extensions.
+/// Содержит методы расширения для <see cref="IConfigurationBuilder"/>.
 /// </summary>
 /// <exception cref="ArgumentNullException"/>
+/// <exception cref="NullReferenceException"/>
 public static class ConfigurationExtensions
 {
     /// <summary>
-    /// Configures <see cref="IConfigurationBuilder"/>.
+    /// Загружет конфигурацию приложения и конфигурирует <see cref="IConfigurationBuilder"/>.
     /// </summary>
-    /// <param name="configurationBuilder">Configuration builder.</param>
-    /// <param name="resourcePath">Path to configuration resources.</param>
-    /// <returns>Configured configuration builder.</returns>
-    /// <exception cref="ArgumentNullException"/>
-    public static IConfigurationBuilder ConfigureConfiguration(
+    /// <param name="configurationBuilder">Экземпляр типа, используемого для построения конфигурации.</param>
+    /// <param name="resourcePath">Путь до конфигурации в ресурсах сборки.</param>
+    /// <returns>Сконфигурированный экземпляр типа, используемый для построения конфигурации.</returns>
+    /// <exception cref="ArgumentNullException">
+    /// Возникает, когда <paramref name="resourcePath"/> - <see langword="null"/>.
+    /// </exception>
+    /// <exception cref="NullReferenceException">
+    /// Возникает, если не удалось с помощью <see cref="Assembly.GetManifestResourceInfo(string)"/> 
+    /// получить поток <see cref="Stream"/> располагающийся в <paramref name="resourcePath"/>.
+    /// </exception>
+    /// <remarks>
+    /// Пытается найти встроенный ресурс в сборку по пути <paramref name="resourcePath"/>.
+    /// Если не находит, то вызывает исключение <see cref="NullReferenceException"/>.
+    /// После чего создаёт поток <see cref="Stream"/> ресурса сборки и конфигурирует им <paramref name="configurationBuilder"/>,
+    /// используя метод <see cref="JsonConfigurationExtensions.AddJsonStream(IConfigurationBuilder, Stream)"/>.
+    /// Если не удалось создать поток <see cref="Stream"/> ресурса сборки, то вызывает <see cref="NullReferenceException"/>.
+    /// </remarks>
+    public static IConfigurationBuilder ConfigureConfiguration( //ToDo: переименовать Setup...
         this IConfigurationBuilder configurationBuilder,
         string resourcePath)
     {
-        _ = ThrowIfArgumentNull(configurationBuilder);
         _ = ThrowIfArgumentNull(resourcePath);
 
-        Assembly? assembly = GetCallingAssembly();
+        Assembly assembly = GetCallingAssembly();
 
-        if (ThrowIfNull(assembly))
+        string upperResourcePath = resourcePath.ToUpperInvariant();
+        string? resourceName = assembly.GetManifestResourceNames()
+            .SingleOrDefault(n => n.ToUpperInvariant().Contains(upperResourcePath));
+
+        if (ThrowIfNull(resourceName))
         {
             return configurationBuilder;
         }
-
-        string upperResourcePath = resourcePath.ToUpperInvariant();
-        string resourceName = assembly.GetManifestResourceNames()
-            .Single(n => n.ToUpperInvariant().Contains(upperResourcePath));
 
         Stream? stream = assembly.GetManifestResourceStream(resourceName);
 
@@ -49,28 +62,28 @@ public static class ConfigurationExtensions
     }
 
     /// <inheritdoc cref="ConfigureConfiguration(IConfigurationBuilder, string)"/>
-    public static IConfigurationBuilder ConfigureConfiguration(this IConfigurationBuilder configurationBuilder)
+    public static IConfigurationBuilder ConfigureConfiguration(this IConfigurationBuilder configurationBuilder) //ToDo: переименовать Setup...
     {
         return configurationBuilder.ConfigureConfiguration(Configuration.AppsettingsFile);
     }
 
     /// <summary>
-    /// Configures <see cref="IConfigurationBuilder"/> as development.
+    /// <inheritdoc cref="ConfigureConfiguration(IConfigurationBuilder, string)"/> Для среды разработки.
     /// </summary>
-    /// <param name="configurationBuilder">Configuration builder.</param>
-    /// <param name="resourcePath">Path to configuration resources.</param>
-    /// <returns>Configured configuration builder.</returns>
-    /// <exception cref="ArgumentNullException"/>
-    public static IConfigurationBuilder ConfigureDevConfiguration(this IConfigurationBuilder configurationBuilder)
+    /// <inheritdoc cref="ConfigureConfiguration(IConfigurationBuilder, string)"/>
+    public static IConfigurationBuilder ConfigureDevConfiguration(this IConfigurationBuilder configurationBuilder) //ToDo: переименовать Setup...
     {
         return configurationBuilder.ConfigureConfiguration(Configuration.AppsettingsDevFile);
     }
 
     /// <summary>
-    /// Gets connection string from <paramref name="configuration"/>.
+    /// Предоставляет строку подключения, полученную из <paramref name="configuration"/>.
     /// </summary>
-    /// <param name="configuration">Configuration.</param>
-    /// <returns>Connection string.</returns>
+    /// <param name="configuration">Экземпляр конфигурации.</param>
+    /// <returns>Строка подключения.</returns>
+    /// <remarks>
+    /// Вернёт <see langword="null"/>, если не найдёт строку подключения.
+    /// </remarks>
     public static string? GetConnectionString(this IConfiguration configuration)
     {
         return configuration.GetConnectionString(Configuration.ConnectionName);

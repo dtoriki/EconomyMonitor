@@ -1,6 +1,7 @@
 using AutoMapper;
 using EconomyMonitor.Data;
 using EconomyMonitor.Data.DI;
+using EconomyMonitor.Data.EfSets;
 using EconomyMonitor.Mapping.AutoMapper;
 using EconomyMonitor.Services.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
@@ -10,16 +11,35 @@ using IMapperConfigurationProvider = AutoMapper.IConfigurationProvider;
 namespace EconomyMonitor.DI.Extensions;
 
 /// <summary>
-/// Provides adds for scope services.
+/// Содержит методы расширения <see cref="IServiceCollection"/> 
+/// для конфигурации и добавлении в <see cref="IServiceCollection"/>
+/// со временем жизни <see cref="ServiceLifetime.Scoped"/>.
 /// </summary>
-public static class ScopedExtensions
+/// <exception cref="NullReferenceException"/>
+public static class ScopedExtensions //ToDo: может, переименовать?
 {
     /// <summary>
-    /// Configures scoped <see cref="IEconomyMonitorRepository"/> with Sql Lite provider.
+    /// Конфигурирует <see cref="IEconomyMonitorRepository"/>, используя поставщик данных Sqlite 
+    /// с временем существования <see cref="ServiceLifetime.Scoped"/>
+    /// и добавляет его в <paramref name="services"/>.
     /// </summary>
-    /// <param name="services">Service collection.</param>
-    /// <returns>Service collection.</returns>
-    public static IServiceCollection ConfigureSqliteEconomyMonitorRepository(this IServiceCollection services)
+    /// <param name="services">Коллекция сервисов.</param>
+    /// <returns>Коллекция сервисов.</returns>
+    /// <remarks>
+    /// <para>
+    /// Методом <see cref="ServiceCollectionExtensions.GetConnectionString(IServiceCollection)"/>
+    /// пытается полчить строку подключения. Если строка подключения не найдена, то вызывает <see cref="ArgumentNullException"/>.
+    /// </para>
+    /// <para>
+    /// Методом <see cref="ConfigureEconomyMonitorRepositoryExtensions.ConfigureEconomyMonitorRepositoryScoped(IServiceCollection, string)"/>
+    /// конфигурирует экземпляр <see cref="IEconomyMonitorRepository"/> со временем жизни <see cref="ServiceLifetime.Scoped"/>
+    /// и помещает его в <paramref name="services"/>.
+    /// </para>
+    /// </remarks>
+    /// <exception cref="NullReferenceException">
+    /// Возникает, если не удалось найти строку подключения.
+    /// </exception>
+    public static IServiceCollection ConfigureSqliteEconomyMonitorRepository(this IServiceCollection services) // ToDo: Переименовать
     {
         string? connectionString = services.GetConnectionString();
         if (ThrowIfNull(connectionString))
@@ -33,17 +53,18 @@ public static class ScopedExtensions
     }
 
     /// <summary>
-    /// Configures scoped unit of works.
+    /// Конфигурирует экземпляр типа работы с хранилищем данных <see cref="IDatePeriodsUnitOfWork"/>, 
+    /// которое реализует <see cref="IDatePeriodSet"/>
+    /// и добавляет его в <paramref name="services"/> c временем существования <see cref="ServiceLifetime.Scoped"/>.
     /// </summary>
-    /// <param name="services">Services collection.</param>
-    /// <returns>Services collection</returns>
+    /// <param name="services">Коллекция сервисов.</param>
+    /// <returns>Коллекция сервисов.</returns>
     /// <remarks>
-    /// Configures:
-    /// <list type="bullet">
-    /// <item><see cref="IDatePeriodsUnitOfWork"/>.</item>
-    /// </list>
+    /// Перед конфигурацией типа работы с хранилищем данных необходимо, 
+    /// чтобы были сконфигурированны <see cref="IEconomyMonitorRepository"/>
+    /// и <see cref="IEntityWithDtoMapper"/>.
     /// </remarks>
-    public static IServiceCollection ConfigureUnitsOfWorkScoped(this IServiceCollection services)
+    public static IServiceCollection ConfigureDatePeriodsUnitOfWorkScoped(this IServiceCollection services)
     {
         services.AddScoped(provider =>
         {
@@ -57,29 +78,67 @@ public static class ScopedExtensions
     }
 
     /// <summary>
-    /// Configures scoped <see cref="IEntityWithDtoMapper"/> mapper into <paramref name="services"/>.
+    /// Конфигурирует экземпляры типов работы с хранилищем данным
+    /// и добавляет их в <paramref name="services"/> с временем жизни <see cref="ServiceLifetime.Scoped"/>.
     /// </summary>
-    /// <param name="services">Services collection.</param>
-    /// <returns>Services collection.</returns>
-    public static IServiceCollection ConfigureEntityWithDtoMappers(this IServiceCollection services)
+    /// <param name="services">Коллекция сервисов.</param>
+    /// <returns>Коллекция сервисов.</returns>
+    /// <remarks>
+    /// Конфигурирует:
+    /// <list type="bullet">
+    /// <item><see cref="IDatePeriodsUnitOfWork"/> 
+    /// методом <see cref="ConfigureDatePeriodsUnitOfWorkScoped(IServiceCollection)"/>.</item>
+    /// </list>
+    /// <para>
+    /// Перед конфигурацией типа работы с хранилищем данных необходимо, 
+    /// чтобы были сконфигурированны <see cref="IEconomyMonitorRepository"/>
+    /// и <see cref="IEntityWithDtoMapper"/>.
+    /// </para>
+    /// </remarks>
+    public static IServiceCollection ConfigureUnitsOfWorkScoped(this IServiceCollection services)
     {
-        services.ConfigureMapperScoped<EntityWithDtoProfile, IEntityWithDtoMapper>(p => new EntityWithDtoMapper(p));
+        services.ConfigureDatePeriodsUnitOfWorkScoped();
 
         return services;
     }
 
     /// <summary>
-    /// Configures scoped mapper and adds it into <paramref name="services"/>
+    /// Конфигурирует тип сопоставления данных 
+    /// <see cref="IEntityWithDtoMapper"/>
+    /// и добавляет его в <paramref name="services"/> 
+    /// c временем существования <see cref="ServiceLifetime.Scoped"/>.
     /// </summary>
-    /// <typeparam name="TProfile">Type of mapper profile.</typeparam>
-    /// <typeparam name="TMapper">Type of mapper.</typeparam>
-    /// <param name="services">Services collection.</param>
-    /// <param name="implementationFactory">Factory for implement instance.</param>
-    /// <returns>Services collection.</returns>
-    /// <exception cref="ArgumentNullException"/>
+    /// <param name="services">Коллеция сервисов.</param>
+    /// <returns>Коллеция сервисов.</returns>
+    /// <remarks>
+    /// Для конфигурации типа сопоставления данных использует метод 
+    /// <see cref="ConfigureMapperScoped{TProfile, TMapper}(IServiceCollection, Func{IMapperConfigurationProvider, TMapper})"/>
+    /// </remarks>
+    public static IServiceCollection ConfigureEntityWithDtoMappers(this IServiceCollection services)
+    {
+        services.ConfigureMapperScoped<EntityWithDtoProfile, IEntityWithDtoMapper>(p => new EntityWithDtoMapper(p));
+        
+        return services;
+    }
+
+    /// <summary>
+    /// Конфигурирует тип сопоставления данных <paramref name="services"/>
+    /// и добавляет его в <paramref name="services"/> 
+    /// c временем существования <see cref="ServiceLifetime.Scoped"/>.
+    /// </summary>
+    /// <typeparam name="TProfile">Тип профиля сопоставления.</typeparam>
+    /// <typeparam name="TMapper">Тип сопоставления данных.</typeparam>
+    /// <param name="services">Коллекция сервисов.</param>
+    /// <param name="implementationFactory">Фабрика реализации типа осопоставления.</param>
+    /// <returns>Коллекция сервисов.</returns>
+    /// <exception cref="ArgumentNullException">
+    /// Возникает, когда <paramref name="implementationFactory"/> является <see langword="null"/>.
+    /// </exception>
     public static IServiceCollection ConfigureMapperScoped<TProfile, TMapper>(
         this IServiceCollection services,
-        Func<IMapperConfigurationProvider, TMapper> implementationFactory) where TProfile : Profile, new() where TMapper : class, IMapper
+        Func<IMapperConfigurationProvider, TMapper> implementationFactory) 
+            where TProfile : Profile, new() 
+            where TMapper : class, IMapper
     {
         _ = ThrowIfArgumentNull(implementationFactory);
 

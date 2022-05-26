@@ -6,28 +6,38 @@ using Microsoft.EntityFrameworkCore;
 namespace EconomyMonitor.Data;
 
 /// <summary>
-/// Defines Economy monitor repository.
+/// Предоставляет тип хранилища данных приложения.
 /// </summary>
-/// <remarks>Inherits <see cref="IRepository"/>, <see cref="IDatePeriodSet"/>.</remarks>
+/// <remarks>Наследует: <see cref="IRepository"/>, <see cref="IDatePeriodSet"/>.</remarks>
 public interface IEconomyMonitorRepository : IDatePeriodSet, IRepository
+// ToDo: изменить название.
 {
     /// <summary>
-    /// Creates <see cref="IEconomyMonitorRepository"/> implementation.
+    /// Создаёт реализацию хранилища данных приложения <see cref="IEconomyMonitorRepository"/>.
     /// </summary>
-    /// <param name="options">Context opetions.</param>
-    /// <returns><see cref="IEconomyMonitorRepository"/> implementation.</returns>
+    /// <param name="options">Настройки подключения к контексту базы данных.</param>
+    /// <returns>Реализация хранилища данных приложения <see cref="IEconomyMonitorRepository"/>.</returns>
     public static IEconomyMonitorRepository Create(DbContextOptions options)
     {
+        // ToDo: не хватает проверки на null.
         return new EconomyMonitorRepository(options);
     }
 
     /// <summary>
-    /// Creates <see cref="IEconomyMonitorRepository"/> implementation by Sqlite data provider.
+    /// Создаёт реализацию хранилища данных приложения <see cref="IEconomyMonitorRepository"/> 
+    /// с использованием поставщика данных Sqlite.
     /// </summary>
-    /// <param name="connectionString">Connection string.</param>
-    /// <returns><see cref="IEconomyMonitorRepository"/> implementation.</returns>
+    /// <param name="connectionString">Строка подключения.</param>
+    /// <returns>
+    /// Реализация хранилища данных приложения <see cref="IEconomyMonitorRepository"/>.
+    /// </returns>
+    /// <remarks>
+    /// Для настройки подключения к хранилищу данных используется метод 
+    /// <see cref="DbContextOptionsBuilderExtensions.ConfigureSqliteDbContextOptionsBuilder{TContext}(DbContextOptionsBuilder{TContext}, string)"/>
+    /// </remarks>
     public static IEconomyMonitorRepository CreateSqlite(string connectionString)
     {
+        // ToDo: не хватает проверки на null.
         DbContextOptions<EconomyMonitorRepository> options = new DbContextOptionsBuilder<EconomyMonitorRepository>()
             .ConfigureSqliteDbContextOptionsBuilder(connectionString)
             .Options;

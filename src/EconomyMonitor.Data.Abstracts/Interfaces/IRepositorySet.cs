@@ -1,14 +1,15 @@
 namespace EconomyMonitor.Data.Abstracts.Interfaces;
 
 /// <summary>
-/// Defines repository set.
+/// Представляет тип, поддерживающий запросы к таблице репозитория, 
+/// хранящей сущности типа <typeparamref name="TEntity"/>.
 /// </summary>
-/// <typeparam name="TEntity">Type of set items.</typeparam>
+/// <typeparam name="TEntity">Тип сущностей, хранящихся в таблице.</typeparam>
 public interface IRepositorySet<out TEntity>
     where TEntity : class, IEntity
 {
     /// <summary>
-    /// Gets entities set.
+    /// Возвращает экземпляр доступа к таблице базы данных, способный формировать запросы к ней (таблице). 
     /// </summary>
     IQueryable<TEntity> EntitySet { get; }
 }

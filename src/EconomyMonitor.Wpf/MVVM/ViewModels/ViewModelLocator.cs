@@ -8,32 +8,17 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels;
 
-/// <summary>
-/// Presents view models locator.
-/// </summary>
-public class ViewModelLocator
+internal class ViewModelLocator
 {
-    /// <summary>
-    /// Gets <see cref="ApplicationViewModel"/>.
-    /// </summary>
     [SuppressMessage("Performance", "CA1822:Пометьте члены как статические", Justification = "<Ожидание>")]
     public ApplicationViewModel ApplicationViewModel => GetServiceOrThrow<ApplicationViewModel>();
 
-    /// <summary>
-    /// Gets <see cref="HeaderMenuViewModel"/>.
-    /// </summary>
     [SuppressMessage("Performance", "CA1822:Пометьте члены как статические", Justification = "<Ожидание>")]
     public HeaderMenuViewModel HeaderMenuViewModel => GetServiceOrThrow<HeaderMenuViewModel>();
 
-    /// <summary>
-    /// Gets <see cref="AddDatePeriodViewModel"/>.
-    /// </summary>
     [SuppressMessage("Performance", "CA1822:Пометьте члены как статические", Justification = "<Ожидание>")]
     public AddDatePeriodDialogViewModel AddDatePeriodViewModel => GetServiceOrThrow<AddDatePeriodDialogViewModel>();
 
-    /// <summary>
-    /// Creates view model locator.
-    /// </summary>
     public ViewModelLocator()
     {
 
@@ -48,7 +33,7 @@ public class ViewModelLocator
             return service;
         }
 
-        Throw<ServiceNotFoundException>(typeof(TService));
+        Throw<DependencyNotFoundException>(typeof(TService));
 
         return service;
     }

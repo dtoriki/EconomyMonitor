@@ -4,16 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EconomyMonitor.Wpf;
 
-/// <summary>
-/// <see cref="IServiceCollection"/> extensions for configuring view models.
-/// </summary>
-public static class ConfigureViewModelsExtensions
+internal static class ConfigureViewModelsExtensions
 {
-    /// <summary>
-    /// Configures <see cref="IServiceCollection"/> with view models.
-    /// </summary>
-    /// <param name="services">Services.</param>
-    /// <returns>Configured services.</returns>
     public static IServiceCollection ConfigureViewModels(this IServiceCollection services)
     {
         Type[] viewModelTypes = typeof(ViewModelLocator)

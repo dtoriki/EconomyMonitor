@@ -1,33 +1,53 @@
-using System.Windows.Input;
+using EconomyMonitor.Wpf.MVVM.Generic;
+using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.Commands.Generic;
 
 /// <summary>
-/// Base <see cref="IAsyncCommand{TResult}"/> implementation.
+/// Базовая реализация асинхронной команды <see cref="IAsyncCommand{TResult}"/>.
 /// </summary>
-/// <typeparam name="TResult">Type of command result</typeparam>
+/// <typeparam name="TResult">Тип возвращаемого командой значения.</typeparam>
 /// <remarks>
-/// Inherits <see cref="NotifiableCommandBase"/>.
-/// Implements 
-/// <see cref="IAsyncCommand{TResult}"/>,
-/// <see cref="IDisposable"/>,
-/// <see cref="IAsyncDisposable"/>.
-/// Delegates <see cref="CanExecuteChanged"/> event suscribing/unsubscribing to <see cref="CommandManager.RequerySuggested"/>.
+/// <para>
+/// Наследует <see cref="AsyncCommandBase"/>.
+/// </para>
+/// <para>
+/// Реализует 
+/// <see cref="IAsyncCommand{TResult}"/>.
+/// </para>
 /// </remarks>
+/// <exception cref="ObjectDisposedException"/>
 public abstract class AsyncCommandBase<TResult> : AsyncCommandBase, IAsyncCommand<TResult>
 {
     /// <inheritdoc/>
-    protected AsyncCommandBase(/*Func<CancellationToken, Task<TResult>> execute*/) : base()
+    protected AsyncCommandBase() : base()
     {
     }
 
     /// <inheritdoc/>
-    INotifyTaskCompletion? IAsyncCommand.Execution => Execution;
+    ITaskCompletion? IAsyncCommand.Execution => Execution;
 
-    /// <inheritdoc/>
-    new public INotifyTaskCompletion<TResult>? Execution
+    /// <inheritdoc cref="AsyncCommandBase.Execution"/>
+    new public ITaskCompletion<TResult>? Execution
     {
-        get => base.Execution as INotifyTaskCompletion<TResult>;
-        set => base.Execution = value;
+        get
+        {
+            if (IsDisposed)
+            {
+                ThrowDisposed(this);
+            }
+
+            return base.Execution as ITaskCompletion<TResult>;
+        }
+
+        protected set
+        {
+            if (IsDisposed)
+            {
+                ThrowDisposed(this);
+            }
+
+            base.Execution = value;
+        }
     }
 }

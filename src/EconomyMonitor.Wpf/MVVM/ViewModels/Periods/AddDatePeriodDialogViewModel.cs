@@ -7,13 +7,7 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.ViewModels.Periods;
 
-/// <summary>
-/// Presents add period view model.
-/// </summary>
-/// <remarks>
-/// Inherits <see cref="NotifyPropertyChangedBase"/>.
-/// </remarks>
-public sealed class AddDatePeriodDialogViewModel : NotifyPropertyChangedBase, IDatePeriod, IDisposable, IAsyncDisposable
+internal sealed class AddDatePeriodDialogViewModel : NotifyPropertyChangedBase, IDatePeriod, IDisposable, IAsyncDisposable
 {
     private readonly IDatePeriodsUnitOfWork _periodsUnitOfWork;
 
@@ -23,39 +17,30 @@ public sealed class AddDatePeriodDialogViewModel : NotifyPropertyChangedBase, ID
     private bool _isOpen;
     private bool _disposed;
 
-    /// <summary>
-    /// Gets or sets opened state of dialog.
-    /// </summary>
     public bool IsOpen 
     { 
         get => _isOpen; 
         set => _ = SetPropertyNotifiable(ref _isOpen, value); 
     }
 
-    /// <inheritdoc/>
     public DateOnly StartingDate
     {
         get => _startPeriod ??= DateOnly.FromDateTime(DateTime.Now);
         set => _ = SetPropertyNotifiable(ref _startPeriod, value);
     }
 
-    /// <inheritdoc/>
     public DateOnly EndingDate
     {
         get => _endPeriod ??= DateOnly.FromDateTime(DateTime.Now);
         set => _ = SetPropertyNotifiable(ref _endPeriod, value);
     }
 
-    /// <inheritdoc/>
     public decimal Income
     {
         get => _income ??= decimal.Zero;
         set => _ = SetPropertyNotifiable(ref _income, value);
     }
 
-    /// <summary>
-    /// Gets create period command.
-    /// </summary>
     public IAsyncCommand CreateDatePeriodCommand { get; }
 
     public AddDatePeriodDialogViewModel(IDatePeriodsUnitOfWork periodsUnitOfWork)
@@ -101,7 +86,6 @@ public sealed class AddDatePeriodDialogViewModel : NotifyPropertyChangedBase, ID
         IsOpen = false;
     }
 
-    /// <inheritdoc/>
     public void Dispose()
     {
         if (_disposed)
@@ -117,7 +101,6 @@ public sealed class AddDatePeriodDialogViewModel : NotifyPropertyChangedBase, ID
         }
     }
 
-    /// <inheritdoc/>
     public async ValueTask DisposeAsync()
     {
         if (_disposed)
