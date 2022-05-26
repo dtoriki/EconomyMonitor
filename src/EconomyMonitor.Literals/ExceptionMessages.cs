@@ -1,58 +1,58 @@
 namespace EconomyMonitor.Literals;
 
 /// <summary>
-/// Provides <see cref="Exception"/> messages.
+/// Содержит сообщения для вызова исключений <see cref="Exception"/>.
 /// </summary>
 public static class ExceptionMessages
 {
     /// <summary>
-    /// Gets ARGUMENT_OUT_OF_RANGE_CANT_BE_LOWER message.
+    /// Возвращает сообщение "Аргумент \"{0}\" не может быть меньше чем \"{1}\".".
     /// </summary>
-    public static string ARGUMENT_OUT_OF_RANGE_CANT_BE_LOWER => "The argument with name \"{0}\" can not be lower than \"{1}\".";
+    public static string ARGUMENT_OUT_OF_RANGE_CANT_BE_LOWER => "Аргумент \"{0}\" не может быть меньше чем \"{1}\".";
 
     /// <summary>
-    /// Gets ARGUMENT_OUT_OF_RANGE_CANT_BE_HIGHER message.
+    /// Возвращает сообщение "Аргумент \"{0}\" не может быть больше чем \"{1}\".".
     /// </summary>
-    public static string ARGUMENT_OUT_OF_RANGE_CANT_BE_HIGHER => "The argument with name \"{0}\" can not be higher than \"{1}\".";
+    public static string ARGUMENT_OUT_OF_RANGE_CANT_BE_HIGHER => "Аргумент \"{0}\" не может быть больше чем \"{1}\".";
 
     /// <summary>
-    /// Gets INDEX_CANT_BE_LOWER_TAHN_ZERO message.
+    /// Возвращает сообщение "Индекс не может быть меньше нуля.".
     /// </summary>
-    public static string INDEX_CANT_BE_LOWER_TAHN_ZERO => "The index of array cannot be lower than zero.";
+    public static string INDEX_CANT_BE_LOWER_TAHN_ZERO => "Индекс не может быть меньше нуля.";
 
     /// <summary>
-    /// Gets OBSCURE_EXCEPTION_THROWN message.
+    /// Возвращает сообщение "Было вызвано неизвестное исключение.".
     /// </summary>
-    public static string OBSCURE_EXCEPTION_THROWN => "Obscure exception thrown.";
+    public static string OBSCURE_EXCEPTION_THROWN => "Было вызвано неизвестное исключение.";
 
 
     /// <summary>
-    /// Gets NEED_AT_LEAST_A_MESSAGE message.
+    /// Возвращает сообщение "Необходимо, хотябы, сообщение об ошибке.".
     /// </summary>
-    public static string NEED_AT_LEAST_A_MESSAGE => "Need at least an exception message.";
+    public static string NEED_AT_LEAST_A_MESSAGE => "Необходимо, хотябы, сообщение об ошибке.";
 
     /// <summary>
-    /// Gets WRONG_TYPE_RECEIVED message.
+    /// Возвращает сообщение "Ожидался тип \"{0}\", вместо него оказался тип \"{1}\".".
     /// </summary>
-    public static string WRONG_TYPE_RECEIVED => "Type \"{0}\" one was expected, but type \"{1}\" was received.";
+    public static string WRONG_TYPE_RECEIVED => "Ожидался тип \"{0}\", вместо него оказался тип \"{1}\".";
 
     /// <summary>
-    /// Gets SELECTED_ITEM_ALREADY_EXISTS message.
+    /// Возвращает сообщение "Выбранный элемент уже существует.".
     /// </summary>
-    public static string SELECTED_ITEM_ALREADY_EXISTS => "Selected item already exists.";
+    public static string SELECTED_ITEM_ALREADY_EXISTS => "Выбранный элемент уже существует.";
 
     /// <summary>
-    /// Gets SEQUENCE_HAS_NULL_REFERENCE message.
+    /// Возвращает сообщение "Последовательность \"{0}\" содержит пустые ссылки.".
     /// </summary>
-    public static string SEQUENCE_HAS_NULL_REFERENCE => "Sequence \"{0}\" has null reference.";
+    public static string SEQUENCE_HAS_NULL_REFERENCE => "Последовательность \"{0}\" содержит пустые ссылки.";
 
     /// <summary>
-    /// Gets OBJECT_DISPOSED message.
+    /// Возвращает сообщение "Объект \"{0}\" типа \"{1}\" был освобождён.".
     /// </summary>
-    public static string OBJECT_DISPOSED => "Object \"{0}\" with type \"{1}\" has disposed.";
+    public static string OBJECT_DISPOSED => "Объект \"{0}\" типа \"{1}\" был освобождён.";
 
     /// <summary>
-    /// Gets NULL_REFERENCE message.
+    /// Возвращает сообщение "Объект \"{0}\" типа \"{1}\" оказался null.".
     /// </summary>
-    public static string NULL_REFERENCE => "The \"{0}\" reference \"{1}\" is null.";
+    public static string NULL_REFERENCE => "Объект \"{0}\" типа \"{1}\" оказался null.";
 }

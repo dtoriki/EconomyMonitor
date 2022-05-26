@@ -8,17 +8,6 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Services.UnitOfWork;
 
-/// <summary>
-/// Unit of work for periods.
-/// </summary>
-/// <typeparam name="TRepository">
-/// Type of <see cref="IRepository"/>. Also have to inherit <seealso cref="IDatePeriodSet"/>.
-/// </typeparam>
-/// <remarks>
-/// Implements: <see cref="IDatePeriodsUnitOfWork"/>, <see cref="IDisposable"/>, <see cref="IAsyncDisposable"/>.
-/// </remarks>
-/// <exception cref="ArgumentNullException"/>
-/// <exception cref="ObjectDisposedException"/>
 internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWork, IDisposable, IAsyncDisposable
     where TRepository : class, IRepository, IDatePeriodSet
 {
@@ -27,14 +16,6 @@ internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWor
 
     private bool _isDisposed;
 
-    /// <summary>
-    /// Creates unit of work for periods.
-    /// </summary>
-    /// <param name="periodRepository">
-    /// <see cref="IRepository"/> instance. It have to impement <see cref="IDatePeriodSet"/>.
-    /// </param>
-    /// <param name="mapper">Mapper.</param>
-    /// <exception cref="ArgumentNullException"/>
     public DatePeriodsUnitOfWork(TRepository periodRepository, IEntityWithDtoMapper mapper)
     {
         _ = ThrowIfArgumentNull(periodRepository);
@@ -45,8 +26,6 @@ internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWor
         _mapper = mapper;
     }
 
-    /// <inheritdoc/>
-    /// <exception cref="ObjectDisposedException"/>
     public async Task<IDatePeriod> CreatePeriodAsync<TPeriod>(TPeriod period, CancellationToken cancellationToken = default)
         where TPeriod : class, IDatePeriod
     {
@@ -67,7 +46,6 @@ internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWor
         return result;
     }
 
-    /// <inheritdoc/>
     public void Dispose()
     {
         if (!_isDisposed)
@@ -78,7 +56,6 @@ internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWor
         _isDisposed = true;
     }
 
-    /// <inheritdoc/>
     public async ValueTask DisposeAsync()
     {
         if (!_isDisposed)

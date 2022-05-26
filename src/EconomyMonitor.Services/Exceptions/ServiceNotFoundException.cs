@@ -5,50 +5,62 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 namespace EconomyMonitor.Services.Exceptions;
 
 /// <summary>
-/// Presents an <see cref="Exception"/> of missing DI service in <see cref="IServiceCollection"/>.
+/// Исключение an <see cref="Exception"/>, 
+/// вызываемое при попытке получить нужную зависимость из коллекции сервисов <see cref="IServiceCollection"/>,
+/// но она не зарегестрирован в ней.
 /// </summary>
 /// <remarks>
-/// Has default message: "The "<see cref="Type.FullName"/>" type service not found.".
+/// Имеет встроенное сообщение: "Зависимость типа "<see cref="Type.FullName"/>" не найдена.".
 /// </remarks>
 [Serializable]
-public class ServiceNotFoundException : Exception
+public class DependencyNotFoundException : Exception
 {
-    private static string MessagePattern => "The \"{0}\" type service not found.";
+    private static string MessagePattern => "Зависимость типа \"{0}\" не найдена.";
 
     /// <summary>
-    /// Creates an Exception.
+    /// Создаёт исключение.
     /// </summary>
-    /// <param name="serviceType">Type of service.</param>
-    public ServiceNotFoundException(Type serviceType) : base(GetMessage(serviceType))
+    /// <param name="dependencyType">Тип зависимости.</param>
+    public DependencyNotFoundException(Type dependencyType) : base(GetMessage(dependencyType))
     {
         
     }
 
     /// <summary>
-    /// Creates an Exception.
+    /// Создаёт исключение.
     /// </summary>
-    /// <param name="serviceType">Type of service.</param>
-    /// <param name="message">Additional message.</param>
-    public ServiceNotFoundException(Type serviceType, string? message) : base(GetMessage(serviceType, message))
+    /// <param name="dependencyType">Тип зависимости.</param>
+    /// <param name="message">Добавочное сообщение.</param>
+    public DependencyNotFoundException(Type dependencyType, string? message) : base(GetMessage(dependencyType, message))
     {
 
     }
 
     /// <summary>
-    /// Creates an Exception.
+    /// Создаёт исключение.
     /// </summary>
-    /// <param name="serviceType">Type of service.</param>
-    /// <param name="message">Additional message.</param>
-    /// <param name="innerException">Inner <see cref="Exception"/>.</param>
-    public ServiceNotFoundException(
-        Type serviceType, 
+    /// <param name="dependencyType">Тип зависимости.</param>
+    /// <param name="message">Добавочное сообщение.</param>
+    /// <param name="innerException">Внутреннее исключение <see cref="Exception"/>.</param>
+    public DependencyNotFoundException(
+        Type dependencyType, 
         string? message, 
-        Exception? innerException) : base(GetMessage(serviceType, message), innerException)
+        Exception? innerException) : base(GetMessage(dependencyType, message), innerException)
     {
 
     }
 
-    protected ServiceNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
+    /// <summary>
+    /// Создаёт исключение.
+    /// </summary>
+    /// <param name="info">
+    /// Хранилище всех данных, необходимых для сериализации или десериализации объекта.
+    /// </param>
+    /// <param name="context">
+    /// Контекст, который описывает источник и место назначения данного сериализованного потока 
+    /// и предоставляет дополнительный контекст, определяемый вызывающей стороной.
+    /// </param>
+    protected DependencyNotFoundException(SerializationInfo info, StreamingContext context) : base(info, context)
     {
 
     }

@@ -3,11 +3,11 @@ using EconomyMonitor.Data.Abstracts.Base;
 namespace EconomyMonitor.Data.Entities;
 
 /// <summary>
-/// Presents period entity.
+/// Сущность периода дат в таблице базы данных.
 /// </summary>
 /// <remarks>
-/// Inherits <see cref="EntityBase"/>.
-/// Implements <see cref="IDatePeriodEntity"/>.
+/// Наследует <see cref="EntityBase"/>.
+/// Реализует <see cref="IDatePeriodEntity"/>.
 /// </remarks>
 public sealed class DatePeriodEntity : EntityBase, IDatePeriodEntity
 {
@@ -19,4 +19,12 @@ public sealed class DatePeriodEntity : EntityBase, IDatePeriodEntity
 
     /// <inheritdoc/>
     public decimal Income { get; set; }
+
+    /// <summary>
+    /// Создаёт экземпляр сущности периода дат.
+    /// </summary>
+    public DatePeriodEntity()
+    {
+
+    }
 }

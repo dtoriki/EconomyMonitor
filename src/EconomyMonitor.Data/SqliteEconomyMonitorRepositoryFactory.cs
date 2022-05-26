@@ -6,6 +6,7 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Data;
 
+// ToDo: изменить название.
 internal class SqliteEconomyMonitorRepositoryFactory : IDesignTimeDbContextFactory<EconomyMonitorRepository>
 {
     public EconomyMonitorRepository CreateDbContext(string[] args)

@@ -1,14 +1,13 @@
+using EconomyMonitor.Wpf.MVVM.Generic;
+
 namespace EconomyMonitor.Wpf.MVVM.Commands.Generic;
 
-/// <summary>
-/// Defines asynchronusly executing command.
-/// </summary>
-/// <typeparam name="TResult">Type of command result.</typeparam>
-/// <remarks>Inherits <see cref="IAsyncCommand"/>.</remarks>
+/// <inheritdoc/>
+/// <typeparam name="TResult">Тип возвращаемого командой значения.</typeparam>
 public interface IAsyncCommand<out TResult> : IAsyncCommand
 {
     /// <summary>
-    /// Gets <see cref="Task{TResult}"/> execution completion.
+    /// Возвращает объект уведомления завершения работы задачи <see cref="Task{TResult}"/>.
     /// </summary>
-    new INotifyTaskCompletion<TResult>? Execution { get; }
+    new ITaskCompletion<TResult>? Execution { get; }
 }

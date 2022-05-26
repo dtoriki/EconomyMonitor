@@ -5,13 +5,19 @@ using Microsoft.EntityFrameworkCore;
 namespace EconomyMonitor.Data.EfSets;
 
 /// <summary>
-/// Defines the set of <see cref="DatePeriodEntity"/> as <see cref="DbSet{TEntity}"/>.
+/// Представляет тип, поддерживающий запросы к таблице "DatePeriods", 
+/// хранящей сущности типа <see cref="DatePeriodEntity"/>.
 /// </summary>
-/// <remarks>Inherits <see cref="IRepositorySet{TEntity}"/>.</remarks>
+/// <remarks>
+/// Наследует <see cref="IRepositorySet{TEntity}"/>, 
+/// где тип сущности - <see cref="DatePeriodEntity"/>.
+/// </remarks>
 public interface IDatePeriodSet : IRepositorySet<IDatePeriodEntity>
 {
+
     /// <summary>
-    /// Gets the <see cref="DatePeriodEntity"/> set.
+    /// Возвращает экземпляр доступа к таблице базы данных "DatePeriods", 
+    /// способный формировать запросы к ней (таблице).
     /// </summary>
     public DbSet<DatePeriodEntity> DatePeriods { get; }
 }

@@ -6,29 +6,31 @@ using EconomyMonitor.Mapping.AutoMapper;
 namespace EconomyMonitor.Services.UnitOfWork;
 
 /// <summary>
-/// Defines unit of work for <see cref="IDatePeriod"/>.
+/// Представляет тип для работы с хранилищем данных, которое реализует <see cref="IDatePeriodSet"/>.
 /// </summary>
 public interface IDatePeriodsUnitOfWork
 {
     /// <summary>
-    /// Asynchronusly creates period in internal repoestory.
+    /// Асинхронно создаёт сущность периода в хранилище данных.
     /// </summary>
-    /// <typeparam name="TPeriod">Type of <see cref="IDatePeriod"/>.</typeparam>
-    /// <param name="period">Period.</param>
-    /// <param name="cancellationToken">Cancel token.</param>
-    /// <returns>Returns back entry period.</returns>
-    Task<IDatePeriod> CreatePeriodAsync<TPeriod>(TPeriod period, CancellationToken cancellationToken = default)
+    /// <typeparam name="TPeriod">Тип периода дат <see cref="IDatePeriod"/>.</typeparam>
+    /// <param name="datePeriod">Период дат.</param>
+    /// <param name="cancellationToken">
+    /// Токен отмены операции. По-умолчанию - <see langword="null"/>.
+    /// </param>
+    /// <returns>Тип периода дат.</returns>
+    Task<IDatePeriod> CreatePeriodAsync<TPeriod>(TPeriod datePeriod, CancellationToken cancellationToken = default)
         where TPeriod : class, IDatePeriod;
 
     /// <summary>
-    /// Creates <see cref="IDatePeriodsUnitOfWork"/> implementation.
+    /// Создаёт и возвращает реализацию <see cref="IDatePeriodsUnitOfWork"/>.
     /// </summary>
     /// <typeparam name="TRepository">
-    /// Type of <see cref="IRepository"/>. Also have to implement <see cref="IDatePeriodSet"/>.
+    /// Тип хранилища данных, которое реализует <see cref="IDatePeriodSet"/>.
     /// </typeparam>
-    /// <param name="repository">Repository.</param>
-    /// <param name="mapper">Mapper.</param>
-    /// <returns><see cref="IDatePeriodsUnitOfWork"/> implementation.</returns>
+    /// <param name="repository">Хранилище данных.</param>
+    /// <param name="mapper">Экземпляр сопоставления сущностей с объектами передачи данных.</param>
+    /// <returns>Реализация <see cref="IDatePeriodsUnitOfWork"/>.</returns>
     public static IDatePeriodsUnitOfWork Create<TRepository>(TRepository repository, IEntityWithDtoMapper mapper)
         where TRepository : class, IRepository, IDatePeriodSet
     {

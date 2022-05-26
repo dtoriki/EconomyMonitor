@@ -4,42 +4,55 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 namespace EconomyMonitor.Helpers;
 
 /// <summary>
-/// Helps set fields with values.
+/// Содержит методы сохранения значений в полях класса.
 /// </summary>
 public static class SetHelper
 {
     private const string VALUE_ARGUMENT_NAME = "value";
 
     /// <summary>
-    /// Check <paramref name="value"/> for <see langword="null"/> reference and sets <paramref name="field"/> with it when it is not <see langword="null"/>. 
+    /// Проверяет <paramref name="value"/> на <see langword="null"/> ссылку 
+    /// и устанвливает его значение полю <paramref name="field"/>, 
+    /// если это значение не является <see langword="null"/> ссылкой. 
     /// </summary>
-    /// <typeparam name="T">Field's type.</typeparam>
-    /// <param name="field">Changing field.</param>
-    /// <param name="value">New field's value.</param>
-    /// <param name="argumentName">Field's argument name.</param>
-    /// <param name="callback">Invoke after setting <paramref name="value"/>.</param>
+    /// <typeparam name="T">Тип поля.</typeparam>
+    /// <param name="field">Изменяемое поле.</param>
+    /// <param name="value">Новое значение поля.</param>
+    /// <param name="argumentName">
+    /// Наименование аргумента. 
+    /// По-умолчанию - наименование входного параметра <paramref name="value"/>.
+    /// </param>
+    /// <param name="callback">
+    /// Делегат, выполняющийся, после того, 
+    /// как у поля <paramref name="field"/> изменилось значение на <paramref name="value"/>. 
+    /// По-умолчанию - <see langword="null"/>.
+    /// </param>
     /// <returns>
-    /// <see langword="true"/> if <paramref name="field"/> has chanched, otherwise - <see langword="false"/>.
+    /// <see langword="true"/> если значение поля <paramref name="field"/> изменилось, иначе - <see langword="false"/>.
     /// </returns>
-    /// <exception cref="ArgumentException">Throws <see cref="ArgumentNullException"/> when <paramref name="field"/> is <see langword="null"/>.</exception>
+    /// <exception cref="ArgumentException">
+    /// Вызывается, если <paramref name="field"/> является <see langword="null"/> ссылкой.
+    /// </exception>
     /// <remarks>
     /// <list type="bullet">
     /// <item>
-    /// This method recursive safety.
+    /// Этот метод не вызывает рекурсии, 
+    /// в случае если два разных свойства ссылаются друг на друга 
+    /// и пытаются изменить одно и тоже поле на одно и тоже значение.
     /// </item>
     /// <item>
-    /// Calls <paramref name="callback"/> after setting when it is not <see langword="null"/>.
+    /// Вызывает <paramref name="callback"/> только после успешного присваивания, и если делегат не <see langword="null"/>.
     /// </item>
     /// <item>
-    /// Throws <see cref="ArgumentNullException"/> when <paramref name="value"/> is <see langword="null"/>.
+    /// Вызывает <see cref="ArgumentNullException"/>, если <paramref name="field"/> является <see langword="null"/> ссылкой.
     /// </item>
     /// </list>
     /// </remarks>
     public static bool NullCheckSet<T>
         (ref T? field,
         T value,
-        [CallerArgumentExpression(VALUE_ARGUMENT_NAME)] string? argumentName = null,
-        Action? callback = null)
+        Action? callback = null,
+        [CallerArgumentExpression(VALUE_ARGUMENT_NAME)] string? argumentName = null)
     {
         ThrowIfArgumentNull(value, argumentName);
 
@@ -47,22 +60,28 @@ public static class SetHelper
     }
 
     /// <summary>
-    /// Sets <paramref name="field"/> with <paramref name="value"/>. 
+    /// Устанавливает полю <paramref name="field"/> значение <paramref name="value"/>. 
     /// </summary>
-    /// <typeparam name="T">Field's type.</typeparam>
-    /// <param name="field">Changing field.</param>
-    /// <param name="value">New field's value.</param>
-    /// <param name="callback">Invoke after setting <paramref name="value"/>.</param>
+    /// <typeparam name="T">Тип поля.</typeparam>
+    /// <param name="field">Изменяемое поле.</param>
+    /// <param name="value">Новое значение поля.</param>
+    /// <param name="callback">
+    /// Делегат, выполняющийся, после того, 
+    /// как у поля <paramref name="field"/> изменилось значение на <paramref name="value"/>. 
+    /// По-умолчанию - <see langword="null"/>.
+    /// </param>
     /// <returns>
-    /// <see langword="true"/> if <paramref name="field"/> has changed, otherwise - <see langword="false"/>.
+    /// <see langword="true"/> если значение поля <paramref name="field"/> изменилось, иначе - <see langword="false"/>.
     /// </returns>
     /// <remarks>
     /// <list type="bullet">
     /// <item>
-    /// This method recursive safety.
+    /// Этот метод не вызывает рекурсии, 
+    /// в случае если два разных свойства ссылаются друг на друга 
+    /// и пытаются изменить одно и тоже поле на одно и тоже значение.
     /// </item>
     /// <item>
-    /// Calls <paramref name="callback"/> after setting when it is not <see langword="null"/>.
+    /// Вызывает <paramref name="callback"/> только после успешного присваивания, и если делегат не <see langword="null"/>.
     /// </item>
     /// </list>
     /// </remarks>

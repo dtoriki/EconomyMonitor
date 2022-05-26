@@ -7,37 +7,28 @@ using static EconomyMonitor.DI.EconomyMonitorHosting;
 
 namespace EconomyMonitor.Wpf;
 
-/// <summary>
-/// Application class.
-/// </summary>
-public partial class App : Application
+internal partial class App : Application
 {
     
     private static readonly long CACHE_SIZE_LIMIT = 400000000;
 
     public static IHost? Host { get; private set; }
 
-    /// <summary>
-    /// Creates application.
-    /// </summary>
-    /// <param name="host">Application host.</param>
     public App() 
     { 
 
     }
 
-    /// <inheritdoc/>
     protected override async void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
 
         Host = BuildHost(ConfigureServices);
 
-        await Host.InitDatabaseAsync().ConfigureAwait(false);
+        await Host.CreateLocalStorageAsync().ConfigureAwait(false);
         await Host.StartAsync().ConfigureAwait(false);
     }
 
-    /// <inheritdoc/>
     protected override async void OnExit(ExitEventArgs e)
     {
         base.OnExit(e);

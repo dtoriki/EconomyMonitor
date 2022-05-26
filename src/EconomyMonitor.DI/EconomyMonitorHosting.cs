@@ -9,15 +9,45 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 namespace EconomyMonitor.DI;
 
 /// <summary>
-/// Provides methods for hosting. 
+/// Предоставляет методы расширения для хостинга <see cref="IHost"/>. 
 /// </summary>
-public static class EconomyMonitorHosting
+public static class EconomyMonitorHosting // ToDo: переименовать.
 {
     /// <summary>
-    /// Builds host.
+    /// Производит инициализацию хоста приложения.
     /// </summary>
-    /// <param name="servicesConfiguration">Services configuration handler.</param>
-    /// <returns>Host.</returns>
+    /// <param name="servicesConfiguration">Делегат конфигурации сервисов.</param>
+    /// <returns>Иницилизированный хостинг.</returns>
+    /// <remarks>
+    /// <para>
+    /// Методом <see cref="Host.CreateDefaultBuilder"/> создаёт экземпляр <see cref="IHostBuilder"/>.
+    /// </para>
+    /// <para>
+    /// Методом <see cref="HostingHostBuilderExtensions.UseContentRoot(IHostBuilder, string)"/>
+    /// устанавливает корневой котолог в <see cref="Environment.CurrentDirectory"/>.
+    /// </para>
+    /// <para>
+    /// Методом <see cref="HostingHostBuilderExtensions.ConfigureAppConfiguration(IHostBuilder, Action{IConfigurationBuilder})"/>
+    /// устанавливает конфигурацию приложения <see cref="Environment.CurrentDirectory"/>:
+    /// <list type="bullet">
+    /// <item>
+    /// Для конфигурации решения DEBUG конфигурация устанавливается методом 
+    /// <see cref="Configuration.ConfigurationExtensions.ConfigureDevConfiguration(IConfigurationBuilder)"/>.
+    /// </item>
+    /// <item>
+    /// Для конфигурации решения RELEASE конфигурация устанавливается методом 
+    /// <see cref="Configuration.ConfigurationExtensions.ConfigureConfiguration(IConfigurationBuilder)"/>.
+    /// </item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// Методом <see cref="IHostBuilder.ConfigureServices(Action{HostBuilderContext, IServiceCollection})"/>
+    /// устанавливается делегат конфигурации сервисов <paramref name="servicesConfiguration"/>.
+    /// </para>
+    /// <para>
+    /// Вызывает метод <see cref="IHostBuilder.Build"/> для сборки хоста.
+    /// </para>
+    /// </remarks>
     public static IHost BuildHost(Action<IServiceCollection>? servicesConfiguration = null)
     {
         IHost host = Host.CreateDefaultBuilder()
@@ -38,11 +68,11 @@ public static class EconomyMonitorHosting
     }
 
     /// <summary>
-    /// Asynchronusly initializes data base. 
+    /// Асинхронно создаёт локальное хранилище данных.
     /// </summary>
-    /// <param name="host">Host.</param>
-    /// <returns>Host.</returns>
-    public static async Task<IHost> InitDatabaseAsync(this IHost host)
+    /// <param name="host">Хост приложения.</param>
+    /// <returns>Хост приложения.</returns>
+    public static async Task<IHost> CreateLocalStorageAsync(this IHost host)
     {
         using IServiceScope scope = host.Services.CreateScope();
 

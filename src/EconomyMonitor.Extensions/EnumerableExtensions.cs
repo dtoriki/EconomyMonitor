@@ -5,23 +5,26 @@ using EconomyMonitor.Helpers;
 namespace EconomyMonitor.Extensions;
 
 /// <summary>
-/// Contains extensions for <see cref="IEnumerable"/> and <see cref="IEnumerable{T}"/>
+/// Содержит методы расширения для последовательностей элементов <see cref="IEnumerable"/> и <see cref="IEnumerable{T}"/>
 /// </summary>
+/// <exception cref="NullReferenceException"/>
 public static class EnumerableExtensions
 {
     private const string SEQUENCE_ARGUMENT_NAME = "enumerable";
 
     /// <summary>
-    /// Throws <see cref="NullReferenceException"/> 
-    /// if any item in sequence <paramref name="sequence"/> is <see langword="null"/>
+    /// Вызывает исключение <see cref="NullReferenceException"/>, 
+    /// если последовательность элементов <paramref name="sequence"/> содержит <see langword="null"/> ссылки
     /// </summary>
-    /// <param name="enumerable">Sequence.</param>
-    /// <param name="argumentName">Argument's name.</param>
+    /// <param name="enumerable">Последовательность элементов.</param>
+    /// <param name="argumentName">Наименование аргумента.</param>
     /// <returns>
-    /// <see langword="false"/> if all items are not <see langword="null"/>,
-    /// otherwise throws <see cref="NullReferenceException"/>.
+    /// <see langword="false"/> если в последовательности <paramref name="enumerable"/> нет <see langword="null"/> ссылок,
+    /// иначе вызывает <see cref="NullReferenceException"/>.
     /// </returns>
-    /// <exception cref="NullReferenceException"/>
+    /// <exception cref="NullReferenceException">
+    /// Вызывается, если в последовательности элементов <paramref name="enumerable"/> есть <see langword="null"/> ссылки.
+    /// </exception>
     public static bool ThrowIfAnyItemIsNull(
         this IEnumerable enumerable,
         [CallerArgumentExpression(SEQUENCE_ARGUMENT_NAME)] string? argumentName = null)

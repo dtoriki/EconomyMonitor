@@ -5,15 +5,25 @@ using EconomyMonitor.Configuration;
 namespace EconomyMonitor.DI.Extensions;
 
 /// <summary>
-/// <see cref="IServiceCollection"/> extensions.
+/// Содержит методы расширения для <see cref="IServiceCollection"/>.
 /// </summary>
 public static class ServiceCollectionExtensions
 {
     /// <summary>
-    /// Gets connection string from <paramref name="services"/>.
+    /// Пытается найти строку подключеня к хранилищу данных из <paramref name="services"/>.
     /// </summary>
-    /// <param name="services">Service collection.</param>
-    /// <returns>Connection string.</returns>
+    /// <param name="services">Коллекция сервисов.</param>
+    /// <returns>Строка подключения.</returns>
+    /// <remarks>
+    /// <para>
+    /// Ищет в <paramref name="services"/> сервис <see cref="IConfiguration"/>.
+    /// После чего методом <see cref="Configuration.ConfigurationExtensions.GetConnectionString"/>
+    /// пытается найти строку подключения.
+    /// </para>
+    /// <para>
+    /// Вернёт <see langword="null"/>, если не найдёт строку подключения.
+    /// </para>
+    /// </remarks>
     public static string? GetConnectionString(this IServiceCollection services)
     {
         return services

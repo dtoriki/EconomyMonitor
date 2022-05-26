@@ -6,17 +6,14 @@ using EconomyMonitor.Domain;
 namespace EconomyMonitor.Mapping.AutoMapper;
 
 /// <summary>
-/// Economy monitor mapper profile for entities with dtos.
+/// Профиль сопоставления сущностей с объектами передачи данных.
 /// </summary>
 public sealed class EntityWithDtoProfile : Profile
 {
     /// <summary>
     /// Creates mapper profile for entities with dtos
     /// </summary>
-    public EntityWithDtoProfile()
-    {
-        SetDatePeriodMap();
-    }
+    public EntityWithDtoProfile() => SetDatePeriodMap();
 
     private void SetDatePeriodMap()
     {

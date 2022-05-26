@@ -3,25 +3,25 @@ using EconomyMonitor.Data.Abstracts.Interfaces;
 namespace EconomyMonitor.Data.Abstracts.Base;
 
 /// <summary>
-/// Presents base entity class.
+/// Представляет базовую сущность, хранимую в хранилище данных.
 /// </summary>
 /// <remarks>
-/// Immplemented <see cref="IEntity"/>.
+/// Реализует <see cref="IEntity"/>.
 /// </remarks>
 public abstract class EntityBase : IEntity
 {
     /// <summary>
-    /// Gets or sets unique identifier.
+    /// Возвращает или задаёт уникальный идентификатор.
     /// </summary>
     public Guid Id { get; set; }
 
     /// <summary>
-    /// Gets or sets creation date.
+    /// Возвращает или устанавливает дату создания сущности.
     /// </summary>
     public DateTime DateCreated { get; set; }
 
     /// <summary>
-    /// Gets or sets modification date.
+    /// Возвращает или задаёт дату модификации сущности.
     /// </summary>
     public DateTime DateModified { get; set; }
 }

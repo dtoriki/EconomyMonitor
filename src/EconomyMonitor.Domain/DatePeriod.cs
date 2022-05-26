@@ -3,19 +3,23 @@ using EconomyMonitor.Abstacts;
 namespace EconomyMonitor.Domain;
 
 /// <summary>
-/// Present period data.
+/// Период дат.
 /// </summary>
 public sealed class DatePeriod : IDatePeriod, IUniqueRequired
 {
     /// <summary>
-    /// Gets or sets unique identifier.
+    /// Возвращает или задаёт уникальный идентификатор.
     /// </summary>
     public Guid Id { get; set; }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Возвращает или задаёт дату начала периода.
+    /// </summary>
     public DateOnly StartingDate { get; set; }
 
-    /// <inheritdoc/>
+    /// <summary>
+    /// Возвращает или задаёт дату окончания периода.
+    /// </summary>
     public DateOnly EndingDate { get; set; }
 
     /// <inheritdoc/>

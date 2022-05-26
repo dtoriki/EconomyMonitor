@@ -1,12 +1,12 @@
 namespace EconomyMonitor.Abstacts;
 
 /// <summary>
-/// Defines unique identifier.
+/// Представляет тип с уникальным идентификатором.
 /// </summary>
 public interface IUniqueRequired
 {
     /// <summary>
-    /// Gets unique identifier.
+    /// Возвращает уникальный идентификатор.
     /// </summary>
     Guid Id { get; }
 }
