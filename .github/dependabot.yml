@@ -14,5 +14,5 @@ updates:
     labels:
       - "deps"
     commit-message:
-      prefix: "[DEPS] "
+      prefix: ""
       include: "scope"
