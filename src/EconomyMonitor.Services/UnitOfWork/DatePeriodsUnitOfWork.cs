@@ -2,8 +2,7 @@ using EconomyMonitor.Abstacts;
 using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Data.EfSets;
 using EconomyMonitor.Data.Entities;
-using EconomyMonitor.Domain;
-using EconomyMonitor.Mapping.AutoMapper;
+using EconomyMonitor.Mapping.AutoMapper.DatePeriod;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Services.UnitOfWork;
@@ -12,11 +11,11 @@ internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWor
     where TRepository : class, IRepository, IDatePeriodSet
 {
     private readonly TRepository _periodRepository;
-    private readonly IEntityWithDtoMapper _mapper;
+    private readonly IDatePeriodMapper _mapper;
 
     private bool _isDisposed;
 
-    public DatePeriodsUnitOfWork(TRepository periodRepository, IEntityWithDtoMapper mapper)
+    public DatePeriodsUnitOfWork(TRepository periodRepository, IDatePeriodMapper mapper)
     {
         _ = ThrowIfArgumentNull(periodRepository);
         _ = ThrowIfArgumentNull(mapper);
@@ -34,14 +33,17 @@ internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWor
             ThrowDisposed(this);
         }
 
-        _ = ThrowIfArgumentNull(period);
+        if (ThrowIfArgumentNull(period))
+        {
+            return period;
+        }
 
-        DatePeriodEntity periodEntity = _mapper.Map<DatePeriodEntity>(period);
+        DatePeriodEntity periodEntity = _mapper.DatePeriodMap<TPeriod, DatePeriodEntity>(period);
 
         _ = await _periodRepository.CreateAsync(periodEntity, cancellationToken)
             .ConfigureAwait(false);
 
-        DatePeriod result = _mapper.Map<DatePeriod>(periodEntity);
+        TPeriod result = _mapper.DatePeriodMap<DatePeriodEntity, TPeriod>(periodEntity);
 
         return result;
     }

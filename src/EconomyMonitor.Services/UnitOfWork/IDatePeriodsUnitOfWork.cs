@@ -1,7 +1,7 @@
 using EconomyMonitor.Abstacts;
 using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Data.EfSets;
-using EconomyMonitor.Mapping.AutoMapper;
+using EconomyMonitor.Mapping.AutoMapper.DatePeriod;
 
 namespace EconomyMonitor.Services.UnitOfWork;
 
@@ -31,7 +31,7 @@ public interface IDatePeriodsUnitOfWork
     /// <param name="repository">Хранилище данных.</param>
     /// <param name="mapper">Экземпляр сопоставления сущностей с объектами передачи данных.</param>
     /// <returns>Реализация <see cref="IDatePeriodsUnitOfWork"/>.</returns>
-    public static IDatePeriodsUnitOfWork Create<TRepository>(TRepository repository, IEntityWithDtoMapper mapper)
+    public static IDatePeriodsUnitOfWork Create<TRepository>(TRepository repository, IDatePeriodMapper mapper)
         where TRepository : class, IRepository, IDatePeriodSet
     {
         return new DatePeriodsUnitOfWork<TRepository>(repository, mapper);

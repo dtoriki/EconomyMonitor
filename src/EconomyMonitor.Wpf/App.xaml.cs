@@ -50,7 +50,7 @@ internal partial class App : Application
 
         services
             .ConfigureSqliteAppRepository()
-            .ConfigureEntityWithDtoMappers()
+            .ConfigureMappers()
             .ConfigureUnitsOfWorkScoped()
             .ConfigureViewModels();
     }    
