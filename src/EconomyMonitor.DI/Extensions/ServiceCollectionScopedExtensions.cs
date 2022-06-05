@@ -1,7 +1,6 @@
 using AutoMapper;
 using EconomyMonitor.Data;
 using EconomyMonitor.Data.DI;
-using EconomyMonitor.Data.EfSets;
 using EconomyMonitor.Mapping.AutoMapper.DatePeriod;
 using EconomyMonitor.Services.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;

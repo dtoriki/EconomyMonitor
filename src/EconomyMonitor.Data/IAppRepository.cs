@@ -1,6 +1,7 @@
 using EconomyMonitor.Data.Abstracts.Interfaces;
+using EconomyMonitor.Data.Abstracts.Interfaces.EfSets;
 using EconomyMonitor.Data.DI;
-using EconomyMonitor.Data.EfSets;
+using EconomyMonitor.Data.Entities;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using static EconomyMonitor.Helpers.ThrowHelper;
@@ -12,12 +13,12 @@ namespace EconomyMonitor.Data;
 /// </summary>
 /// <remarks>
 /// Наследует 
-/// <see cref="IDatePeriodSet"/>,
+/// <see cref="IDatePeriodSet{TSetEntity}"/>, где TSetEntity является <see cref="DatePeriodEntity"/>,
 /// <see cref="IDataProtectionKeyContext"/>,
 /// <see cref="IRepository"/>. 
 /// </remarks>
 public interface IAppRepository : 
-    IDatePeriodSet,
+    IDatePeriodSet<DatePeriodEntity>,
     IDataProtectionKeyContext,
     IRepository
 {
