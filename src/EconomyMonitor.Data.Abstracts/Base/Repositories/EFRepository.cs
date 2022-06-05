@@ -470,9 +470,16 @@ public abstract class EfRepository : DbContext, IRepository
     /// Нарушение параллелизма возникает, когда во время сохранения затрагивается неожиданное количество строк. 
     /// Обычно это происходит из-за того, что данные в хранилище данных были изменены после их загрузки в память.
     /// </exception>
+    /// <exception cref="ObjectDisposedException">
+    /// Возникает, если текущий экземпляр был высвобожден.
+    /// </exception>
     public override int SaveChanges()
     {
-        // ToDo: нет проверки на disposed
+        if (_isDisposed)
+        {
+            ThrowDisposed(this);
+        }
+
         SetDates();
 
         return base.SaveChanges();
@@ -485,7 +492,11 @@ public abstract class EfRepository : DbContext, IRepository
     /// </param>
     public override int SaveChanges(bool acceptAllChangesOnSuccess)
     {
-        // ToDo: нет проверки на disposed
+        if (_isDisposed)
+        {
+            ThrowDisposed(this);
+        }
+
         SetDates();
 
         return base.SaveChanges(acceptAllChangesOnSuccess);
@@ -496,7 +507,10 @@ public abstract class EfRepository : DbContext, IRepository
     /// <inheritdoc cref="SaveChanges(bool)"/>
     public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
     {
-        // ToDo: нет проверки на disposed
+        if (_isDisposed)
+        {
+            ThrowDisposed(this);
+        }
 
         SetDates();
 
@@ -510,7 +524,10 @@ public abstract class EfRepository : DbContext, IRepository
     /// /// <param name="cancellationToken">Токен отмены операции.</param>
     public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
-        // ToDo: нет проверки на disposed
+        if (_isDisposed)
+        {
+            ThrowDisposed(this);
+        }
 
         SetDates();
 
