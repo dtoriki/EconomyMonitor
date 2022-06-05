@@ -8,7 +8,7 @@ namespace EconomyMonitor.Data.DI;
 /// Содержит методы расширения, конфигурирующие <see cref="IAppRepository"/>.
 /// </summary>
 /// <exception cref="ArgumentNullException"/>
-public static class ConfigureEconomyMonitorRepositoryExtensions // ToDo: Переименовать.
+public static class ConfigureAppRepositoryExtensions
 {
     /// <summary>
     /// Конфигурирует <see cref="IAppRepository"/> с временем существования <see cref="ServiceLifetime.Scoped"/>
@@ -29,9 +29,9 @@ public static class ConfigureEconomyMonitorRepositoryExtensions // ToDo: Пер�
     /// <exception cref="ArgumentNullException">
     /// Возникает, когда <paramref name="connectionString"/> - <see langword="null"/>.
     /// </exception>
-    public static IServiceCollection ConfigureEconomyMonitorRepositoryScoped( 
+    public static IServiceCollection ConfigureAppRepositoryScoped( 
         this IServiceCollection services, 
-        string connectionString) // ToDo: Переименовать.
+        string connectionString)
     {
         _ = ThrowIfArgumentNull(connectionString);
 
