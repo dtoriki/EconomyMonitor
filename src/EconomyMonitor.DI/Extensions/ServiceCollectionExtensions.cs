@@ -17,7 +17,7 @@ public static class ServiceCollectionExtensions
     /// <remarks>
     /// <para>
     /// Ищет в <paramref name="services"/> сервис <see cref="IConfiguration"/>.
-    /// После чего методом <see cref="Configuration.ConfigurationExtensions.GetConnectionString"/>
+    /// После чего методом <see cref="Configuration.ConfigurationExtensions.GetSqliteConnectionString"/>
     /// пытается найти строку подключения.
     /// </para>
     /// <para>
@@ -29,6 +29,6 @@ public static class ServiceCollectionExtensions
         return services
             .BuildServiceProvider()
             .GetRequiredService<IConfiguration>()
-            .GetConnectionString();
+            .GetSqliteConnectionString();
     }
 }

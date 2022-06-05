@@ -1,10 +1,12 @@
 using EconomyMonitor.Configuration;
 using EconomyMonitor.Data;
+using EconomyMonitor.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using static EconomyMonitor.Helpers.ThrowHelper;
+using static EconomyMonitor.Literals.ExceptionMessages;
 
 namespace EconomyMonitor.DI;
 
@@ -75,36 +77,39 @@ public static class AppHosting
     public static async Task<IHost> CreateLocalStorageAsync(this IHost host)
     {
         using IServiceScope scope = host.Services.CreateScope();
-
-        string[]? relativePathSegments = scope.ServiceProvider
-            .GetRequiredService<IConfiguration>()
-            .GetConnectionString()?
-            .Split(Path.PathSeparator, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
-            .FirstOrDefault(x => x.ToUpper().Contains("DATA SOURCE"))?
-            .Split('=', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
-            .LastOrDefault()?
-            .Split(Path.DirectorySeparatorChar, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
-
-        if (ThrowIfNull(relativePathSegments))
+        try
         {
-            return null!;
+            string? storageFileDirectory = scope.ServiceProvider
+                .GetRequiredService<IConfiguration>()
+                .GetPathToSqliteStorageDirectory();
+
+            if (string.IsNullOrWhiteSpace(storageFileDirectory))
+            {
+                Throw<ApplicationException>(CONNECTION_STRING_WAS_NOT_FOUND);
+            }
+
+            if (!Directory.Exists(storageFileDirectory))
+            {
+                Directory.CreateDirectory(storageFileDirectory);
+            }
+        }
+        catch (InvalidOperationException)
+        {
+            throw new DependencyNotFoundException(typeof(IConfiguration));
         }
 
-        IEnumerable<string> pathSegments = Environment.CurrentDirectory
-            .Split(Path.DirectorySeparatorChar, StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries)
-            .Concat(relativePathSegments);
-
-        string folderPath = Path.Combine(pathSegments.Take(pathSegments.Count() - 1).ToArray());
-        if (!Directory.Exists(folderPath))
+        try
         {
-            Directory.CreateDirectory(folderPath);
-        }
-        
-        var context = (DbContext)scope.ServiceProvider.GetRequiredService<IAppRepository>();
+            var context = (DbContext)scope.ServiceProvider.GetRequiredService<IAppRepository>();
 
-        await context.Database
-            .MigrateAsync()
-            .ConfigureAwait(false);
+            await context.Database
+                .MigrateAsync()
+                .ConfigureAwait(false);
+        }
+        catch (InvalidOperationException)
+        {
+            throw new DependencyNotFoundException(typeof(IAppRepository));
+        }
 
         return host;
     }
