@@ -12,13 +12,26 @@ namespace EconomyMonitor.Data;
 /// Предоставляет тип хранилища данных приложения.
 /// </summary>
 /// <remarks>
-/// Наследует 
-/// <see cref="IDatePeriodSet{TSetEntity}"/>, где TSetEntity является <see cref="DatePeriodEntity"/>,
-/// <see cref="IDataProtectionKeyContext"/>,
+/// Наследует:
+/// <list type="bullet">
+/// <item>
+/// <see cref="IDatePeriodSet{TSetEntity}"/>, где TSetEntity является <see cref="DatePeriodEntity"/>;
+/// </item>
+/// <item>
+/// <see cref="IDatePeriodConfigurationSet{TDatePeriodConfigurationEntity}"/>, 
+/// где TDatePeriodConfigurationEntity является <see cref="DatePeriodConfigurationEntity"/>;
+/// </item>
+/// <item>
+/// <see cref="IDataProtectionKeyContext"/>;
+/// </item>
+/// <item>
 /// <see cref="IRepository"/>. 
+/// </item>
+/// </list>
 /// </remarks>
 public interface IAppRepository : 
     IDatePeriodSet<DatePeriodEntity>,
+    IDatePeriodConfigurationSet<DatePeriodConfigurationEntity>,
     IDataProtectionKeyContext,
     IRepository
 {
