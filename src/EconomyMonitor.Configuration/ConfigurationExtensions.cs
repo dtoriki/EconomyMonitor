@@ -6,7 +6,7 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 namespace EconomyMonitor.Configuration;
 
 /// <summary>
-/// Содержит методы расширения для <see cref="IConfigurationBuilder"/>.
+/// Содержит методы расширения для <see cref="IConfiguration"/> и <see cref="IConfigurationBuilder"/>.
 /// </summary>
 /// <exception cref="ArgumentNullException"/>
 /// <exception cref="NullReferenceException"/>
@@ -32,7 +32,7 @@ public static class ConfigurationExtensions
     /// используя метод <see cref="JsonConfigurationExtensions.AddJsonStream(IConfigurationBuilder, Stream)"/>.
     /// Если не удалось создать поток <see cref="Stream"/> ресурса сборки, то вызывает <see cref="NullReferenceException"/>.
     /// </remarks>
-    public static IConfigurationBuilder ConfigureConfiguration( //ToDo: переименовать Setup...
+    public static IConfigurationBuilder SetupConfiguration(
         this IConfigurationBuilder configurationBuilder,
         string resourcePath)
     {
@@ -61,19 +61,19 @@ public static class ConfigurationExtensions
         return configurationBuilder;
     }
 
-    /// <inheritdoc cref="ConfigureConfiguration(IConfigurationBuilder, string)"/>
-    public static IConfigurationBuilder ConfigureConfiguration(this IConfigurationBuilder configurationBuilder) //ToDo: переименовать Setup...
+    /// <inheritdoc cref="SetupConfiguration(IConfigurationBuilder, string)"/>
+    public static IConfigurationBuilder SetupConfiguration(this IConfigurationBuilder configurationBuilder)
     {
-        return configurationBuilder.ConfigureConfiguration(Configuration.AppsettingsFile);
+        return configurationBuilder.SetupConfiguration(Configuration.AppsettingsFile);
     }
 
     /// <summary>
-    /// <inheritdoc cref="ConfigureConfiguration(IConfigurationBuilder, string)"/> Для среды разработки.
+    /// <inheritdoc cref="SetupConfiguration(IConfigurationBuilder, string)"/> Для среды разработки.
     /// </summary>
-    /// <inheritdoc cref="ConfigureConfiguration(IConfigurationBuilder, string)"/>
-    public static IConfigurationBuilder ConfigureDevConfiguration(this IConfigurationBuilder configurationBuilder) //ToDo: переименовать Setup...
+    /// <inheritdoc cref="SetupConfiguration(IConfigurationBuilder, string)"/>
+    public static IConfigurationBuilder SetupDevConfiguration(this IConfigurationBuilder configurationBuilder)
     {
-        return configurationBuilder.ConfigureConfiguration(Configuration.AppsettingsDevFile);
+        return configurationBuilder.SetupConfiguration(Configuration.AppsettingsDevFile);
     }
 
     /// <summary>
