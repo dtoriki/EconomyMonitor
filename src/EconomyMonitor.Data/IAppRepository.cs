@@ -2,6 +2,7 @@ using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Data.DI;
 using EconomyMonitor.Data.EfSets;
 using Microsoft.EntityFrameworkCore;
+using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Data;
 
@@ -36,7 +37,8 @@ public interface IAppRepository : IDatePeriodSet, IRepository
     /// </remarks>
     public static IAppRepository CreateSqlite(string connectionString)
     {
-        // ToDo: не хватает проверки на null.
+        _ = ThrowIfArgumentNull(connectionString);
+
         DbContextOptions<EconomyMonitorRepository> options = new DbContextOptionsBuilder<EconomyMonitorRepository>()
             .ConfigureSqliteDbContextOptionsBuilder(connectionString)
             .Options;
