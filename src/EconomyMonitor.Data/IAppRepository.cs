@@ -19,7 +19,8 @@ public interface IAppRepository : IDatePeriodSet, IRepository
     /// <returns>Реализация хранилища данных приложения <see cref="IAppRepository"/>.</returns>
     public static IAppRepository Create(DbContextOptions options)
     {
-        // ToDo: не хватает проверки на null.
+        _ = ThrowIfArgumentNull(options);
+
         return new AppRepository(options);
     }
 
