@@ -36,7 +36,7 @@ public static class ConfigureAppRepositoryExtensions
         _ = ThrowIfArgumentNull(connectionString);
 
         services
-            .AddDbContext<IAppRepository, EconomyMonitorRepository>(
+            .AddDbContext<IAppRepository, AppRepository>(
                 options => _ = options.ConfigureSqliteDbContextOptionsBuilder(connectionString),
                 ServiceLifetime.Scoped, 
                 ServiceLifetime.Scoped);

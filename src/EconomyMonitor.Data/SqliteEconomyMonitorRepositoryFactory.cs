@@ -7,9 +7,9 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 namespace EconomyMonitor.Data;
 
 // ToDo: изменить название.
-internal class SqliteEconomyMonitorRepositoryFactory : IDesignTimeDbContextFactory<EconomyMonitorRepository>
+internal class SqliteEconomyMonitorRepositoryFactory : IDesignTimeDbContextFactory<AppRepository>
 {
-    public EconomyMonitorRepository CreateDbContext(string[] args)
+    public AppRepository CreateDbContext(string[] args)
     {
         string? connectionString = new ConfigurationBuilder()
             .SetupConfiguration()
@@ -21,6 +21,6 @@ internal class SqliteEconomyMonitorRepositoryFactory : IDesignTimeDbContextFacto
             return null!;
         }
 
-        return (EconomyMonitorRepository)IAppRepository.CreateSqlite(connectionString);
+        return (AppRepository)IAppRepository.CreateSqlite(connectionString);
     }
 }
