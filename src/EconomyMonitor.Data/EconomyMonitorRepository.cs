@@ -7,7 +7,7 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 namespace EconomyMonitor.Data;
 
 // ToDo: Изменить название.
-internal sealed class EconomyMonitorRepository : EfRepository, IEconomyMonitorRepository
+internal sealed class EconomyMonitorRepository : EfRepository, IAppRepository
 {
     public DbSet<DatePeriodEntity> DatePeriods { get; set; }
 

@@ -19,7 +19,7 @@ namespace EconomyMonitor.DI.Extensions;
 public static class ScopedExtensions //ToDo: может, переименовать?
 {
     /// <summary>
-    /// Конфигурирует <see cref="IEconomyMonitorRepository"/>, используя поставщик данных Sqlite 
+    /// Конфигурирует <see cref="IAppRepository"/>, используя поставщик данных Sqlite 
     /// с временем существования <see cref="ServiceLifetime.Scoped"/>
     /// и добавляет его в <paramref name="services"/>.
     /// </summary>
@@ -32,7 +32,7 @@ public static class ScopedExtensions //ToDo: может, переименова�
     /// </para>
     /// <para>
     /// Методом <see cref="ConfigureEconomyMonitorRepositoryExtensions.ConfigureEconomyMonitorRepositoryScoped(IServiceCollection, string)"/>
-    /// конфигурирует экземпляр <see cref="IEconomyMonitorRepository"/> со временем жизни <see cref="ServiceLifetime.Scoped"/>
+    /// конфигурирует экземпляр <see cref="IAppRepository"/> со временем жизни <see cref="ServiceLifetime.Scoped"/>
     /// и помещает его в <paramref name="services"/>.
     /// </para>
     /// </remarks>
@@ -61,14 +61,14 @@ public static class ScopedExtensions //ToDo: может, переименова�
     /// <returns>Коллекция сервисов.</returns>
     /// <remarks>
     /// Перед конфигурацией типа работы с хранилищем данных необходимо, 
-    /// чтобы были сконфигурированны <see cref="IEconomyMonitorRepository"/>
+    /// чтобы были сконфигурированны <see cref="IAppRepository"/>
     /// и <see cref="IEntityWithDtoMapper"/>.
     /// </remarks>
     public static IServiceCollection ConfigureDatePeriodsUnitOfWorkScoped(this IServiceCollection services)
     {
         services.AddScoped(provider =>
         {
-            IEconomyMonitorRepository repository = provider.GetRequiredService<IEconomyMonitorRepository>();
+            IAppRepository repository = provider.GetRequiredService<IAppRepository>();
             IEntityWithDtoMapper mapper = provider.GetRequiredService<IEntityWithDtoMapper>();
 
             return IDatePeriodsUnitOfWork.Create(repository, mapper);
@@ -91,7 +91,7 @@ public static class ScopedExtensions //ToDo: может, переименова�
     /// </list>
     /// <para>
     /// Перед конфигурацией типа работы с хранилищем данных необходимо, 
-    /// чтобы были сконфигурированны <see cref="IEconomyMonitorRepository"/>
+    /// чтобы были сконфигурированны <see cref="IAppRepository"/>
     /// и <see cref="IEntityWithDtoMapper"/>.
     /// </para>
     /// </remarks>
