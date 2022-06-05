@@ -11,7 +11,7 @@ namespace EconomyMonitor.DI;
 /// <summary>
 /// Предоставляет методы расширения для хостинга <see cref="IHost"/>. 
 /// </summary>
-public static class EconomyMonitorHosting // ToDo: переименовать.
+public static class AppHosting
 {
     /// <summary>
     /// Производит инициализацию хоста приложения.
