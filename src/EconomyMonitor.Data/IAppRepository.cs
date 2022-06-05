@@ -1,6 +1,7 @@
 using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Data.DI;
 using EconomyMonitor.Data.EfSets;
+using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
@@ -9,8 +10,16 @@ namespace EconomyMonitor.Data;
 /// <summary>
 /// Предоставляет тип хранилища данных приложения.
 /// </summary>
-/// <remarks>Наследует <see cref="IRepository"/>, <see cref="IDatePeriodSet"/>.</remarks>
-public interface IAppRepository : IDatePeriodSet, IRepository
+/// <remarks>
+/// Наследует 
+/// <see cref="IDatePeriodSet"/>,
+/// <see cref="IDataProtectionKeyContext"/>,
+/// <see cref="IRepository"/>. 
+/// </remarks>
+public interface IAppRepository : 
+    IDatePeriodSet,
+    IDataProtectionKeyContext,
+    IRepository
 {
     /// <summary>
     /// Создаёт реализацию хранилища данных приложения <see cref="IAppRepository"/>.
