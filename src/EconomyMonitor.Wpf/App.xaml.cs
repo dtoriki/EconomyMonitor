@@ -49,7 +49,7 @@ internal partial class App : Application
         });
 
         services
-            .ConfigureSqliteEconomyMonitorRepository()
+            .ConfigureSqliteAppRepository()
             .ConfigureEntityWithDtoMappers()
             .ConfigureUnitsOfWorkScoped()
             .ConfigureViewModels();
