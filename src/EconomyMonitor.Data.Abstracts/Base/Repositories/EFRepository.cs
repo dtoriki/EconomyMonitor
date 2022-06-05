@@ -291,19 +291,12 @@ public abstract class EfRepository : DbContext, IRepository
     /// <exception cref="ObjectDisposedException">
     /// Возникает, если текущий экземпляр был высвобожден.
     /// </exception>
-    public Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
+    public async Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
-        if (_isDisposed)
-        {
-            ThrowDisposed(this);
-        }
+        await UpdateInternalAsync(entity, cancellationToken).ConfigureAwait(false);
 
-        _ = ThrowIfArgumentNull(entity);
-
-        Set<TEntity>().Update(entity); // ToDo: тут бага. данный метод может как обновить сущность, так и добавить новую.
-
-        return SaveChangesAsync(cancellationToken);
+        await SaveChangesAsync(cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
@@ -325,7 +318,7 @@ public abstract class EfRepository : DbContext, IRepository
     /// <exception cref="ObjectDisposedException">
     /// Возникает, если текущий экземпляр был высвобожден.
     /// </exception>
-    public Task UpdateBulkAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
+    public async Task UpdateBulkAsync<TEntity>(IEnumerable<TEntity> entities, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
         if (_isDisposed)
@@ -338,9 +331,12 @@ public abstract class EfRepository : DbContext, IRepository
 
         TEntity[] entitiesArray = entities as TEntity[] ?? entities.ToArray();
 
-        Set<TEntity>().UpdateRange(entitiesArray); // ToDo: тут бага. данный метод может как обновить сущности, так и добавить новые.
+        foreach(TEntity entity in entitiesArray)
+        {
+            await UpdateInternalAsync(entity, cancellationToken).ConfigureAwait(false);
+        }
 
-        return SaveChangesAsync(cancellationToken);
+        await SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
@@ -571,5 +567,23 @@ public abstract class EfRepository : DbContext, IRepository
         _ = ThrowIfArgumentNull(entity);
 
         Set<TEntity>().Remove(entity);
+    }
+
+    private async Task UpdateInternalAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
+        where TEntity : class, IEntity
+    {
+        if (_isDisposed)
+        {
+            ThrowDisposed(this);
+        }
+
+        _ = ThrowIfArgumentNull(entity);
+
+        if (await FindAsync<TEntity>(entity.Id, cancellationToken).ConfigureAwait(false) is null)
+        {
+            return;
+        }
+
+        Set<TEntity>().Update(entity);
     }
 }
