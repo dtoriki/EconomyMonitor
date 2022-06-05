@@ -3,7 +3,7 @@ using EconomyMonitor.Abstacts;
 namespace EconomyMonitor.Data.Abstracts.Interfaces;
 
 /// <summary>
-/// Представляет тип сущности, хранимой в хранилище данных.
+/// Тип, хранящийся в хранилище данных.
 /// </summary>
 /// <remarks>Наследует <see cref="IUniqueRequired"/>.</remarks>
 public interface IEntity : IUniqueRequired

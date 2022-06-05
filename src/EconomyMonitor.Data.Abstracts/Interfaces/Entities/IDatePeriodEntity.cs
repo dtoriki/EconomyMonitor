@@ -1,7 +1,7 @@
 using EconomyMonitor.Abstacts;
 using EconomyMonitor.Data.Abstracts.Interfaces;
 
-namespace EconomyMonitor.Data.Entities;
+namespace EconomyMonitor.Data.Abstracts.Interfaces.Entities;
 
 /// <summary>
 /// Представляет тип сущности периода дат в таблице базы данных.

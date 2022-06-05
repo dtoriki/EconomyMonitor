@@ -1,4 +1,5 @@
 using EconomyMonitor.Data.Abstracts.Base;
+using EconomyMonitor.Data.Abstracts.Interfaces.Entities;
 
 namespace EconomyMonitor.Data.Entities;
 
