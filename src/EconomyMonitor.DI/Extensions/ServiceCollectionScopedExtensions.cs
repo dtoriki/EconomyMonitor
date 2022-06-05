@@ -2,7 +2,7 @@ using AutoMapper;
 using EconomyMonitor.Data;
 using EconomyMonitor.Data.DI;
 using EconomyMonitor.Data.EfSets;
-using EconomyMonitor.Mapping.AutoMapper;
+using EconomyMonitor.Mapping.AutoMapper.DatePeriod;
 using EconomyMonitor.Services.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 using static EconomyMonitor.Helpers.ThrowHelper;
@@ -62,14 +62,14 @@ public static class ServiceCollectionScopedExtensions
     /// <remarks>
     /// Перед конфигурацией типа работы с хранилищем данных необходимо, 
     /// чтобы были сконфигурированны <see cref="IAppRepository"/>
-    /// и <see cref="IEntityWithDtoMapper"/>.
+    /// и <see cref="IDatePeriodMapper"/>.
     /// </remarks>
     public static IServiceCollection ConfigureDatePeriodsUnitOfWorkScoped(this IServiceCollection services)
     {
         services.AddScoped(provider =>
         {
             IAppRepository repository = provider.GetRequiredService<IAppRepository>();
-            IEntityWithDtoMapper mapper = provider.GetRequiredService<IEntityWithDtoMapper>();
+            IDatePeriodMapper mapper = provider.GetRequiredService<IDatePeriodMapper>();
 
             return IDatePeriodsUnitOfWork.Create(repository, mapper);
         });
@@ -92,7 +92,7 @@ public static class ServiceCollectionScopedExtensions
     /// <para>
     /// Перед конфигурацией типа работы с хранилищем данных необходимо, 
     /// чтобы были сконфигурированны <see cref="IAppRepository"/>
-    /// и <see cref="IEntityWithDtoMapper"/>.
+    /// и <see cref="IDatePeriodMapper"/>.
     /// </para>
     /// </remarks>
     public static IServiceCollection ConfigureUnitsOfWorkScoped(this IServiceCollection services)
@@ -104,7 +104,7 @@ public static class ServiceCollectionScopedExtensions
 
     /// <summary>
     /// Конфигурирует тип сопоставления данных 
-    /// <see cref="IEntityWithDtoMapper"/>
+    /// <see cref="IDatePeriodMapper"/>
     /// и добавляет его в <paramref name="services"/> 
     /// c временем существования <see cref="ServiceLifetime.Scoped"/>.
     /// </summary>
@@ -114,9 +114,9 @@ public static class ServiceCollectionScopedExtensions
     /// Для конфигурации типа сопоставления данных использует метод 
     /// <see cref="ConfigureMapperScoped{TProfile, TMapper}(IServiceCollection, Func{IMapperConfigurationProvider, TMapper})"/>
     /// </remarks>
-    public static IServiceCollection ConfigureEntityWithDtoMappers(this IServiceCollection services)
+    public static IServiceCollection ConfigureMappers(this IServiceCollection services)
     {
-        services.ConfigureMapperScoped<EntityWithDtoProfile, IEntityWithDtoMapper>(p => new EntityWithDtoMapper(p));
+        services.ConfigureMapperScoped<DatePeriodMapProfile, IDatePeriodMapper>(p => new DatePeriodMapper(p));
         
         return services;
     }
@@ -138,7 +138,7 @@ public static class ServiceCollectionScopedExtensions
         this IServiceCollection services,
         Func<IMapperConfigurationProvider, TMapper> implementationFactory) 
             where TProfile : Profile, new() 
-            where TMapper : class, IMapper
+            where TMapper : class
     {
         _ = ThrowIfArgumentNull(implementationFactory);
 
