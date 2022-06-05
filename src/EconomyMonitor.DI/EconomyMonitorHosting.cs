@@ -100,7 +100,7 @@ public static class EconomyMonitorHosting // ToDo: переименовать.
             Directory.CreateDirectory(folderPath);
         }
         
-        var context = (DbContext)scope.ServiceProvider.GetRequiredService<IEconomyMonitorRepository>();
+        var context = (DbContext)scope.ServiceProvider.GetRequiredService<IAppRepository>();
 
         await context.Database
             .MigrateAsync()

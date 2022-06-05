@@ -21,6 +21,6 @@ internal class SqliteEconomyMonitorRepositoryFactory : IDesignTimeDbContextFacto
             return null!;
         }
 
-        return (EconomyMonitorRepository)IEconomyMonitorRepository.CreateSqlite(connectionString);
+        return (EconomyMonitorRepository)IAppRepository.CreateSqlite(connectionString);
     }
 }

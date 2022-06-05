@@ -5,13 +5,13 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 namespace EconomyMonitor.Data.DI;
 
 /// <summary>
-/// Содержит методы расширения, конфигурирующие <see cref="IEconomyMonitorRepository"/>.
+/// Содержит методы расширения, конфигурирующие <see cref="IAppRepository"/>.
 /// </summary>
 /// <exception cref="ArgumentNullException"/>
 public static class ConfigureEconomyMonitorRepositoryExtensions // ToDo: Переименовать.
 {
     /// <summary>
-    /// Конфигурирует <see cref="IEconomyMonitorRepository"/> с временем существования <see cref="ServiceLifetime.Scoped"/>
+    /// Конфигурирует <see cref="IAppRepository"/> с временем существования <see cref="ServiceLifetime.Scoped"/>
     /// и добавляет его в <paramref name="services"/>.
     /// </summary>
     /// <param name="services">Коллекция сервисов.</param>
@@ -19,7 +19,7 @@ public static class ConfigureEconomyMonitorRepositoryExtensions // ToDo: Пер�
     /// <returns>Коллекция сервисов.</returns>
     /// <remarks>
     /// <para>
-    /// Добавляет <see cref="IEconomyMonitorRepository"/> в <paramref name="services"/> методом 
+    /// Добавляет <see cref="IAppRepository"/> в <paramref name="services"/> методом 
     /// <see cref="EntityFrameworkServiceCollectionExtensions.AddDbContext{TContextService, TContextImplementation}(IServiceCollection, Action{DbContextOptionsBuilder}?, ServiceLifetime, ServiceLifetime)"/>.
     /// </para>
     /// <para>
@@ -36,7 +36,7 @@ public static class ConfigureEconomyMonitorRepositoryExtensions // ToDo: Пер�
         _ = ThrowIfArgumentNull(connectionString);
 
         services
-            .AddDbContext<IEconomyMonitorRepository, EconomyMonitorRepository>(
+            .AddDbContext<IAppRepository, EconomyMonitorRepository>(
                 options => _ = options.ConfigureSqliteDbContextOptionsBuilder(connectionString),
                 ServiceLifetime.Scoped, 
                 ServiceLifetime.Scoped);
