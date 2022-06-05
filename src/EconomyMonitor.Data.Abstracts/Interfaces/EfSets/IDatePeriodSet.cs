@@ -21,5 +21,5 @@ public interface IDatePeriodSet<TDatePeriodEntity> : IRepositorySet<IDatePeriodE
     /// Возвращает экземпляр доступа к таблице базы данных "DatePeriods", 
     /// способный формировать запросы к ней (таблице).
     /// </summary>
-    public DbSet<TDatePeriodEntity> DatePeriods { get; }
+    DbSet<TDatePeriodEntity> DatePeriods { get; }
 }
