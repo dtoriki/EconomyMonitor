@@ -1,6 +1,6 @@
 using EconomyMonitor.Abstacts;
 using EconomyMonitor.Data.Abstracts.Interfaces;
-using EconomyMonitor.Data.EfSets;
+using EconomyMonitor.Data.Abstracts.Interfaces.EfSets;
 using EconomyMonitor.Data.Entities;
 using EconomyMonitor.Mapping.AutoMapper.DatePeriod;
 using static EconomyMonitor.Helpers.ThrowHelper;
@@ -8,7 +8,7 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 namespace EconomyMonitor.Services.UnitOfWork;
 
 internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWork, IDisposable, IAsyncDisposable
-    where TRepository : class, IRepository, IDatePeriodSet
+    where TRepository : class, IRepository, IDatePeriodSet<DatePeriodEntity>
 {
     private readonly TRepository _periodRepository;
     private readonly IDatePeriodMapper _mapper;

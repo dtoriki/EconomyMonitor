@@ -1,24 +1,25 @@
-using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Data.Abstracts.Interfaces.Entities;
-using EconomyMonitor.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 
-namespace EconomyMonitor.Data.EfSets;
+namespace EconomyMonitor.Data.Abstracts.Interfaces.EfSets;
 
 /// <summary>
 /// Представляет тип, поддерживающий запросы к таблице "DatePeriods", 
-/// хранящей сущности типа <see cref="DatePeriodEntity"/>.
+/// хранящей сущности типа <see cref="IDatePeriodEntity"/>.
 /// </summary>
+/// <typeparam name="TSetEntity">
+/// Тип, хранимой сущности, которая реализует <see cref="IDatePeriodEntity"/>.
+/// </typeparam>
 /// <remarks>
 /// Наследует <see cref="IRepositorySet{TEntity}"/>, 
-/// где тип сущности - <see cref="DatePeriodEntity"/>.
+/// где тип сущности - <see cref="IDatePeriodEntity"/>.
 /// </remarks>
-public interface IDatePeriodSet : IRepositorySet<IDatePeriodEntity>
+public interface IDatePeriodSet<TSetEntity> : IRepositorySet<IDatePeriodEntity>
+    where TSetEntity : class, IDatePeriodEntity
 {
-
     /// <summary>
     /// Возвращает экземпляр доступа к таблице базы данных "DatePeriods", 
     /// способный формировать запросы к ней (таблице).
     /// </summary>
-    public DbSet<DatePeriodEntity> DatePeriods { get; }
+    public DbSet<TSetEntity> DatePeriods { get; }
 }
