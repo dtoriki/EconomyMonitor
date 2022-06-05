@@ -12,7 +12,7 @@ internal class SqliteEconomyMonitorRepositoryFactory : IDesignTimeDbContextFacto
     public EconomyMonitorRepository CreateDbContext(string[] args)
     {
         string? connectionString = new ConfigurationBuilder()
-            .ConfigureConfiguration()
+            .SetupConfiguration()
             .Build()
             .GetConnectionString();
 

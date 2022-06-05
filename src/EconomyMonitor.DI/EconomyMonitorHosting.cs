@@ -32,11 +32,11 @@ public static class EconomyMonitorHosting // ToDo: переименовать.
     /// <list type="bullet">
     /// <item>
     /// Для конфигурации решения DEBUG конфигурация устанавливается методом 
-    /// <see cref="Configuration.ConfigurationExtensions.ConfigureDevConfiguration(IConfigurationBuilder)"/>.
+    /// <see cref="Configuration.ConfigurationExtensions.SetupDevConfiguration(IConfigurationBuilder)"/>.
     /// </item>
     /// <item>
     /// Для конфигурации решения RELEASE конфигурация устанавливается методом 
-    /// <see cref="Configuration.ConfigurationExtensions.ConfigureConfiguration(IConfigurationBuilder)"/>.
+    /// <see cref="Configuration.ConfigurationExtensions.SetupConfiguration(IConfigurationBuilder)"/>.
     /// </item>
     /// </list>
     /// </para>
@@ -55,7 +55,7 @@ public static class EconomyMonitorHosting // ToDo: переименовать.
             .ConfigureAppConfiguration((host, config) =>
             {
 #if DEBUG
-                config.ConfigureDevConfiguration();
+                config.SetupDevConfiguration();
 #else
                 config.ConfigureConfiguration();
 #endif
