@@ -1,4 +1,5 @@
 using EconomyMonitor.Data.Abstracts.Interfaces;
+using EconomyMonitor.Data.Abstracts.Interfaces.Entities;
 using EconomyMonitor.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 

@@ -1,5 +1,6 @@
 using EconomyMonitor.Data.Abstracts.Base.Repositories;
 using EconomyMonitor.Data.Abstracts.Interfaces;
+using EconomyMonitor.Data.Abstracts.Interfaces.Entities;
 using EconomyMonitor.Data.Entities;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
