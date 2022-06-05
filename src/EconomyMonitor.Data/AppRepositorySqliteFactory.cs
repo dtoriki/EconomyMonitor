@@ -1,5 +1,4 @@
 using EconomyMonitor.Configuration;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using static EconomyMonitor.Helpers.ThrowHelper;
@@ -13,7 +12,7 @@ internal class AppRepositorySqliteFactory : IDesignTimeDbContextFactory<AppRepos
         string? connectionString = new ConfigurationBuilder()
             .SetupConfiguration()
             .Build()
-            .GetConnectionString();
+            .GetSqliteConnectionString();
 
         if (ThrowIfNull(connectionString))
         {

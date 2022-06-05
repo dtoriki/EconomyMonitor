@@ -55,4 +55,9 @@ public static class ExceptionMessages
     /// Возвращает сообщение "Объект \"{0}\" типа \"{1}\" оказался null.".
     /// </summary>
     public static string NULL_REFERENCE => "Объект \"{0}\" типа \"{1}\" оказался null.";
+
+    /// <summary>
+    /// Возвращает сообщение "Не удалось найти строку подключения к хранилищу данных.".
+    /// </summary>
+    public static string CONNECTION_STRING_WAS_NOT_FOUND => "Не удалось найти строку подключения к хранилищу данных.";
 }
