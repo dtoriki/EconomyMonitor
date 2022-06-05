@@ -98,7 +98,6 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
     /// </summary>
     public void Dispose()
     {
-        // ToDo: нужен protected метод типа Flush, чтобы очищать подписчиков.
         Dispose(disposing: true);
         GC.SuppressFinalize(this);
     }
@@ -157,6 +156,8 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
 
         if (disposing)
         {
+            FlushPropertyChangedSubscribers();
+
             if (Execution is IAsyncDisposable execution)
             {
                 await execution.DisposeAsync().ConfigureAwait(false);
@@ -186,6 +187,8 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
 
         if (disposing)
         {
+            FlushPropertyChangedSubscribers();
+
             if (Execution is IDisposable execution)
             {
                 execution.Dispose();

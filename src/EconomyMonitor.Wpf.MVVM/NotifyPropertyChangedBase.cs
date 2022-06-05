@@ -63,4 +63,9 @@ public abstract class NotifyPropertyChangedBase : INotifyPropertyChanged
 
         return Set(ref field, value, Notify);
     }
+
+    /// <summary>
+    /// Очищает подписчиков события <see cref="PropertyChanged"/>.
+    /// </summary>
+    protected virtual void FlushPropertyChangedSubscribers() => PropertyChanged = null;
 }
