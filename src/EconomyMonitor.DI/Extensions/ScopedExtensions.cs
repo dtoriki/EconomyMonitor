@@ -31,7 +31,7 @@ public static class ScopedExtensions //ToDo: может, переименова�
     /// пытается полчить строку подключения. Если строка подключения не найдена, то вызывает <see cref="ArgumentNullException"/>.
     /// </para>
     /// <para>
-    /// Методом <see cref="ConfigureEconomyMonitorRepositoryExtensions.ConfigureEconomyMonitorRepositoryScoped(IServiceCollection, string)"/>
+    /// Методом <see cref="ConfigureAppRepositoryExtensions.ConfigureAppRepositoryScoped(IServiceCollection, string)"/>
     /// конфигурирует экземпляр <see cref="IAppRepository"/> со временем жизни <see cref="ServiceLifetime.Scoped"/>
     /// и помещает его в <paramref name="services"/>.
     /// </para>
@@ -47,7 +47,7 @@ public static class ScopedExtensions //ToDo: может, переименова�
             return services;
         }
 
-        services.ConfigureEconomyMonitorRepositoryScoped(connectionString);
+        services.ConfigureAppRepositoryScoped(connectionString);
 
         return services;
     }
