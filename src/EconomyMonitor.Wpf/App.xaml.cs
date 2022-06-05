@@ -3,7 +3,7 @@ using EconomyMonitor.DI;
 using EconomyMonitor.DI.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using static EconomyMonitor.DI.EconomyMonitorHosting;
+using static EconomyMonitor.DI.AppHosting;
 
 namespace EconomyMonitor.Wpf;
 
