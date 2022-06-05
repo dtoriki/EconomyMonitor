@@ -355,7 +355,7 @@ public abstract class EfRepository : DbContext, IRepository
     /// <exception cref="ObjectDisposedException">
     /// Возникает, если текущий экземпляр был высвобожден.
     /// </exception>
-    public async Task<TEntity?> FindAsync<TEntity>(
+    public Task<TEntity?> FindAsync<TEntity>(
         Guid id,
         CancellationToken cancellationToken = default) where TEntity : class, IEntity
     {
@@ -364,11 +364,9 @@ public abstract class EfRepository : DbContext, IRepository
             ThrowDisposed(this);
         }
 
-        TEntity? entity = await Set<TEntity>()
+        return Set<TEntity>()
             .FindAsync(new object?[] { id, cancellationToken }, cancellationToken: cancellationToken)
-            .ConfigureAwait(false);
-
-        return entity;
+            .AsTask();
     }
 
     /// <inheritdoc/>
