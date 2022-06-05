@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EconomyMonitor.Data.Migrations
 {
-    [DbContext(typeof(EconomyMonitorRepository))]
+    [DbContext(typeof(AppRepository))]
     [Migration("20220523200903_Init")]
     partial class Init
     {

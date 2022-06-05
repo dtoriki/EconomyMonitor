@@ -20,7 +20,7 @@ public interface IAppRepository : IDatePeriodSet, IRepository
     public static IAppRepository Create(DbContextOptions options)
     {
         // ToDo: не хватает проверки на null.
-        return new EconomyMonitorRepository(options);
+        return new AppRepository(options);
     }
 
     /// <summary>
@@ -39,10 +39,10 @@ public interface IAppRepository : IDatePeriodSet, IRepository
     {
         _ = ThrowIfArgumentNull(connectionString);
 
-        DbContextOptions<EconomyMonitorRepository> options = new DbContextOptionsBuilder<EconomyMonitorRepository>()
+        DbContextOptions<AppRepository> options = new DbContextOptionsBuilder<AppRepository>()
             .ConfigureSqliteDbContextOptionsBuilder(connectionString)
             .Options;
 
-        return new EconomyMonitorRepository(options);
+        return new AppRepository(options);
     }
 }

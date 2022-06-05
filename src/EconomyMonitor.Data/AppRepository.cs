@@ -6,22 +6,21 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Data;
 
-// ToDo: Изменить название.
-internal sealed class EconomyMonitorRepository : EfRepository, IAppRepository
+internal sealed class AppRepository : EfRepository, IAppRepository
 {
     public DbSet<DatePeriodEntity> DatePeriods { get; set; }
 
     IQueryable<IDatePeriodEntity> IRepositorySet<IDatePeriodEntity>.EntitySet => DatePeriods;
 
 #pragma warning disable CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
-    public EconomyMonitorRepository() : base()
+    public AppRepository() : base()
 #pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
     {
 
     }
 
 #pragma warning disable CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
-    public EconomyMonitorRepository(DbContextOptions dbContextOptions) : base(dbContextOptions)
+    public AppRepository(DbContextOptions dbContextOptions) : base(dbContextOptions)
 #pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
     {
         _ = ThrowIfArgumentNull(dbContextOptions);
