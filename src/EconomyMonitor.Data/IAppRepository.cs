@@ -8,7 +8,7 @@ namespace EconomyMonitor.Data;
 /// <summary>
 /// Предоставляет тип хранилища данных приложения.
 /// </summary>
-/// <remarks>Наследует: <see cref="IRepository"/>, <see cref="IDatePeriodSet"/>.</remarks>
+/// <remarks>Наследует <see cref="IRepository"/>, <see cref="IDatePeriodSet"/>.</remarks>
 public interface IAppRepository : IDatePeriodSet, IRepository
 {
     /// <summary>
