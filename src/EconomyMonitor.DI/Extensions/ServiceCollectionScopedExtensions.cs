@@ -16,7 +16,7 @@ namespace EconomyMonitor.DI.Extensions;
 /// со временем жизни <see cref="ServiceLifetime.Scoped"/>.
 /// </summary>
 /// <exception cref="NullReferenceException"/>
-public static class ScopedExtensions //ToDo: может, переименовать?
+public static class ServiceCollectionScopedExtensions
 {
     /// <summary>
     /// Конфигурирует <see cref="IAppRepository"/>, используя поставщик данных Sqlite 
@@ -39,7 +39,7 @@ public static class ScopedExtensions //ToDo: может, переименова�
     /// <exception cref="NullReferenceException">
     /// Возникает, если не удалось найти строку подключения.
     /// </exception>
-    public static IServiceCollection ConfigureSqliteEconomyMonitorRepository(this IServiceCollection services) // ToDo: Переименовать
+    public static IServiceCollection ConfigureSqliteAppRepository(this IServiceCollection services)
     {
         string? connectionString = services.GetConnectionString();
         if (ThrowIfNull(connectionString))
