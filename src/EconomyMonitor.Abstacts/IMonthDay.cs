@@ -1,4 +1,4 @@
-using EconomyMonitor.Primitives;
+using EconomyMonitor.Primitives.Enums;
 
 namespace EconomyMonitor.Abstacts;
 

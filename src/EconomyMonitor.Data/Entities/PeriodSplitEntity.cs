@@ -1,7 +1,7 @@
 using EconomyMonitor.Abstacts;
 using EconomyMonitor.Data.Abstracts.Base;
 using EconomyMonitor.Data.Abstracts.Interfaces.Entities;
-using EconomyMonitor.Primitives;
+using EconomyMonitor.Primitives.Enums;
 
 namespace EconomyMonitor.Data.Entities;
 

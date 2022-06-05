@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace EconomyMonitor.Primitives;
+namespace EconomyMonitor.Primitives.Enums;
 
 /// <summary>
 /// Классификация дней месяца.
