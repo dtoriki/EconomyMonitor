@@ -40,4 +40,12 @@ public sealed class SpendingQuotaEntity : EntityBase, ISpendingQuotaEntity
     Guid? IDatePeriodConfigurationRefered.DatePeriodOptionId => DatePeriodOptionId;
 
     IDatePeriodConfiguration? IDatePeriodConfigured.DatePeriodOption => DatePeriodOption;
+
+    /// <summary>
+    /// Создаёт сущность лимита трат.
+    /// </summary>
+    public SpendingQuotaEntity()
+    {
+
+    }
 }
