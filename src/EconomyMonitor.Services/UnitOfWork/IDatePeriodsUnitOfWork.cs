@@ -7,7 +7,7 @@ using EconomyMonitor.Mapping.AutoMapper.DatePeriod;
 namespace EconomyMonitor.Services.UnitOfWork;
 
 /// <summary>
-/// Представляет тип для работы с хранилищем данных, которое реализует <see cref="IDatePeriodSet"/>.
+/// Представляет тип для работы с хранилищем данных, которое реализует <see cref="IDatePeriodSet{TDatePeriodEntity}"/>.
 /// </summary>
 public interface IDatePeriodsUnitOfWork
 {
@@ -27,7 +27,7 @@ public interface IDatePeriodsUnitOfWork
     /// Создаёт и возвращает реализацию <see cref="IDatePeriodsUnitOfWork"/>.
     /// </summary>
     /// <typeparam name="TRepository">
-    /// Тип хранилища данных, которое реализует <see cref="IDatePeriodSet"/>.
+    /// Тип хранилища данных, которое реализует <see cref="IDatePeriodSet{TDatePeriodEntity}"/>.
     /// </typeparam>
     /// <param name="repository">Хранилище данных.</param>
     /// <param name="mapper">Экземпляр сопоставления сущностей с объектами передачи данных.</param>
