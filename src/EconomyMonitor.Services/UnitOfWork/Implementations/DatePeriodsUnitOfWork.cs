@@ -5,7 +5,7 @@ using EconomyMonitor.Data.Entities;
 using EconomyMonitor.Mapping.AutoMapper.DatePeriod;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
-namespace EconomyMonitor.Services.UnitOfWork;
+namespace EconomyMonitor.Services.UnitOfWork.Implementations;
 
 internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWork, IDisposable, IAsyncDisposable
     where TRepository : class, IRepository, IDatePeriodSet<DatePeriodEntity>
@@ -52,7 +52,7 @@ internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWor
     {
         if (!_isDisposed)
         {
-            _periodRepository.Dispose(); 
+            _periodRepository.Dispose();
         }
 
         _isDisposed = true;
@@ -63,7 +63,7 @@ internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWor
         if (!_isDisposed)
         {
             await _periodRepository.DisposeAsync()
-                .ConfigureAwait(false); 
+                .ConfigureAwait(false);
         }
 
         _isDisposed = true;
