@@ -21,9 +21,9 @@ public sealed class DatePeriodMapProfile : Profile
     /// <summary>
     /// Создаёт профиль сопоставления экземпляров типов, реализующих <see cref="IDatePeriod"/>, между собой.
     /// </summary>
-    public DatePeriodMapProfile() : base() => SetDatePeriodMap();
+    public DatePeriodMapProfile() : base() => CreateMaps();
 
-    private void SetDatePeriodMap()
+    private void CreateMaps()
     {
         CreateMap<IDatePeriod, DatePeriodDto>();
         CreateMap<IDatePeriod, DatePeriodEntity>();
