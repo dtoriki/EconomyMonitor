@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using AutoMapper;
 using EconomyMonitor.Abstacts;
 
 namespace EconomyMonitor.Mapping.AutoMapper.DatePeriod;
