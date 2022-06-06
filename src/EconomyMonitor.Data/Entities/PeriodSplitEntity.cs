@@ -41,4 +41,12 @@ public sealed class PeriodSplitEntity : EntityBase, IPeriodSplitEntity
     public DatePeriodConfigurationEntity? DatePeriodOption { get; set; }
 
     IDatePeriodConfiguration? IDatePeriodConfigured.DatePeriodOption => DatePeriodOption;
+
+    /// <summary>
+    /// Создаёт сущность, которая содержит информацию о разделении периода на части.
+    /// </summary>
+    public PeriodSplitEntity()
+    {
+
+    }
 }

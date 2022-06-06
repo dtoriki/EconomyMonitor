@@ -41,18 +41,24 @@ public sealed class DatePeriodConfigurationEntity : EntityBase, IDatePeriodConfi
     /// <summary>
     /// Возвращает или задаёт коллекцию дней, разделяющих период.
     /// </summary>
-#pragma warning disable CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
     public ICollection<PeriodSplitEntity> PeriodSplits { get; set; }
-#pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
 
     /// <summary>
     /// Возвращает или задаёт коллекцию лимитов трат.
     /// </summary>
-#pragma warning disable CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
     public ICollection<SpendingQuotaEntity> SpendingQuotas { get; set; }
-#pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
 
     IEnumerable<IMonthDay> IDatePeriodConfiguration.PeriodSplits => PeriodSplits;
 
     IEnumerable<ISpendingQuota> IDatePeriodConfiguration.SpendingQuotas => SpendingQuotas;
+
+    /// <summary>
+    /// Создаёт сущность конфигурации периодов дат.
+    /// </summary>
+#pragma warning disable CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
+    public DatePeriodConfigurationEntity()
+#pragma warning restore CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.
+    {
+
+    }
 }
