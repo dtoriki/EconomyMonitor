@@ -25,7 +25,7 @@ internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWor
         _mapper = mapper;
     }
 
-    public async Task<IDatePeriod> CreatePeriodAsync<TPeriod>(TPeriod period, CancellationToken cancellationToken = default)
+    public async Task<IDatePeriod> CreatePeriodAsync<TPeriod>(TPeriod datePeriod, CancellationToken cancellationToken = default)
         where TPeriod : class, IDatePeriod
     {
         if (_isDisposed)
@@ -33,12 +33,12 @@ internal sealed class DatePeriodsUnitOfWork<TRepository> : IDatePeriodsUnitOfWor
             ThrowDisposed(this);
         }
 
-        if (ThrowIfArgumentNull(period))
+        if (ThrowIfArgumentNull(datePeriod))
         {
-            return period;
+            return datePeriod;
         }
 
-        DatePeriodEntity periodEntity = _mapper.DatePeriodMap<TPeriod, DatePeriodEntity>(period);
+        DatePeriodEntity periodEntity = _mapper.DatePeriodMap<TPeriod, DatePeriodEntity>(datePeriod);
 
         _ = await _periodRepository.CreateAsync(periodEntity, cancellationToken)
             .ConfigureAwait(false);
