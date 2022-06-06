@@ -249,14 +249,10 @@ public abstract class EfRepository : DbContext, IRepository
     /// Нарушение параллелизма возникает, когда во время сохранения затрагивается неожиданное количество строк. 
     /// Обычно это происходит из-за того, что данные в хранилище данных были изменены после их загрузки в память.
     /// </exception>
-    /// <exception cref="OperationCanceledException">
-    /// Возникает, если операция была отменена: 
-    /// был выполнен запрос на отмену операции через <paramref name="cancellationToken"/>.
-    /// </exception>
     /// <exception cref="ObjectDisposedException">
     /// Возникает, если текущий экземпляр был высвобожден.
     /// </exception>
-    public IQueryable<TEntity> ReadAll<TEntity>(Func<TEntity, bool>? predicate = null, CancellationToken cancellationToken = default)
+    public IQueryable<TEntity> ReadAll<TEntity>(Func<TEntity, bool>? predicate = null)
         where TEntity : class, IEntity
     {
         if (_isDisposed)
