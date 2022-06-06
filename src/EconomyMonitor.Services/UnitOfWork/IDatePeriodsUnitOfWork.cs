@@ -3,12 +3,14 @@ using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Data.Abstracts.Interfaces.EfSets;
 using EconomyMonitor.Data.Entities;
 using EconomyMonitor.Mapping.AutoMapper.DatePeriod;
+using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Services.UnitOfWork;
 
 /// <summary>
 /// Представляет тип для работы с хранилищем данных, которое реализует <see cref="IDatePeriodSet{TDatePeriodEntity}"/>.
 /// </summary>
+/// <exception cref="ArgumentNullException"/>
 public interface IDatePeriodsUnitOfWork
 {
     /// <summary>
@@ -32,9 +34,16 @@ public interface IDatePeriodsUnitOfWork
     /// <param name="repository">Хранилище данных.</param>
     /// <param name="mapper">Экземпляр сопоставления сущностей с объектами передачи данных.</param>
     /// <returns>Реализация <see cref="IDatePeriodsUnitOfWork"/>.</returns>
+    /// <exception cref="ArgumentNullException">
+    /// Возникает, когда <paramref name="repository"/> или <paramref name="mapper"/>
+    /// равны <see langword="null"/>.
+    /// </exception>
     public static IDatePeriodsUnitOfWork Create<TRepository>(TRepository repository, IDatePeriodMapper mapper)
         where TRepository : class, IRepository, IDatePeriodSet<DatePeriodEntity>
     {
+        _ = ThrowIfArgumentNull(repository);
+        _ = ThrowIfArgumentNull(mapper);
+
         return new DatePeriodsUnitOfWork<TRepository>(repository, mapper);
     }
 }
