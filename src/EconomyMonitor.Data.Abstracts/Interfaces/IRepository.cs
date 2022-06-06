@@ -40,13 +40,9 @@ public interface IRepository : IDisposable, IAsyncDisposable
     /// <param name="predicate">
     /// Условия выборки сущностей. По-умолчанию - <see langword="null"/>
     /// </param>
-    /// <param name="cancellationToken">
-    /// Токен отмены операции. По-умолчанию - <see langword="default"/>.
-    /// </param>
     /// <returns><see cref="IQueryable{T}"/> запрос на чтение сущностей из хранилища данных.</returns>
     IQueryable<TEntity> ReadAll<TEntity>(
-        Func<TEntity, bool>? predicate = null, 
-        CancellationToken cancellationToken = default) where TEntity : class, IEntity;
+        Func<TEntity, bool>? predicate = null) where TEntity : class, IEntity;
 
     /// <summary>
     /// Асинхронно обновляет сущность в хранилище данных.
