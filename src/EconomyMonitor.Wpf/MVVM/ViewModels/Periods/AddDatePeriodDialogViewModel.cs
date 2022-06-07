@@ -1,4 +1,3 @@
-using System.Windows.Input;
 using EconomyMonitor.Abstacts;
 using EconomyMonitor.Domain;
 using EconomyMonitor.Services.UnitOfWork;
@@ -46,10 +45,10 @@ internal sealed class AddDatePeriodDialogViewModel : NotifyPropertyChangedBase, 
     public AddDatePeriodDialogViewModel(IDatePeriodsUnitOfWork periodsUnitOfWork)
     {
         _periodsUnitOfWork = periodsUnitOfWork;
-        CreateDatePeriodCommand = new RelayAsyncCommand(ExecuteCreateDatePeriod, CanCreateDatePeriod);
+        CreateDatePeriodCommand = new RelayAsyncCommand(ExecuteCreateDatePeriodAsync, CanCreateDatePeriodAsync);
     }
 
-    private bool CanCreateDatePeriod(object? parameter)
+    private Task<bool> CanCreateDatePeriodAsync(object? parameter, CancellationToken cancellationToken)
     {
         if (_disposed)
         {
@@ -58,18 +57,18 @@ internal sealed class AddDatePeriodDialogViewModel : NotifyPropertyChangedBase, 
 
         if (_endPeriod < _startPeriod)
         {
-            return false;
+            return Task.FromResult(false);
         }
 
         if (_income is null || _income == decimal.Zero)
         {
-            return false;
+            return Task.FromResult(false);
         }
 
-        return true;
+        return Task.FromResult(true);
     }
 
-    private async Task ExecuteCreateDatePeriod(object? parameter, CancellationToken cancellationToken)
+    private async Task ExecuteCreateDatePeriodAsync(object? parameter, CancellationToken cancellationToken)
     {
         if (_disposed)
         {

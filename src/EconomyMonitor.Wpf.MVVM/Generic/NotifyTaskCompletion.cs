@@ -53,6 +53,20 @@ public sealed class NotifyTaskCompletion<TResult> : NotifyTaskCompletion, ITaskC
     /// </exception>
     public NotifyTaskCompletion(Task<TResult> task) : base(task) => ThrowIfArgumentNull(task);
 
+    /// <inheritdoc cref="ITaskCompletion{TResult}.TaskCompletionAsync"/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
+    new public Task<TResult?> TaskCompletionAsync()
+    {
+        if (_disposed)
+        {
+            ThrowDisposed(this);
+        }
+
+        return (Task<TResult?>)base.TaskCompletionAsync();
+    }
+
     /// <inheritdoc/>
     protected override async Task WatchTaskAsync()
     {
@@ -63,4 +77,6 @@ public sealed class NotifyTaskCompletion<TResult> : NotifyTaskCompletion, ITaskC
             OnPropertyChanged(nameof(Result));
         }
     }
+
+    Task<TResult?> ITaskCompletion<TResult>.TaskCompletionAsync() => TaskCompletionAsync();
 }

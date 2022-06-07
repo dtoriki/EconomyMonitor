@@ -181,7 +181,7 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
         _task = task;
     }
 
-    /// <inheritdoc/>
+    /// <inheritdoc cref="ITaskCompletion.TaskCompletionAsync"/>
     /// <exception cref="ObjectDisposedException">
     /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
     /// </exception>
@@ -305,4 +305,6 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
 
         _disposed = true;
     }
+
+    Task ITaskCompletion.TaskCompletionAsync() => TaskCompletionAsync();
 }

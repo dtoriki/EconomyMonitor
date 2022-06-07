@@ -51,7 +51,7 @@ public interface ITaskCompletion
     TaskStatus Status { get; }
 
     /// <summary>
-    /// Возращает выолняемую задачу.
+    /// Возращает выполняемую задачу.
     /// </summary>
     /// <returns>Выполняемая задача.</returns>
     Task TaskCompletionAsync();
