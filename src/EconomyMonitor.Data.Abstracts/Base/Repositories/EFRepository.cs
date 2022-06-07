@@ -1,3 +1,4 @@
+using System.Linq.Expressions;
 using System.Runtime.CompilerServices;
 using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Extensions;
@@ -252,7 +253,7 @@ public abstract class EfRepository : DbContext, IRepository
     /// <exception cref="ObjectDisposedException">
     /// Возникает, если текущий экземпляр был высвобожден.
     /// </exception>
-    public IQueryable<TEntity> ReadAll<TEntity>(Func<TEntity, bool>? predicate = null)
+    public IQueryable<TEntity> ReadAll<TEntity>(Expression<Func<TEntity, bool>>? predicate = null)
         where TEntity : class, IEntity
     {
         if (_isDisposed)
@@ -265,7 +266,7 @@ public abstract class EfRepository : DbContext, IRepository
             return Set<TEntity>();
         }
 
-        return Set<TEntity>().Where(predicate).AsQueryable();
+        return Set<TEntity>().Where(predicate);
     }
 
     /// <inheritdoc/>

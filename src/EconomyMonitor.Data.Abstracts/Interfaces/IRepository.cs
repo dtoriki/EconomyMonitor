@@ -1,3 +1,5 @@
+using System.Linq.Expressions;
+
 namespace EconomyMonitor.Data.Abstracts.Interfaces;
 
 /// <summary>
@@ -38,11 +40,11 @@ public interface IRepository : IDisposable, IAsyncDisposable
     /// </summary>
     /// <typeparam name="TEntity">Тип сущностей запроса на чтение.</typeparam>
     /// <param name="predicate">
-    /// Условия выборки сущностей. По-умолчанию - <see langword="null"/>
+    /// Выражение поиска сущностей по условию. По-умолчанию - <see langword="null"/>
     /// </param>
     /// <returns><see cref="IQueryable{T}"/> запрос на чтение сущностей из хранилища данных.</returns>
     IQueryable<TEntity> ReadAll<TEntity>(
-        Func<TEntity, bool>? predicate = null) where TEntity : class, IEntity;
+        Expression<Func<TEntity, bool>>? predicate = null) where TEntity : class, IEntity;
 
     /// <summary>
     /// Асинхронно обновляет сущность в хранилище данных.
