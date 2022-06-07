@@ -9,7 +9,7 @@ using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Services.UnitOfWork.Implementations;
 
-internal sealed class DatePeriodConfigurationUnitOfWork<TRepository> : IDatePeriodConfigurationOfWork, IDisposable, IAsyncDisposable
+internal sealed class DatePeriodConfigurationUnitOfWork<TRepository> : IDatePeriodConfigurationUnitOfWork, IDisposable, IAsyncDisposable
     where TRepository : class, IRepository, IDatePeriodConfigurationSet<DatePeriodConfigurationEntity>
 {
     private readonly TRepository _repository;
