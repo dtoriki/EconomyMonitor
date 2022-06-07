@@ -1,4 +1,5 @@
 using System.Windows.Input;
+using EconomyMonitor.Wpf.MVVM.Generic;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.Commands;
@@ -25,7 +26,9 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
 {
     private readonly CancelCommand _cancelCommand;
     private ITaskCompletion? _execution;
+    private ITaskCompletion<bool>? _canExecution;
     private Task? _executionTask;
+    private Task? _canExecutionTask;
     private bool _isDisposed;
 
     /// <summary>
@@ -75,6 +78,33 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
     /// <exception cref="ObjectDisposedException">
     /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
     /// </exception>
+    public ITaskCompletion<bool>? CanExecution
+    {
+        get
+        {
+            if (IsDisposed)
+            {
+                ThrowDisposed(this);
+            }
+
+            return _canExecution;
+        }
+
+        protected set
+        {
+            if (IsDisposed)
+            {
+                ThrowDisposed(this);
+            }
+
+            _ = SetPropertyNotifiable(ref _canExecution, value);
+        }
+    }
+
+    /// <inheritdoc/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
     public ICancelCommand CancelCommand
     {
         get
@@ -111,10 +141,6 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
         GC.SuppressFinalize(this);
     }
 
-    /// <inheritdoc/>
-    /// <exception cref="ObjectDisposedException">
-    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
-    /// </exception>
     Task IAsyncCommand.ExecuteAsync(object? parameter)
     {
         if (IsDisposed)
@@ -125,7 +151,19 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
         return ExecuteAsync(parameter);
     }
 
-    /// <inheritdoc/>
+    Task<bool> IAsyncCommand.CanExecuteAsync(object? parameter)
+    {
+        if (IsDisposed)
+        {
+            ThrowDisposed(this);
+        }
+
+        return CanExecuteAsync(parameter);
+    }
+
+    /// <summary>
+    /// Запускает команду на выполнение.
+    /// </summary>
     /// <exception cref="ObjectDisposedException">
     /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
     /// </exception>
@@ -140,8 +178,45 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
         _executionTask = ExecuteAsync(parameter);
     }
 
+    /// <summary>
+    /// Выполняет проверку на возможность запуска команды.
+    /// </summary>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
+    protected override bool CanExecute(object? parameter)
+    {
+        if (IsDisposed)
+        {
+            ThrowDisposed(this);
+        }
+
+        _canExecutionTask?.Dispose();
+        _canExecutionTask = CanExecuteAsync(parameter);
+
+        if (_canExecution is null)
+        {
+            return true;
+        }
+
+        if (_canExecution.IsNotCompleted || _canExecution.IsFaulted || _canExecution.IsCanceled)
+        {
+            return false;
+        }
+
+        if (_canExecution.IsSuccessfullyCompleted)
+        {
+            return _canExecution.Result;
+        }
+
+        return false;
+    }
+
     /// <inheritdoc cref="IAsyncCommand.ExecuteAsync(object?)"/>
     protected abstract Task ExecuteAsync(object? parameter);
+
+    /// <inheritdoc cref="IAsyncCommand.CanExecuteAsync(object?)(object?)"/>
+    protected abstract Task<bool> CanExecuteAsync(object? parameter);
 
     /// <inheritdoc cref="DisposeAsync"/>
     /// <param name="disposing">
@@ -161,6 +236,11 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
             if (Execution is IAsyncDisposable execution)
             {
                 await execution.DisposeAsync().ConfigureAwait(false);
+            }
+
+            if (CanExecution is IAsyncDisposable canExecution)
+            {
+                await canExecution.DisposeAsync().ConfigureAwait(false);
             }
 
             if (CancelCommand is IAsyncDisposable cancelCommand)
@@ -192,6 +272,11 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
             if (Execution is IDisposable execution)
             {
                 execution.Dispose();
+            }
+
+            if (CanExecution is IDisposable canExecution)
+            {
+                canExecution.Dispose();
             }
 
             if (CancelCommand is IDisposable cancelCommand)

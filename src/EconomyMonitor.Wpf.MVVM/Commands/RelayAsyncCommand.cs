@@ -1,3 +1,4 @@
+using EconomyMonitor.Wpf.MVVM.Generic;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.Commands;
@@ -18,7 +19,7 @@ namespace EconomyMonitor.Wpf.MVVM.Commands;
 public sealed class RelayAsyncCommand : AsyncCommandBase
 {
     private readonly Func<object?, CancellationToken, Task> _execute;
-    private readonly Func<object?, bool>? _canExecute;
+    private readonly Func<object?, CancellationToken, Task<bool>>? _canExecute;
 
     /// <summary>
     /// Создаёт передаваемую команду.
@@ -33,7 +34,7 @@ public sealed class RelayAsyncCommand : AsyncCommandBase
     /// </exception>
     public RelayAsyncCommand(
         Func<object?, CancellationToken, Task> execute, 
-        Func<object?, bool>? canExecute = null) : base()
+        Func<object?, CancellationToken, Task<bool>>? canExecute = null) : base()
     {
         _ = ThrowIfArgumentNull(execute);
 
@@ -45,15 +46,40 @@ public sealed class RelayAsyncCommand : AsyncCommandBase
     /// <exception cref="ObjectDisposedException">
     /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
     /// </exception>
-    protected override bool CanExecute(object? parameter)
+    protected override async Task<bool> CanExecuteAsync(object? parameter)
     {
         if (IsDisposed)
         {
             ThrowDisposed(this);
         }
 
-        return (Execution is null || Execution.IsCompleted)
-            && (_canExecute?.Invoke(parameter) ?? true);
+        if (_canExecute is null)
+        {
+            return true;
+        }
+
+        if (Execution is null || Execution.IsCompleted || CanExecution is null || CanExecution.IsCompleted)
+        {
+            if (CanExecution is IAsyncDisposable asyncDisposable)
+            {
+                await asyncDisposable.DisposeAsync().ConfigureAwait(false);
+            }
+            else if (CanExecution is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+
+            CancelCommand.NotifyCommandStarting();
+            CanExecution = new NotifyTaskCompletion<bool>(_canExecute(parameter, CancelCommand.CancellationToken));
+            RiseCanExecuteChanged();
+            bool canExecute = await CanExecution.TaskCompletionAsync().ConfigureAwait(false);
+            CancelCommand.NotifyCommandFinished();
+            RiseCanExecuteChanged();
+
+            return canExecute;
+        }
+
+        return false;
     }
 
     /// <inheritdoc/>
@@ -66,6 +92,16 @@ public sealed class RelayAsyncCommand : AsyncCommandBase
         {
             ThrowDisposed(this);
         }
+
+        if (Execution is IAsyncDisposable asyncDisposable)
+        {
+            await asyncDisposable.DisposeAsync().ConfigureAwait(false);
+        }
+        else if (Execution is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+
 
         CancelCommand.NotifyCommandStarting();
         Execution = new NotifyTaskCompletion(_execute(parameter, CancelCommand.CancellationToken));
