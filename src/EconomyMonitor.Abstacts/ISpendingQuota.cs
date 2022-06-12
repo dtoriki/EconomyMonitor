@@ -1,4 +1,4 @@
-﻿namespace EconomyMonitor.Abstacts;
+namespace EconomyMonitor.Abstacts;
 
 /// <summary>
 /// Тип лимита трат.
@@ -9,4 +9,9 @@ public interface ISpendingQuota
     /// Возвращает значение лимита трат.
     /// </summary>
     decimal Quota { get; }
+
+    /// <summary>
+    /// Возвращет процент от допустимого уровня трат.
+    /// </summary>
+    decimal? Percent { get; }
 }

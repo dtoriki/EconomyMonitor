@@ -27,6 +27,11 @@ public sealed class SpendingQuotaEntity : EntityBase, ISpendingQuotaEntity
     public decimal Quota { get; set; }
 
     /// <summary>
+    /// Возвращает или задаёт процент от допустимого уровня трат.
+    /// </summary>
+    public decimal? Percent { get; set; }
+
+    /// <summary>
     /// Возвращает или задаёт уникальный идентификатор сущности конфигурации периода дат, 
     /// хранящейся в хранилище данных.
     /// </summary>
@@ -40,6 +45,7 @@ public sealed class SpendingQuotaEntity : EntityBase, ISpendingQuotaEntity
     Guid? IDatePeriodConfigurationRefered.DatePeriodOptionId => DatePeriodOptionId;
 
     IDatePeriodConfiguration? IDatePeriodConfigured.DatePeriodOption => DatePeriodOption;
+
 
     /// <summary>
     /// Создаёт сущность лимита трат.
