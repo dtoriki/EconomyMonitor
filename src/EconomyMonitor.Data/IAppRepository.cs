@@ -32,6 +32,8 @@ namespace EconomyMonitor.Data;
 public interface IAppRepository : 
     IDatePeriodSet<DatePeriodEntity>,
     IDatePeriodConfigurationSet<DatePeriodConfigurationEntity>,
+    ISpendingQuotaSet<SpendingQuotaEntity>,
+    IPeriodSplitSet<PeriodSplitEntity>,
     IDataProtectionKeyContext,
     IRepository
 {
