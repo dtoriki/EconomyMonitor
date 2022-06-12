@@ -8,7 +8,7 @@ public interface ISpendingQuota
     /// <summary>
     /// Возвращает значение лимита трат.
     /// </summary>
-    decimal Quota { get; }
+    decimal? Quota { get; }
 
     /// <summary>
     /// Возвращет процент от допустимого уровня трат.

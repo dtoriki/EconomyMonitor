@@ -24,7 +24,7 @@ public sealed class SpendingQuotaEntity : EntityBase, ISpendingQuotaEntity
     /// <summary>
     /// Возвращает или задаёт значение лимита трат.
     /// </summary>
-    public decimal Quota { get; set; }
+    public decimal? Quota { get; set; }
 
     /// <summary>
     /// Возвращает или задаёт процент от допустимого уровня трат.
