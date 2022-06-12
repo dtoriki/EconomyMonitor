@@ -1,7 +1,9 @@
 using AutoMapper;
 using EconomyMonitor.Data;
+using EconomyMonitor.Data.Abstracts.Interfaces.EfSets;
 using EconomyMonitor.Data.DI;
 using EconomyMonitor.Mapping.AutoMapper.DatePeriod;
+using EconomyMonitor.Mapping.AutoMapper.DatePeriodConfiguration;
 using EconomyMonitor.Services.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
 using static EconomyMonitor.Helpers.ThrowHelper;
@@ -53,7 +55,7 @@ public static class ServiceCollectionScopedExtensions
 
     /// <summary>
     /// Конфигурирует экземпляр типа работы с хранилищем данных <see cref="IDatePeriodsUnitOfWork"/>, 
-    /// которое реализует <see cref="IDatePeriodSet"/>
+    /// которое реализует <see cref="IDatePeriodSet{TDatePeriodEntity}"/>
     /// и добавляет его в <paramref name="services"/> c временем существования <see cref="ServiceLifetime.Scoped"/>.
     /// </summary>
     /// <param name="services">Коллекция сервисов.</param>
@@ -77,6 +79,31 @@ public static class ServiceCollectionScopedExtensions
     }
 
     /// <summary>
+    /// Конфигурирует экземпляр типа работы с хранилищем данных <see cref="IDatePeriodConfigurationUnitOfWork"/>, 
+    /// которое реализует <see cref="IDatePeriodConfigurationSet{TDatePeriodConfigurationEntity}"/>
+    /// и добавляет его в <paramref name="services"/> c временем существования <see cref="ServiceLifetime.Scoped"/>.
+    /// </summary>
+    /// <param name="services">Коллекция сервисов.</param>
+    /// <returns>Коллекция сервисов.</returns>
+    /// <remarks>
+    /// Перед конфигурацией типа работы с хранилищем данных необходимо, 
+    /// чтобы были сконфигурированны <see cref="IAppRepository"/>
+    /// и <see cref="IDatePeriodConfigurationMapper"/>.
+    /// </remarks>
+    public static IServiceCollection ConfigureDatePeriodConfigurationUnitOfWorkScoped(this IServiceCollection services)
+    {
+        services.AddScoped(provider =>
+        {
+            IAppRepository repository = provider.GetRequiredService<IAppRepository>();
+            IDatePeriodConfigurationMapper mapper = provider.GetRequiredService<IDatePeriodConfigurationMapper>();
+
+            return IDatePeriodConfigurationUnitOfWork.Create(repository, mapper);
+        });
+
+        return services;
+    }
+
+    /// <summary>
     /// Конфигурирует экземпляры типов работы с хранилищем данным
     /// и добавляет их в <paramref name="services"/> с временем жизни <see cref="ServiceLifetime.Scoped"/>.
     /// </summary>
@@ -85,37 +112,60 @@ public static class ServiceCollectionScopedExtensions
     /// <remarks>
     /// Конфигурирует:
     /// <list type="bullet">
-    /// <item><see cref="IDatePeriodsUnitOfWork"/> 
-    /// методом <see cref="ConfigureDatePeriodsUnitOfWorkScoped(IServiceCollection)"/>.</item>
+    /// <item>
+    /// <see cref="IDatePeriodsUnitOfWork"/> 
+    /// методом <see cref="ConfigureDatePeriodsUnitOfWorkScoped(IServiceCollection)"/>.
+    /// </item>
+    /// <item>
+    /// <see cref="IDatePeriodConfigurationUnitOfWork"/> 
+    /// методом <see cref="ConfigureDatePeriodConfigurationUnitOfWorkScoped(IServiceCollection)"/>.
+    /// </item>
     /// </list>
     /// <para>
-    /// Перед конфигурацией типа работы с хранилищем данных необходимо, 
+    /// Перед конфигурацией типов работы с хранилищем данных необходимо, 
     /// чтобы были сконфигурированны <see cref="IAppRepository"/>
-    /// и <see cref="IDatePeriodMapper"/>.
+    /// и был вызван метод <see cref="ConfigureMappers(IServiceCollection)"/>.
     /// </para>
     /// </remarks>
     public static IServiceCollection ConfigureUnitsOfWorkScoped(this IServiceCollection services)
     {
-        services.ConfigureDatePeriodsUnitOfWorkScoped();
+        services
+            .ConfigureDatePeriodsUnitOfWorkScoped()
+            .ConfigureDatePeriodConfigurationUnitOfWorkScoped();
 
         return services;
     }
 
     /// <summary>
-    /// Конфигурирует тип сопоставления данных 
-    /// <see cref="IDatePeriodMapper"/>
-    /// и добавляет его в <paramref name="services"/> 
+    /// Конфигурирует типы сопоставления данных 
+    /// и добавляет их в <paramref name="services"/> 
     /// c временем существования <see cref="ServiceLifetime.Scoped"/>.
     /// </summary>
     /// <param name="services">Коллеция сервисов.</param>
     /// <returns>Коллеция сервисов.</returns>
     /// <remarks>
-    /// Для конфигурации типа сопоставления данных использует метод 
+    /// <para>
+    /// Конифигурирует:
+    /// <list type="bullet">
+    /// <item>
+    /// <see cref="IDatePeriodConfigurationMapper"/>;
+    /// </item>
+    /// <item>
+    /// <see cref="IDatePeriodMapper"/>.
+    /// </item>
+    /// </list>
+    /// </para>
+    /// <para>
+    /// Для конфигурации типов сопоставления данных используется метод 
     /// <see cref="ConfigureMapperScoped{TProfile, TMapper}(IServiceCollection, Func{IMapperConfigurationProvider, TMapper})"/>
+    /// </para>
     /// </remarks>
     public static IServiceCollection ConfigureMappers(this IServiceCollection services)
     {
-        services.ConfigureMapperScoped<DatePeriodMapProfile, IDatePeriodMapper>(p => new DatePeriodMapper(p));
+        services
+            .ConfigureMapperScoped<DatePeriodConfigurationMapProfile, IDatePeriodConfigurationMapper>(
+                p => new DatePeriodConfigurationMapper(p))
+            .ConfigureMapperScoped<DatePeriodMapProfile, IDatePeriodMapper>(p => new DatePeriodMapper(p));
         
         return services;
     }
