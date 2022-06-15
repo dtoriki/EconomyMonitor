@@ -1,46 +1,46 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
-    <UseWPF>true</UseWPF>
-    <StartupObject>EconomyMonitor.Wpf.Program</StartupObject>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<UseWPF>true</UseWPF>
+		<StartupObject>EconomyMonitor.Wpf.Program</StartupObject>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MaterialDesignThemes" Version="4.6.0-ci205" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0-preview.5.22302.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MaterialDesignThemes" Version="4.6.0-ci209" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0-preview.5.22302.2">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Page Update="DataTemplates\LeftIconWithTextDataTemplate.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Resources\Colours\Colours.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Resources\Properties\Header\Header.WindowCotrol.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-    <Page Update="Styles\Buttons\Dialog\DialogButton.Cancel.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Styles\StackPanels\HorizontalOrientedCenterAlignmentStackPanel.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
-  </ItemGroup>
+	<ItemGroup>
+		<Page Update="DataTemplates\LeftIconWithTextDataTemplate.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		</Page>
+		<Page Update="Resources\Colours\Colours.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="Resources\Properties\Header\Header.WindowCotrol.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		</Page>
+		<Page Update="Styles\Buttons\Dialog\DialogButton.Cancel.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+			<SubType>Designer</SubType>
+		</Page>
+		<Page Update="Styles\StackPanels\HorizontalOrientedCenterAlignmentStackPanel.xaml">
+			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+		</Page>
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\EconomyMonitor.Abstacts\EconomyMonitor.Abstacts.csproj" />
-    <ProjectReference Include="..\EconomyMonitor.Data\EconomyMonitor.Data.csproj" />
-    <ProjectReference Include="..\EconomyMonitor.DI\EconomyMonitor.DI.csproj" />
-    <ProjectReference Include="..\EconomyMonitor.Migrations\EconomyMonitor.Migrations.csproj" />
-    <ProjectReference Include="..\EconomyMonitor.Wpf.MVVM\EconomyMonitor.Wpf.MVVM.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\EconomyMonitor.Abstacts\EconomyMonitor.Abstacts.csproj" />
+		<ProjectReference Include="..\EconomyMonitor.Data\EconomyMonitor.Data.csproj" />
+		<ProjectReference Include="..\EconomyMonitor.DI\EconomyMonitor.DI.csproj" />
+		<ProjectReference Include="..\EconomyMonitor.Migrations\EconomyMonitor.Migrations.csproj" />
+		<ProjectReference Include="..\EconomyMonitor.Wpf.MVVM\EconomyMonitor.Wpf.MVVM.csproj" />
+	</ItemGroup>
 
 </Project>
