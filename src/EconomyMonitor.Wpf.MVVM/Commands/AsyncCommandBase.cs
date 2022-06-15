@@ -151,7 +151,7 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
         return ExecuteAsync(parameter);
     }
 
-    Task<bool> IAsyncCommand.CanExecuteAsync(object? parameter)
+    Task IAsyncCommand.CanExecuteAsync(object? parameter)
     {
         if (IsDisposed)
         {
@@ -192,6 +192,7 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
         }
 
         _canExecutionTask?.Dispose();
+        _cancelCommand.NotifyCommandStarting();
         _canExecutionTask = CanExecuteAsync(parameter);
 
         if (_canExecution is null)
@@ -199,13 +200,17 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
             return true;
         }
 
-        if (_canExecution.IsNotCompleted || _canExecution.IsFaulted || _canExecution.IsCanceled)
+        if (_canExecution.IsFaulted || _canExecution.IsCanceled)
         {
+            _cancelCommand.NotifyCommandFinished();
+
             return false;
         }
 
         if (_canExecution.IsSuccessfullyCompleted)
         {
+            _cancelCommand.NotifyCommandFinished();
+
             return _canExecution.Result;
         }
 
@@ -216,7 +221,7 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
     protected abstract Task ExecuteAsync(object? parameter);
 
     /// <inheritdoc cref="IAsyncCommand.CanExecuteAsync(object?)(object?)"/>
-    protected abstract Task<bool> CanExecuteAsync(object? parameter);
+    protected abstract Task CanExecuteAsync(object? parameter);
 
     /// <inheritdoc cref="DisposeAsync"/>
     /// <param name="disposing">

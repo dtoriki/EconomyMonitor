@@ -46,7 +46,7 @@ public sealed class RelayAsyncCommand : AsyncCommandBase
     /// <exception cref="ObjectDisposedException">
     /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
     /// </exception>
-    protected override async Task<bool> CanExecuteAsync(object? parameter)
+    protected override async Task CanExecuteAsync(object? parameter)
     {
         if (IsDisposed)
         {
@@ -55,7 +55,7 @@ public sealed class RelayAsyncCommand : AsyncCommandBase
 
         if (_canExecute is null)
         {
-            return true;
+            return;
         }
 
         if (Execution is null || Execution.IsCompleted || CanExecution is null || CanExecution.IsCompleted)
@@ -69,13 +69,8 @@ public sealed class RelayAsyncCommand : AsyncCommandBase
                 disposable.Dispose();
             }
 
-            CancelCommand.NotifyCommandStarting();
             CanExecution = new NotifyTaskCompletion<bool>(_canExecute(parameter, CancelCommand.CancellationToken));
-
-            return false;
         }
-
-        return false;
     }
 
     /// <inheritdoc/>
@@ -97,7 +92,6 @@ public sealed class RelayAsyncCommand : AsyncCommandBase
         {
             disposable.Dispose();
         }
-
 
         CancelCommand.NotifyCommandStarting();
         Execution = new NotifyTaskCompletion(_execute(parameter, CancelCommand.CancellationToken));

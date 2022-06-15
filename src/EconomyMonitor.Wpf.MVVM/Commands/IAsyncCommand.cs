@@ -38,5 +38,5 @@ public interface IAsyncCommand : ICommand
     /// Асинхронно выполняет проверку на возможность запуска команды.
     /// </summary>
     /// <param name="parameter">Параметр команды.</param>
-    Task<bool> CanExecuteAsync(object? parameter);
+    Task CanExecuteAsync(object? parameter);
 }
