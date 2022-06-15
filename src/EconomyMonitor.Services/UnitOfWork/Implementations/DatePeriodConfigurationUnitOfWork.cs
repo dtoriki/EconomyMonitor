@@ -50,22 +50,22 @@ internal sealed class DatePeriodConfigurationUnitOfWork<TRepository> : IDatePeri
         return result;
     }
 
-    public async Task<IDatePeriodConfiguration?> GetDefaultConfigurationAsync(CancellationToken cancellationToken = default)
-    {
-        if (_isDisposed)
-        {
-            ThrowDisposed(this);
-        }
+    //public async Task<IDatePeriodConfiguration?> GetDefaultConfigurationAsync(CancellationToken cancellationToken = default)
+    //{
+    //    if (_isDisposed)
+    //    {
+    //        ThrowDisposed(this);
+    //    }
 
-        DatePeriodConfigurationEntity? defaultConfigurationEntity = await _repository
-            .ReadAll<DatePeriodConfigurationEntity>(x => x.IsDefault)
-            .Include(x => x.SpendingQuotas)
-            .Include(x => x.PeriodSplits)
-            .SingleOrDefaultAsync(cancellationToken)
-            .ConfigureAwait(false);
+    //    DatePeriodConfigurationEntity? defaultConfigurationEntity = await _repository
+    //        .ReadAll<DatePeriodConfigurationEntity>(x => x.IsDefault)
+    //        .Include(x => x.SpendingQuotas)
+    //        .Include(x => x.PeriodSplits)
+    //        .SingleOrDefaultAsync(cancellationToken)
+    //        .ConfigureAwait(false);
 
-        return _mapper.DatePeriodConfigurationMap<DatePeriodConfigurationEntity, DatePeriodConfiguration>(defaultConfigurationEntity);
-    }
+    //    return _mapper.DatePeriodConfigurationMap<DatePeriodConfigurationEntity, DatePeriodConfiguration>(defaultConfigurationEntity);
+    //}
 
     public void Dispose()
     {

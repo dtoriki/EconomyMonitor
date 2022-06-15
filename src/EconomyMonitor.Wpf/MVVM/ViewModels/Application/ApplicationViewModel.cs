@@ -14,6 +14,6 @@ internal sealed class ApplicationViewModel : NotifyPropertyChangedBase
 
     public ApplicationViewModel()
     {
-
-    }
+        
+    }  
 }

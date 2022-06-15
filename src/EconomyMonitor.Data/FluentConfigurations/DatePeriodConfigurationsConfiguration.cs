@@ -1,4 +1,4 @@
-﻿using EconomyMonitor.Data.Entities;
+using EconomyMonitor.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -8,22 +8,31 @@ internal class DatePeriodConfigurationsConfiguration : IEntityTypeConfiguration<
 {
     public void Configure(EntityTypeBuilder<DatePeriodConfigurationEntity> builder)
     {
+       ConfigureIndexes(builder);
+    }
+
+    private static void ConfigureIndexes(EntityTypeBuilder<DatePeriodConfigurationEntity> builder)
+    {
         builder.HasKey(e => e.Id);
 
         builder
-            .HasIndex(i => i.Id)
+            .HasIndex(config => config.Id)
             .IsUnique(unique: true);
 
         builder
-            .HasMany(m => m.PeriodSplits)
-            .WithOne(o => o.DatePeriodOption)
-            .HasForeignKey(k => k.DatePeriodOptionId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasIndex(config => config.StartPeriodDateInclusive)
+            .IsUnique(unique: true);
 
         builder
-            .HasMany(m => m.SpendingQuotas)
-            .WithOne(o => o.DatePeriodOption)
-            .HasForeignKey(k => k.DatePeriodOptionId)
-            .OnDelete(DeleteBehavior.Cascade);
+            .HasIndex(config => config.EndPeriodDateExclusive)
+            .IsUnique(unique: true);
+
+        builder
+            .HasIndex(config => new
+            {
+                config.StartPeriodDateInclusive,
+                config.EndPeriodDateExclusive
+            })
+            .IsUnique(unique: true);
     }
 }

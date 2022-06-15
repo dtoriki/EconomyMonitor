@@ -38,7 +38,7 @@ public interface IDatePeriodConfigurationUnitOfWork
     /// имеет <see cref="IDatePeriodConfiguration.IsDefault"/>
     /// равное <see langword="true"/>.
     /// </remarks>
-    Task<IDatePeriodConfiguration?> GetDefaultConfigurationAsync(CancellationToken cancellationToken = default);
+    //Task<IDatePeriodConfiguration?> GetDefaultConfigurationAsync(CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Создаёт и возвращает реализацию <see cref="IDatePeriodConfigurationUnitOfWork"/>.
