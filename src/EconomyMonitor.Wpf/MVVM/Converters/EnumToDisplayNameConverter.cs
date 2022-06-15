@@ -33,7 +33,7 @@ internal class EnumToDisplayNameConverter : IValueConverter
                     return null;
                 }
 
-                string? description = enumsEntry.GetDisplayDescription();
+                string? description = enumsEntry.GetDisplayName();
 
                 if (!string.IsNullOrWhiteSpace(description))
                 {
@@ -54,7 +54,7 @@ internal class EnumToDisplayNameConverter : IValueConverter
             return null;
         }
 
-        return @enum.GetDisplayDescription();
+        return @enum.GetDisplayName();
     }
 
     public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
@@ -69,6 +69,6 @@ internal class EnumToDisplayNameConverter : IValueConverter
             return null;
         }
 
-        return GetEnumValueByDisplayDescription(targetType, description);
+        return GetEnumValueByDisplayName(targetType, description);
     }
 }
