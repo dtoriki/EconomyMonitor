@@ -9,7 +9,7 @@ namespace EconomyMonitor.Extensions;
 public static class EnumExtensions
 {
     /// <summary>
-    /// Возвращает описание <see cref="DisplayAttribute.Description"/>
+    /// Возвращает значение <see cref="DisplayAttribute.Description"/>
     /// именованной константы <paramref name="enum"/>.
     /// </summary>
     /// <typeparam name="TEnum">Тип именованной константы.</typeparam>
@@ -18,10 +18,28 @@ public static class EnumExtensions
     public static string? GetDisplayDescription<TEnum>(this TEnum @enum)
         where TEnum : Enum
     {
+        return @enum.GetDisplayAttribute()?.Description;
+    }
+
+    /// <summary>
+    /// Возвращает значение <see cref="DisplayAttribute.Name"/>
+    /// именованной константы <paramref name="enum"/>.
+    /// </summary>
+    /// <typeparam name="TEnum">Тип именованной константы.</typeparam>
+    /// <param name="enum">Именованная константа.</param>
+    /// <returns>Имя именованной константы.</returns>
+    public static string? GetDisplayName<TEnum>(this TEnum @enum)
+        where TEnum : Enum
+    {
+        return @enum.GetDisplayAttribute()?.Name;
+    }
+
+    private static DisplayAttribute? GetDisplayAttribute<TEnum>(this TEnum @enum)
+        where TEnum : Enum
+    {
         return @enum.GetType()
             .GetMember(@enum.ToString())
             .Single()
-            .GetCustomAttribute<DisplayAttribute>()?
-            .Description;
+            .GetCustomAttribute<DisplayAttribute>();
     }
 }
