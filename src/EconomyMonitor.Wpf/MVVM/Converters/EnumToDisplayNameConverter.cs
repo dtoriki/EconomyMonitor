@@ -69,6 +69,6 @@ internal class EnumToDisplayNameConverter : IValueConverter
             return null;
         }
 
-        return GetEnumValueByDisplay(targetType, description);
+        return GetEnumValueByDisplayDescription(targetType, description);
     }
 }
