@@ -27,20 +27,6 @@ public interface IDatePeriodConfigurationUnitOfWork
         where TConfig : class, IDatePeriodConfiguration;
 
     /// <summary>
-    /// Асинхронно получает конфигурацию периода дат по-умолчанию.
-    /// </summary>
-    /// /// <param name="cancellationToken">
-    /// Токен отмены операции. По-умолчанию - <see langword="null"/>.
-    /// </param>
-    /// <returns>Конфигурация периода дат по-умолчанию.</returns>
-    /// <remarks>
-    /// Конфигурация периода дат по-умолчанию 
-    /// имеет <see cref="IDatePeriodConfiguration.IsDefault"/>
-    /// равное <see langword="true"/>.
-    /// </remarks>
-    //Task<IDatePeriodConfiguration?> GetDefaultConfigurationAsync(CancellationToken cancellationToken = default);
-
-    /// <summary>
     /// Создаёт и возвращает реализацию <see cref="IDatePeriodConfigurationUnitOfWork"/>.
     /// </summary>
     /// <typeparam name="TRepository">

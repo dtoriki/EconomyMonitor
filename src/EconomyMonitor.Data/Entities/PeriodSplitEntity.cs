@@ -1,7 +1,6 @@
 using EconomyMonitor.Abstacts;
 using EconomyMonitor.Data.Abstracts.Base;
 using EconomyMonitor.Data.Abstracts.Interfaces.Entities;
-using EconomyMonitor.Primitives.Enums;
 
 namespace EconomyMonitor.Data.Entities;
 
@@ -19,11 +18,6 @@ namespace EconomyMonitor.Data.Entities;
 /// </remarks>
 public sealed class PeriodSplitEntity : EntityBase, IPeriodSplitEntity
 {
-    /// <summary>
-    /// Возвращает или задаёт тип дня месяца, по которому будет делиться период.
-    /// </summary>
-    public MonthDayType MonthDayType { get; set; }
-
     /// <summary>
     /// Возвращает или задаёт день, по которому будет делиться период.
     /// </summary>

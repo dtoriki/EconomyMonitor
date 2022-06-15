@@ -64,18 +64,13 @@ public sealed class RelayAsyncCommand : AsyncCommandBase
             {
                 await asyncDisposable.DisposeAsync().ConfigureAwait(false);
             }
-            else
-            if (CanExecution is IDisposable disposable)
+            else if (CanExecution is IDisposable disposable)
             {
                 disposable.Dispose();
             }
 
             CancelCommand.NotifyCommandStarting();
             CanExecution = new NotifyTaskCompletion<bool>(_canExecute(parameter, CancelCommand.CancellationToken));
-            //RiseCanExecuteChanged();
-            //bool canExecute = await CanExecution.TaskCompletionAsync().ConfigureAwait(false);
-            //CancelCommand.NotifyCommandFinished();
-            //RiseCanExecuteChanged();
 
             return false;
         }

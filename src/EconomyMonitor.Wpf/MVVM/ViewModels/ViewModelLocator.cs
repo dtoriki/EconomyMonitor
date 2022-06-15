@@ -12,8 +12,6 @@ internal static class ViewModelLocator
 
     public static HeaderMenuViewModel HeaderMenuViewModel => GetServiceOrThrow<HeaderMenuViewModel>();
 
-    //public static AddDatePeriodConfigurationDialogViewModel AddDatePeriodViewModel => GetServiceOrThrow<AddDatePeriodConfigurationDialogViewModel>();
-
     private static TService GetServiceOrThrow<TService>()
         where TService : class
     {

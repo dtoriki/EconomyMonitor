@@ -17,7 +17,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Styles/Buttons/ButtonWithIconHorizontal.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Styles/StackPanels/HorizontalOrientedCenterAlignmentStackPanel.xaml"/>
-                <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/ViewModels/HeaderMenuViewModel.xaml"/>
             </ResourceDictionary.MergedDictionaries>
 
             <Style x:Key="HeaderMenuButton"
