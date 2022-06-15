@@ -24,7 +24,7 @@ public static class EnumHelper
     /// есть больше чем одна именованная константа 
     /// с одним описанием <see cref="DisplayAttribute.Description"/>.
     /// </exception>
-    public static Enum? GetEnumValueByDisplay(Type targetType, string displayDescription)
+    public static Enum? GetEnumValueByDisplayDescription(Type targetType, string displayDescription)
     {
         _ = ThrowIfArgumentNull(displayDescription);
 
