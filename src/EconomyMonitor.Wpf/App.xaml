@@ -16,8 +16,6 @@
 
             </ResourceDictionary.MergedDictionaries>
 
-            <viewmodels:ViewModelLocator x:Key="ViewModels" />
-
         </ResourceDictionary>
     </Application.Resources>
 </Application>

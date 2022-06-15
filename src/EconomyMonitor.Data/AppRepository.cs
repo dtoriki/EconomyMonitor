@@ -14,13 +14,13 @@ internal sealed class AppRepository : EfRepository, IAppRepository
     public DbSet<DatePeriodEntity> DatePeriods { get; set; }
     public DbSet<DatePeriodConfigurationEntity> DatePeriodConfigurations { get; set; }
     public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
-    public DbSet<SpendingQuotaEntity> SpendingQuotas { get; set; }
-    public DbSet<PeriodSplitEntity> PeriodSplits { get; set; }
+    //public DbSet<SpendingQuotaEntity> SpendingQuotas { get; set; }
+    //public DbSet<PeriodSplitEntity> PeriodSplits { get; set; }
 
     IQueryable<IDatePeriodEntity> IRepositorySet<IDatePeriodEntity>.EntitySet => DatePeriods;
     IQueryable<IDatePeriodConfigurationEntity> IRepositorySet<IDatePeriodConfigurationEntity>.EntitySet => DatePeriodConfigurations;
-    IQueryable<ISpendingQuotaEntity> IRepositorySet<ISpendingQuotaEntity>.EntitySet => SpendingQuotas;
-    IQueryable<IPeriodSplitEntity> IRepositorySet<IPeriodSplitEntity>.EntitySet => PeriodSplits;
+    //IQueryable<ISpendingQuotaEntity> IRepositorySet<ISpendingQuotaEntity>.EntitySet => SpendingQuotas;
+    //IQueryable<IPeriodSplitEntity> IRepositorySet<IPeriodSplitEntity>.EntitySet => PeriodSplits;
 
 
 #pragma warning disable CS8618 // Поле, не допускающее значения NULL, должно содержать значение, отличное от NULL, при выходе из конструктора. Возможно, стоит объявить поле как допускающее значения NULL.

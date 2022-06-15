@@ -1,4 +1,4 @@
-﻿namespace EconomyMonitor.Abstacts;
+namespace EconomyMonitor.Abstacts;
 
 /// <summary>
 /// Тип конфигурации периода дат.
@@ -6,21 +6,32 @@
 /// <remarks>
 /// Наследует <see cref="IMonthDay"/>.
 /// </remarks>
-public interface IDatePeriodConfiguration : IMonthDay
+public interface IDatePeriodConfiguration
 {
     /// <summary>
-    /// Возвращает <see langword="true"/>, если текущий вариант конфигурации
-    /// является конфигурацией по-умолчанию, иначе - <see langword="false"/>.
+    /// Возвращает дату начала периода включительно.
     /// </summary>
-    bool IsDefault { get; }
+    DateOnly StartPeriodDateInclusive { get; }
 
     /// <summary>
-    /// Возвращает перечисление дней, разделяющих период.
+    /// Возвращает дату окончания периода исключительно.
     /// </summary>
-    IEnumerable<IMonthDay> PeriodSplits { get; }
+    DateOnly EndPeriodDateExclusive { get; }
 
-    /// <summary>
-    /// Возвращает перечисление лимитов трат.
-    /// </summary>
-    IEnumerable<ISpendingQuota> SpendingQuotas { get; }
+
+    ///// <summary>
+    ///// Возвращает <see langword="true"/>, если текущий вариант конфигурации
+    ///// является конфигурацией по-умолчанию, иначе - <see langword="false"/>.
+    ///// </summary>
+    //bool IsDefault { get; }
+
+    ///// <summary>
+    ///// Возвращает перечисление дней, разделяющих период.
+    ///// </summary>
+    //IEnumerable<IMonthDay> PeriodSplits { get; }
+
+    ///// <summary>
+    ///// Возвращает перечисление лимитов трат.
+    ///// </summary>
+    //IEnumerable<ISpendingQuota> SpendingQuotas { get; }
 }
