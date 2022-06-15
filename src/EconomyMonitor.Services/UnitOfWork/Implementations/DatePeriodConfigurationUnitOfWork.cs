@@ -2,9 +2,7 @@ using EconomyMonitor.Abstacts;
 using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Data.Abstracts.Interfaces.EfSets;
 using EconomyMonitor.Data.Entities;
-using EconomyMonitor.Domain;
 using EconomyMonitor.Mapping.AutoMapper.DatePeriodConfiguration;
-using Microsoft.EntityFrameworkCore;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Services.UnitOfWork.Implementations;
@@ -49,23 +47,6 @@ internal sealed class DatePeriodConfigurationUnitOfWork<TRepository> : IDatePeri
 
         return result;
     }
-
-    //public async Task<IDatePeriodConfiguration?> GetDefaultConfigurationAsync(CancellationToken cancellationToken = default)
-    //{
-    //    if (_isDisposed)
-    //    {
-    //        ThrowDisposed(this);
-    //    }
-
-    //    DatePeriodConfigurationEntity? defaultConfigurationEntity = await _repository
-    //        .ReadAll<DatePeriodConfigurationEntity>(x => x.IsDefault)
-    //        .Include(x => x.SpendingQuotas)
-    //        .Include(x => x.PeriodSplits)
-    //        .SingleOrDefaultAsync(cancellationToken)
-    //        .ConfigureAwait(false);
-
-    //    return _mapper.DatePeriodConfigurationMap<DatePeriodConfigurationEntity, DatePeriodConfiguration>(defaultConfigurationEntity);
-    //}
 
     public void Dispose()
     {

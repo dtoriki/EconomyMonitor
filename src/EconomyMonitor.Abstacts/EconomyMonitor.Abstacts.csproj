@@ -3,9 +3,5 @@
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\EconomyMonitor.Primitives\EconomyMonitor.Primitives.csproj" />
-  </ItemGroup>
-
+  
 </Project>

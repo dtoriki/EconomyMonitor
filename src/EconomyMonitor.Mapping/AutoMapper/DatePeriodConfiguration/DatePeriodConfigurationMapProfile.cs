@@ -27,7 +27,6 @@ public sealed class DatePeriodConfigurationMapProfile : Profile
     {
         CreateMap<IDatePeriodConfiguration, DatePeriodConfigurationEntity>();
         CreateMap<IDatePeriodConfiguration, DatePeriodConfigurationDto>();
-        CreateMap<IMonthDay, PeriodSplitEntity>();
         CreateMap<ISpendingQuota, SpendingQuotaEntity>();
     }
 }
