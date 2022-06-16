@@ -1,7 +1,5 @@
 using EconomyMonitor.Data.Abstracts.Interfaces;
-using EconomyMonitor.Data.Abstracts.Interfaces.EfSets;
 using EconomyMonitor.Data.DI;
-using EconomyMonitor.Data.Entities;
 using Microsoft.AspNetCore.DataProtection.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using static EconomyMonitor.Helpers.ThrowHelper;
@@ -30,8 +28,6 @@ namespace EconomyMonitor.Data;
 /// </list>
 /// </remarks>
 public interface IAppRepository : 
-    IDatePeriodSet<DatePeriodEntity>,
-    IDatePeriodConfigurationSet<DatePeriodConfigurationEntity>,
     IDataProtectionKeyContext,
     IRepository
 {

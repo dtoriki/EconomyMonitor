@@ -340,3 +340,4 @@ ASALocalRun/
 healthchecksdb
 /src/EconomyMonitor.Migrations/EconomyMonitorRepositoryModelSnapshot.cs
 /src/EconomyMonitor.Migrations/EconomyMonitor/Data/Migrations/EconomyMonitorRepositoryModelSnapshot.cs
+/src/EconomyMonitor.Migrations/EconomyMonitor/Data/Migrations/AppRepositoryModelSnapshot.cs
