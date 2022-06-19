@@ -1,4 +1,6 @@
 using EconomyMonitor.Configuration;
+using EconomyMonitor.Data.DI;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using static EconomyMonitor.Helpers.ThrowHelper;
@@ -19,6 +21,10 @@ internal class AppRepositorySqliteFactory : IDesignTimeDbContextFactory<AppRepos
             return null!;
         }
 
-        return (AppRepository)IAppRepository.CreateSqlite(connectionString);
+        DbContextOptions options = new DbContextOptionsBuilder()
+            .ConfigureSqliteDbContextOptionsBuilder(connectionString)
+            .Options;
+
+        return new AppRepository(options);
     }
 }

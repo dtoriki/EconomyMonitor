@@ -1,5 +1,6 @@
 using EconomyMonitor.Configuration;
 using EconomyMonitor.Data;
+using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Services.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -100,7 +101,7 @@ public static class AppHosting
 
         try
         {
-            var context = (DbContext)scope.ServiceProvider.GetRequiredService<IAppRepository>();
+            var context = (DbContext)scope.ServiceProvider.GetRequiredService<IRepository>();
 
             await context.Database
                 .MigrateAsync()
@@ -108,7 +109,7 @@ public static class AppHosting
         }
         catch (InvalidOperationException)
         {
-            throw new DependencyNotFoundException(typeof(IAppRepository));
+            throw new DependencyNotFoundException(typeof(IRepository));
         }
 
         return host;

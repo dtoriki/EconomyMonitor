@@ -36,18 +36,4 @@ public static class DbContextOptionsBuilderExtensions
                 connectionString,
                 x => x.MigrationsAssembly("EconomyMonitor.Migrations"));
     }
-
-    /// <inheritdoc cref="ConfigureSqliteDbContextOptionsBuilder(DbContextOptionsBuilder, string)"/>
-    /// <typeparam name="TContext">Тип контекста базы данных <see cref="DbContext"/>.</typeparam>
-    public static DbContextOptionsBuilder<TContext> ConfigureSqliteDbContextOptionsBuilder<TContext>(
-        this DbContextOptionsBuilder<TContext> builder,
-        string connectionString) where TContext : DbContext
-    {
-        _ = ThrowIfArgumentNull(connectionString);
-
-        var commonBuilder = (DbContextOptionsBuilder)builder;
-
-        return (DbContextOptionsBuilder<TContext>)commonBuilder
-            .ConfigureSqliteDbContextOptionsBuilder(connectionString);
-    }
 }
