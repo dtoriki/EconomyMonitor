@@ -1,3 +1,4 @@
+using EconomyMonitor.Data.Abstracts.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using static EconomyMonitor.Helpers.ThrowHelper;
@@ -36,7 +37,7 @@ public static class ConfigureAppRepositoryExtensions
         _ = ThrowIfArgumentNull(connectionString);
 
         services
-            .AddDbContext<IAppRepository, AppRepository>(
+            .AddDbContext<IRepository, AppRepository>(
                 options => _ = options.ConfigureSqliteDbContextOptionsBuilder(connectionString),
                 ServiceLifetime.Scoped, 
                 ServiceLifetime.Scoped);

@@ -5,6 +5,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="UnitsOfWork\**" />
+	  <EmbeddedResource Remove="UnitsOfWork\**" />
+	  <None Remove="UnitsOfWork\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.AspNetCore.DataProtection.EntityFrameworkCore" Version="6.0.6" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0-preview.5.22302.2" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0-preview.5.22302.2" />
@@ -22,13 +28,6 @@
 		<ProjectReference Include="..\EconomyMonitor.Abstacts\EconomyMonitor.Abstacts.csproj" />
 		<ProjectReference Include="..\EconomyMonitor.Extensions\EconomyMonitor.Extensions.csproj" />
 		<ProjectReference Include="..\EconomyMonitor.Helpers\EconomyMonitor.Helpers.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Interfaces\EfSets\" />
-	  <Folder Include="Interfaces\Entities\" />
-	  <Folder Include="Interfaces\Refers\" />
-	  <Folder Include="UnitsOfWork\" />
 	</ItemGroup>
 
 </Project>

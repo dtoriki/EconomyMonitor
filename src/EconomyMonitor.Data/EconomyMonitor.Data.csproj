@@ -8,11 +8,7 @@
     <ProjectReference Include="..\EconomyMonitor.Abstacts\EconomyMonitor.Abstacts.csproj" />
     <ProjectReference Include="..\EconomyMonitor.Configuration\EconomyMonitor.Configuration.csproj" />
     <ProjectReference Include="..\EconomyMonitor.Data.Abstracts\EconomyMonitor.Data.Abstracts.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Entities\" />
-    <Folder Include="FluentConfigurations\" />
+    <ProjectReference Include="..\EconomyMonitor.Primitives\EconomyMonitor.Primitives.csproj" />
   </ItemGroup>
 
 </Project>
