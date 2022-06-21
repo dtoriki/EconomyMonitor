@@ -14,14 +14,17 @@ internal sealed class AppRepository :
     EfRepository,
     IMoneyForDaySet<MoneyForDayEntity>,
     IMoneyDuringDaySet<MoneyDuringDayEntityBase>,
+    ISettingsSet<SettingsEntity>,
     IDataProtectionKeyContext
 {
     public DbSet<DataProtectionKey> DataProtectionKeys { get; set; }
     public DbSet<MoneyForDayEntity> MoneyForDays { get; set; }
     public DbSet<MoneyDuringDayEntityBase> MoneyDuringDays { get; set; }
+    public DbSet<SettingsEntity> Settings { get; set; }
 
     IQueryable<IMoneyForDayEntity> IRepositorySet<IMoneyForDayEntity>.EntitySet => MoneyForDays;
     IQueryable<IMoneyDuringDayEntity> IRepositorySet<IMoneyDuringDayEntity>.EntitySet => MoneyDuringDays;
+    IQueryable<ISettingsEntity> IRepositorySet<ISettingsEntity>.EntitySet => Settings;
 
     public AppRepository() : base()
     {
@@ -38,6 +41,7 @@ internal sealed class AppRepository :
         modelBuilder
             .ApplyConfiguration(new ConfigureEarnings())
             .ApplyConfiguration(new ConfigureExpenses())
-            .ApplyConfiguration(new ConfigureMoneyForDays());
+            .ApplyConfiguration(new ConfigureMoneyForDays())
+            .ApplyConfiguration(new ConfigureSettings());
     }
 }

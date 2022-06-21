@@ -1,4 +1,5 @@
 using EconomyMonitor.Data.Entities;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace EconomyMonitor.Data.FluentConfigurations;
