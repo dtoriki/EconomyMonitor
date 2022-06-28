@@ -2,7 +2,7 @@ using System.Runtime.Serialization;
 using Microsoft.Extensions.DependencyInjection;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
-namespace EconomyMonitor.Services.Exceptions;
+namespace EconomyMonitor.DI.Exceptions;
 
 /// <summary>
 /// Исключение an <see cref="Exception"/>, 
@@ -23,7 +23,7 @@ public class DependencyNotFoundException : Exception
     /// <param name="dependencyType">Тип зависимости.</param>
     public DependencyNotFoundException(Type dependencyType) : base(GetMessage(dependencyType))
     {
-        
+
     }
 
     /// <summary>
@@ -43,8 +43,8 @@ public class DependencyNotFoundException : Exception
     /// <param name="message">Добавочное сообщение.</param>
     /// <param name="innerException">Внутреннее исключение <see cref="Exception"/>.</param>
     public DependencyNotFoundException(
-        Type dependencyType, 
-        string? message, 
+        Type dependencyType,
+        string? message,
         Exception? innerException) : base(GetMessage(dependencyType, message), innerException)
     {
 
