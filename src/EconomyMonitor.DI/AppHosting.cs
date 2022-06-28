@@ -1,7 +1,6 @@
 using EconomyMonitor.Configuration;
-using EconomyMonitor.Data;
 using EconomyMonitor.Data.Abstracts.Interfaces;
-using EconomyMonitor.Services.Exceptions;
+using EconomyMonitor.DI.Exceptions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
