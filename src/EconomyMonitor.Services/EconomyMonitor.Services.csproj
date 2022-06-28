@@ -4,14 +4,4 @@
     <TargetFramework>net6.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\EconomyMonitor.Data\EconomyMonitor.Data.csproj" />
-    <ProjectReference Include="..\EconomyMonitor.Domain\EconomyMonitor.Domain.csproj" />
-    <ProjectReference Include="..\EconomyMonitor.Mapping\EconomyMonitor.Mapping.csproj" />
-  </ItemGroup>
-
 </Project>
