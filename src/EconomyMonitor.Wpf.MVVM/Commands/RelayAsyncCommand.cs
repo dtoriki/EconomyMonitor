@@ -1,4 +1,3 @@
-using EconomyMonitor.Wpf.MVVM.Generic;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
 namespace EconomyMonitor.Wpf.MVVM.Commands;
@@ -46,58 +45,27 @@ public sealed class RelayAsyncCommand : AsyncCommandBase
     /// <exception cref="ObjectDisposedException">
     /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
     /// </exception>
-    protected override async Task CanExecuteAsync(object? parameter)
+    protected override Task<bool> CanExecuteAsync(object? parameter, CancellationToken cancellationToken)
     {
         if (IsDisposed)
         {
             ThrowDisposed(this);
         }
 
-        if (_canExecute is null)
-        {
-            return;
-        }
-
-        if (Execution is null || Execution.IsCompleted || CanExecution is null || CanExecution.IsCompleted)
-        {
-            if (CanExecution is IAsyncDisposable asyncDisposable)
-            {
-                await asyncDisposable.DisposeAsync().ConfigureAwait(false);
-            }
-            else if (CanExecution is IDisposable disposable)
-            {
-                disposable.Dispose();
-            }
-
-            CanExecution = new NotifyTaskCompletion<bool>(_canExecute(parameter, CancelCommand.CancellationToken));
-        }
+        return _canExecute?.Invoke(parameter, cancellationToken) ?? Task.FromResult(true);
     }
 
     /// <inheritdoc/>
     /// <exception cref="ObjectDisposedException">
     /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
     /// </exception>
-    protected override async Task ExecuteAsync(object? parameter)
+    protected override Task ExecuteAsync(object? parameter, CancellationToken cancellationToken)
     {
         if (IsDisposed)
         {
             ThrowDisposed(this);
         }
 
-        if (Execution is IAsyncDisposable asyncDisposable)
-        {
-            await asyncDisposable.DisposeAsync().ConfigureAwait(false);
-        }
-        else if (Execution is IDisposable disposable)
-        {
-            disposable.Dispose();
-        }
-
-        CancelCommand.NotifyCommandStarting();
-        Execution = new NotifyTaskCompletion(_execute(parameter, CancelCommand.CancellationToken));
-        RiseCanExecuteChanged();
-        await Execution.TaskCompletionAsync().ConfigureAwait(false);
-        CancelCommand.NotifyCommandFinished();
-        RiseCanExecuteChanged();
+        return _execute(parameter, cancellationToken);
     }
 }

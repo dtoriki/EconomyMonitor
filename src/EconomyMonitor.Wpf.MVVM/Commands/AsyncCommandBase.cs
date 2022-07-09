@@ -25,6 +25,8 @@ namespace EconomyMonitor.Wpf.MVVM.Commands;
 public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, IDisposable, IAsyncDisposable
 {
     private readonly CancelCommand _cancelCommand;
+    private readonly IAsyncCommand _asyncCommand;
+
     private ITaskCompletion? _execution;
     private ITaskCompletion<bool>? _canExecution;
     private Task? _executionTask;
@@ -121,7 +123,11 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
     /// <summary>
     /// Создаёт экземпляр асинхронной команды.
     /// </summary>
-    protected AsyncCommandBase() : base() => _cancelCommand = new CancelCommand();
+    protected AsyncCommandBase() : base()
+    {
+        _asyncCommand = this;
+        _cancelCommand = new CancelCommand();
+    }
 
     /// <summary>
     /// Высвобождает текущий экземпляр.
@@ -141,24 +147,50 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
         GC.SuppressFinalize(this);
     }
 
-    Task IAsyncCommand.ExecuteAsync(object? parameter)
+    async Task IAsyncCommand.ExecuteAsync(object? parameter)
     {
         if (IsDisposed)
         {
             ThrowDisposed(this);
         }
 
-        return ExecuteAsync(parameter);
+        if (Execution is IAsyncDisposable asyncDisposable)
+        {
+            await asyncDisposable.DisposeAsync().ConfigureAwait(false);
+        }
+        else if (Execution is IDisposable disposable)
+        {
+            disposable.Dispose();
+        }
+
+        CancelCommand.NotifyCommandStarting();
+        Execution = new NotifyTaskCompletion(ExecuteAsync(parameter, CancelCommand.CancellationToken));
+        RiseCanExecuteChanged();
+        await Execution.TaskCompletionAsync().ConfigureAwait(false);
+        CancelCommand.NotifyCommandFinished();
+        RiseCanExecuteChanged();
     }
 
-    Task IAsyncCommand.CanExecuteAsync(object? parameter)
+    async Task IAsyncCommand.CanExecuteAsync(object? parameter)
     {
         if (IsDisposed)
         {
             ThrowDisposed(this);
         }
 
-        return CanExecuteAsync(parameter);
+        if (Execution is null || Execution.IsCompleted || CanExecution is null || CanExecution.IsCompleted)
+        {
+            if (CanExecution is IAsyncDisposable asyncDisposable)
+            {
+                await asyncDisposable.DisposeAsync().ConfigureAwait(false);
+            }
+            else if (CanExecution is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+
+            CanExecution = new NotifyTaskCompletion<bool>(CanExecuteAsync(parameter, CancelCommand.CancellationToken));
+        }
     }
 
     /// <summary>
@@ -175,7 +207,7 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
         }
 
         _executionTask?.Dispose();
-        _executionTask = ExecuteAsync(parameter);
+        _executionTask = _asyncCommand.ExecuteAsync(parameter);
     }
 
     /// <summary>
@@ -193,7 +225,7 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
 
         _canExecutionTask?.Dispose();
         _cancelCommand.NotifyCommandStarting();
-        _canExecutionTask = CanExecuteAsync(parameter);
+        _canExecutionTask = _asyncCommand.CanExecuteAsync(parameter);
 
         if (_canExecution is null)
         {
@@ -218,10 +250,10 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
     }
 
     /// <inheritdoc cref="IAsyncCommand.ExecuteAsync(object?)"/>
-    protected abstract Task ExecuteAsync(object? parameter);
+    protected abstract Task ExecuteAsync(object? parameter, CancellationToken cancellationToken);
 
     /// <inheritdoc cref="IAsyncCommand.CanExecuteAsync(object?)(object?)"/>
-    protected abstract Task CanExecuteAsync(object? parameter);
+    protected abstract Task<bool> CanExecuteAsync(object? parameter, CancellationToken cancellationToken);
 
     /// <inheritdoc cref="DisposeAsync"/>
     /// <param name="disposing">
