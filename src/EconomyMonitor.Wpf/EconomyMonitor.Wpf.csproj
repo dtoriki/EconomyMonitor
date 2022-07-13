@@ -9,7 +9,7 @@
 
 	<ItemGroup>
 		<PackageReference Include="MaterialDesignThemes" Version="4.6.0-ci239" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0-preview.5.22302.2">
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0-preview.6.22329.4">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
