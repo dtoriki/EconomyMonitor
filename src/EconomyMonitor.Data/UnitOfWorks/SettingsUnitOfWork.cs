@@ -52,7 +52,7 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
 
         SettingsEntity entity = _mapper.Map<SettingsEntity>(settings);
 
-        return _repository.CreateAsync(entity);
+        return _repository.CreateAsync(entity, cancellationToken);
     }
 
     public void Dispose()

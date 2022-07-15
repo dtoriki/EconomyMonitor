@@ -10,7 +10,7 @@ public static class DisposeHelper
     /// </summary>
     /// <param name="obj">Высвобождаемый объект.</param>
     /// <returns><see langword="true"/>, если объект был высвобожден, иначе - <see langword="false"/>.</returns>
-    public static bool Dispose(object? obj)
+    public static bool DisposeObject(object? obj)
     {
         if (obj is IDisposable disposable)
         {
@@ -27,7 +27,7 @@ public static class DisposeHelper
     /// </summary>
     /// <param name="obj">Высвобождаемый объект.</param>
     /// <returns><see langword="true"/>, если объект был высвобожден, иначе - <see langword="false"/>.</returns>
-    public static async ValueTask<bool> DisposeAsync(object? obj)
+    public static async ValueTask<bool> DisposeObjectAsync(object? obj)
     {
         if (obj is IAsyncDisposable asyncDisposable)
         {
@@ -36,6 +36,6 @@ public static class DisposeHelper
             return true;
         }
 
-        return Dispose(obj);
+        return DisposeObject(obj);
     }
 }
