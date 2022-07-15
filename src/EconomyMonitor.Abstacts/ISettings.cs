@@ -6,7 +6,7 @@ namespace EconomyMonitor.Abstacts;
 public interface ISettings
 {
     /// <summary>
-    /// Возвращает стартовый бюджет.
+    /// Возвращает или задаёт стартовый бюджет.
     /// </summary>
-    decimal StartingBudget { get; }
+    decimal? StartingBudget { get; set; }
 }

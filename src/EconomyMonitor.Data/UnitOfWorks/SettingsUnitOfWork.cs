@@ -15,7 +15,7 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
     private readonly TRepository _repository;
     private readonly ISettingsMapper _mapper;
 
-    private bool _disosed;
+    private bool _disposed;
 
     public SettingsUnitOfWork(TRepository repository, ISettingsMapper mapper)
     {
@@ -28,20 +28,36 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
 
     public async Task<ISettings?> GetSettingsAsync(CancellationToken cancellationToken = default)
     {
-        if (_disosed)
+        if (_disposed)
         {
             ThrowDisposed(this);
         }
 
-        SettingsEntity? settingsEntity = await _repository
-            .ReadAll<SettingsEntity>()
-            .SingleOrDefaultAsync(cancellationToken);
+        SettingsEntity? settingsEntity = await GetSettingsAsyncInternal(cancellationToken)
+            .ConfigureAwait(false);
 
         return _mapper.Map<Settings>(settingsEntity);
     }
+
+    private Task<SettingsEntity?> GetSettingsAsyncInternal(CancellationToken cancellationToken)
+    {
+        return _repository
+            .ReadAll<SettingsEntity>()
+            .SingleOrDefaultAsync(cancellationToken);
+    }
+
+    public Task SaveSettingsAsync(ISettings settings, CancellationToken cancellationToken = default)
+    {
+        _ = ThrowIfArgumentNull(settings);
+
+        SettingsEntity entity = _mapper.Map<SettingsEntity>(settings);
+
+        return _repository.CreateAsync(entity);
+    }
+
     public void Dispose()
     {
-        if (_disosed)
+        if (_disposed)
         {
             return;
         }
@@ -49,12 +65,12 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
         _repository.Dispose();
         GC.SuppressFinalize(this);
 
-        _disosed = true;
+        _disposed = true;
     }
 
     public async ValueTask DisposeAsync()
     {
-        if (_disosed)
+        if (_disposed)
         {
             return;
         }
@@ -62,6 +78,6 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
         await _repository.DisposeAsync().ConfigureAwait(false);
         GC.SuppressFinalize(this);
 
-        _disosed = true;
+        _disposed = true;
     }
 }

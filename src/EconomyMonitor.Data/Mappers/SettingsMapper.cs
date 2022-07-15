@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using AutoMapper;
 using EconomyMonitor.Abstacts;
 using EconomyMonitor.Mapping.AutoMapper;
@@ -10,14 +11,15 @@ internal sealed class SettingsMapper : AutoMapperBase, ISettingsMapper
     {
     }
 
-    public TDestanation? Map<TDestanation>(ISettings? settings)
-        where TDestanation : class, ISettings
+    [return: NotNullIfNotNull("settings")]
+    public TDestination? Map<TDestination>(ISettings? settings)
+        where TDestination : class, ISettings
     {
         if (settings is null)
         {
             return null;
         }
 
-        return Mapper.Map<TDestanation>(settings);
+        return Mapper.Map<TDestination>(settings);
     }
 }
