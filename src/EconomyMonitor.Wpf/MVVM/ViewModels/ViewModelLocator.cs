@@ -1,4 +1,4 @@
-using EconomyMonitor.Services.Exceptions;
+using EconomyMonitor.DI.Exceptions;
 using EconomyMonitor.Wpf.MVVM.ViewModels.Application;
 using EconomyMonitor.Wpf.MVVM.ViewModels.Header;
 using Microsoft.Extensions.DependencyInjection;

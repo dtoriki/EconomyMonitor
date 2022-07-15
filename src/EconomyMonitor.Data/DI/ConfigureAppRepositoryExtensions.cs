@@ -14,7 +14,7 @@ namespace EconomyMonitor.Data.DI;
 public static class ConfigureAppRepositoryExtensions
 {
     /// <summary>
-    /// Конфигурирует <see cref="IAppRepository"/> с временем существования <see cref="ServiceLifetime.Scoped"/>
+    /// Конфигурирует <see cref="IRepository"/> с временем существования <see cref="ServiceLifetime.Scoped"/>
     /// и добавляет его в <paramref name="services"/>.
     /// </summary>
     /// <param name="services">Коллекция сервисов.</param>
@@ -22,7 +22,7 @@ public static class ConfigureAppRepositoryExtensions
     /// <returns>Коллекция сервисов.</returns>
     /// <remarks>
     /// <para>
-    /// Добавляет <see cref="IAppRepository"/> в <paramref name="services"/> методом 
+    /// Добавляет <see cref="IRepository"/> в <paramref name="services"/> методом 
     /// <see cref="EntityFrameworkServiceCollectionExtensions.AddDbContext{TContextService, TContextImplementation}(IServiceCollection, Action{DbContextOptionsBuilder}?, ServiceLifetime, ServiceLifetime)"/>.
     /// </para>
     /// <para>
@@ -32,7 +32,7 @@ public static class ConfigureAppRepositoryExtensions
     /// <exception cref="ArgumentNullException">
     /// Возникает, когда <paramref name="connectionString"/> - <see langword="null"/>.
     /// </exception>
-    public static IServiceCollection ConfigureAppRepositoryScoped( 
+    public static IServiceCollection ConfigureAppSqliteRepositoryScoped( 
         this IServiceCollection services, 
         string connectionString)
     {
@@ -60,7 +60,7 @@ public static class ConfigureAppRepositoryExtensions
     /// пытается полчить строку подключения. Если строка подключения не найдена, то вызывает <see cref="ArgumentNullException"/>.
     /// </para>
     /// <para>
-    /// Методом <see cref="ConfigureAppRepositoryScoped(IServiceCollection, string)"/>
+    /// Методом <see cref="ConfigureAppSqliteRepositoryScoped(IServiceCollection, string)"/>
     /// конфигурирует экземпляр <see cref="IAppRepository"/> со временем жизни <see cref="ServiceLifetime.Scoped"/>
     /// и помещает его в <paramref name="services"/>.
     /// </para>
@@ -76,7 +76,7 @@ public static class ConfigureAppRepositoryExtensions
             return services;
         }
 
-        services.ConfigureAppRepositoryScoped(connectionString);
+        services.ConfigureAppSqliteRepositoryScoped(connectionString);
 
         return services;
     }

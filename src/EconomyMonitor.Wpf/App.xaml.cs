@@ -1,6 +1,6 @@
 using System.Windows;
+using EconomyMonitor.Data.DI;
 using EconomyMonitor.DI;
-using EconomyMonitor.DI.Extensions;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using static EconomyMonitor.DI.AppHosting;
@@ -50,8 +50,7 @@ internal partial class App : Application
 
         services
             .ConfigureSqliteAppRepository()
-            .ConfigureMappers()
-            .ConfigureUnitsOfWorkScoped()
+            .ConfigureSettingsUnitOfWork()
             .ConfigureViewModels();
     }    
 }
