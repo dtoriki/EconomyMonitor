@@ -18,7 +18,7 @@ namespace EconomyMonitor.Wpf.MVVM.Commands;
 /// От этого класса нельзя наследоваться.
 /// </para>
 /// </remarks>
-public sealed class CancelCommand : CommandBase, IDisposable, ICancelCommand
+public sealed class CancelCommand : NotifiableCommandBase, IDisposable, ICancelCommand
 {
     private CancellationTokenSource _cts;
     private bool _commandExecuting;
@@ -41,6 +41,23 @@ public sealed class CancelCommand : CommandBase, IDisposable, ICancelCommand
         }
     }
 
+    /// <inheritdoc/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
+    public bool IsInProgress
+    {
+        get
+        {
+            if (_disposed)
+            {
+                ThrowDisposed(this);
+            }
+
+            return _commandExecuting;
+        }
+    }
+
     /// <summary>
     /// Создаёт команду отмены операции.
     /// </summary>
@@ -58,6 +75,7 @@ public sealed class CancelCommand : CommandBase, IDisposable, ICancelCommand
         }
 
         _commandExecuting = true;
+        OnPropertyChanged(nameof(IsInProgress));
 
         if (!_cts.IsCancellationRequested)
         {
@@ -82,6 +100,7 @@ public sealed class CancelCommand : CommandBase, IDisposable, ICancelCommand
         }
 
         _commandExecuting = false;
+        OnPropertyChanged(nameof(IsInProgress));
 
         RiseCanExecuteChanged();
     }
