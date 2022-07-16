@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
+using Microsoft;
 using static EconomyMonitor.Literals.ExceptionMessages;
 
 namespace EconomyMonitor.Helpers;
@@ -50,7 +51,7 @@ public static class ThrowHelper
     [DoesNotReturn]
     [SuppressMessage("Style", "IDE0060:Удалите неиспользуемый параметр", Justification = "<Ожидание>")]
     public static bool ThrowDisposed<T>(
-        [NotNullWhen(false)] T? value,
+        [NotNullWhen(false)][ValidatedNotNull] T? value,
         [CallerArgumentExpression(VALUE_ARGUMENT_NAME)] string? argumentName = null)
     {
         Throw<ObjectDisposedException>(string.Format(
@@ -74,7 +75,7 @@ public static class ThrowHelper
     /// </returns>
     /// <exception cref="ArgumentNullException">Throw when <paramref name="value"/> is <see langword="null"/>.</exception>
     public static bool ThrowIfArgumentNull<T>(
-        [NotNullWhen(false)] T? value,
+        [NotNullWhen(false)][ValidatedNotNull] T? value,
         [CallerArgumentExpression(VALUE_ARGUMENT_NAME)] string? argumentName = null)
     {
         if (value is null)
@@ -97,7 +98,7 @@ public static class ThrowHelper
     /// </returns>
     /// <exception cref="NullReferenceException">Throw when <paramref name="value"/> is <see langword="null"/>.</exception>
     public static bool ThrowIfNull<T>(
-        [NotNullWhen(false)] T? value,
+        [NotNullWhen(false)][ValidatedNotNull] T? value,
         [CallerArgumentExpression(VALUE_ARGUMENT_NAME)] string? argumentName = null)
     {
         if (value is null)
