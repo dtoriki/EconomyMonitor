@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Validation" Version="17.0.53" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\EconomyMonitor.Literals\EconomyMonitor.Literals.csproj" />
   </ItemGroup>
 
