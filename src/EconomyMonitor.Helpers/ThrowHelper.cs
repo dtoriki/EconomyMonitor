@@ -6,6 +6,7 @@ using static EconomyMonitor.Literals.ExceptionMessages;
 
 namespace EconomyMonitor.Helpers;
 
+// ToDo: изменение документации.
 public static class ThrowHelper
 {
     private const string VALUE_ARGUMENT_NAME = "value";
@@ -30,7 +31,7 @@ public static class ThrowHelper
     public static void Throw<T>(params object?[] args)
         where T : Exception
     {
-        ThrowIfArgumentNull(args, nameof(args));
+        ThrowIfArgumentNull(args);
 
         if (args.Length < 1)
         {
