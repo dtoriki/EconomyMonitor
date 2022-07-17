@@ -52,7 +52,7 @@ public static class ThrowHelper
     [DoesNotReturn]
     [SuppressMessage("Style", "IDE0060:Удалите неиспользуемый параметр", Justification = "<Ожидание>")]
     public static bool ThrowDisposed<T>(
-        [NotNullWhen(false)][ValidatedNotNull] T? value,
+        [NotNullWhen(false)] T? value,
         [CallerArgumentExpression(VALUE_ARGUMENT_NAME)] string? argumentName = null)
     {
         Throw<ObjectDisposedException>(string.Format(
