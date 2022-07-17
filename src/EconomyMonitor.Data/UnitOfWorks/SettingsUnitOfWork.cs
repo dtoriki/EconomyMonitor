@@ -1,9 +1,9 @@
 using EconomyMonitor.Abstacts;
 using EconomyMonitor.Data.Abstracts.Interfaces;
 using EconomyMonitor.Data.Abstracts.Interfaces.EfSets;
+using EconomyMonitor.Data.Abstracts.Interfaces.Entities;
 using EconomyMonitor.Data.Entities;
 using EconomyMonitor.Data.Mappers;
-using EconomyMonitor.Domain;
 using Microsoft.EntityFrameworkCore;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
@@ -13,46 +13,87 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
     where TRepository : IRepository, ISettingsSet<SettingsEntity>
 {
     private readonly TRepository _repository;
-    private readonly ISettingsMapper _mapper;
+    private readonly ISettingsMapper _settingsMapper;
 
     private bool _disposed;
 
-    public SettingsUnitOfWork(TRepository repository, ISettingsMapper mapper)
+    public SettingsUnitOfWork(TRepository repository, ISettingsMapper settingsMapper)
     {
         _ = ThrowIfArgumentNull(repository);
-        _ = ThrowIfArgumentNull(mapper);
+        _ = ThrowIfArgumentNull(settingsMapper);
 
         _repository = repository;
-        _mapper = mapper;
+        _settingsMapper = settingsMapper;
     }
 
-    public async Task<ISettings?> GetSettingsAsync(CancellationToken cancellationToken = default)
+    public async Task<ISettingsEntity?> GetSettingsAsync(CancellationToken cancellationToken = default)
     {
         if (_disposed)
         {
             ThrowDisposed(this);
         }
 
-        SettingsEntity? settingsEntity = await GetSettingsAsyncInternal(cancellationToken)
+        SettingsEntity? settingsEntity = await GetSettingsAsync(withTracking: true, cancellationToken)
             .ConfigureAwait(false);
 
-        return _mapper.Map<Settings>(settingsEntity);
+        return settingsEntity;
     }
 
-    private Task<SettingsEntity?> GetSettingsAsyncInternal(CancellationToken cancellationToken)
+    public async Task<ISettingsEntity?> GetSettingsNoTrackingAsync(CancellationToken cancellationToken = default)
+    {
+        if (_disposed)
+        {
+            ThrowDisposed(this);
+        }
+
+        SettingsEntity? settingsEntity = await GetSettingsAsync(withTracking: false, cancellationToken)
+            .ConfigureAwait(false);
+
+        return settingsEntity;
+    }
+
+    public async Task SaveSettingsAsync(ISettings settings, CancellationToken cancellationToken = default)
+    {
+        if (ThrowIfArgumentNull(settings))
+        {
+            return;
+        }
+
+        SettingsEntity? settingsEntity = await GetSettingsAsync(withTracking: true, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (settingsEntity is null)
+        {
+            SettingsEntity newEntity = _settingsMapper.Map<SettingsEntity>(settings);
+
+            await _repository.CreateAsync(newEntity, cancellationToken)
+                .ConfigureAwait(false);
+
+            return;
+        }
+
+        SettingsEntity updatedEntity = _settingsMapper.Pour(settings, settingsEntity, s => new { s.StartingBudget });
+        await _repository.UpdateAsync(updatedEntity, cancellationToken).ConfigureAwait(false);
+    }
+
+    private Task<SettingsEntity?> GetSettingsAsync(bool withTracking, CancellationToken cancellationToken)
+    {
+        IQueryable<SettingsEntity> query = withTracking
+            ? ReadAllSettingsInternal()
+            : ReadAllSettingsInternalNoTracking();
+
+        return query.SingleOrDefaultAsync(cancellationToken);
+    }
+
+    private IQueryable<SettingsEntity> ReadAllSettingsInternalNoTracking()
+    {
+        return ReadAllSettingsInternal().AsNoTracking();
+    }
+
+    private IQueryable<SettingsEntity> ReadAllSettingsInternal()
     {
         return _repository
-            .ReadAll<SettingsEntity>()
-            .SingleOrDefaultAsync(cancellationToken);
-    }
-
-    public Task SaveSettingsAsync(ISettings settings, CancellationToken cancellationToken = default)
-    {
-        _ = ThrowIfArgumentNull(settings);
-
-        SettingsEntity entity = _mapper.Map<SettingsEntity>(settings);
-
-        return _repository.CreateAsync(entity, cancellationToken);
+            .ReadAll<SettingsEntity>();
     }
 
     public void Dispose()

@@ -362,7 +362,7 @@ public abstract class EfRepository : DbContext, IRepository
         }
 
         return Set<TEntity>()
-            .FindAsync(new object?[] { id, cancellationToken }, cancellationToken: cancellationToken)
+            .FindAsync(new object?[] { id }, cancellationToken: cancellationToken)
             .AsTask();
     }
 
@@ -498,7 +498,6 @@ public abstract class EfRepository : DbContext, IRepository
 
         return base.SaveChanges(acceptAllChangesOnSuccess);
     }
-
     
     /// <inheritdoc cref="SaveChangesAsync(CancellationToken)"/>
     /// <inheritdoc cref="SaveChanges(bool)"/>
