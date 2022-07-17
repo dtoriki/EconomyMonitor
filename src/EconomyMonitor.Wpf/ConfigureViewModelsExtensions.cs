@@ -8,12 +8,10 @@ internal static class ConfigureViewModelsExtensions
 {
     public static IServiceCollection ConfigureViewModels(this IServiceCollection services)
     {
-        Type[] viewModelTypes = typeof(ViewModelLocator)
+        IEnumerable<Type> viewModelTypes = typeof(ViewModelLocator)
             .GetProperties()
-            .Where(x => x.PropertyType.BaseType is not null)
-            .Where(x => x.PropertyType.BaseType!.Equals(typeof(NotifyPropertyChangedBase)))
-            .Select(x => x.PropertyType)
-            .ToArray();
+            .Where(x => x.PropertyType.IsAssignableTo(typeof(NotifyPropertyChangedBase)))
+            .Select(x => x.PropertyType);
 
         foreach (Type viewModelType in viewModelTypes)
         {
