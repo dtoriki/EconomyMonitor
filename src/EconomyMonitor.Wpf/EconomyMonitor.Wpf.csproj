@@ -8,7 +8,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="MaterialDesignThemes" Version="4.6.0-ci240" />
+		<PackageReference Include="MaterialDesignThemes" Version="4.6.0-ci244" />
     
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0-preview.6.22329.4">
 			<PrivateAssets>all</PrivateAssets>
