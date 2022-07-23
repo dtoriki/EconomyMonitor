@@ -6,7 +6,6 @@ using static EconomyMonitor.Literals.ExceptionMessages;
 
 namespace EconomyMonitor.Helpers;
 
-// ToDo: изменение документации.
 public static class ThrowHelper
 {
     private const string VALUE_ARGUMENT_NAME = "value";
