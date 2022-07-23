@@ -41,23 +41,6 @@ public sealed class CancelCommand : NotifiableCommandBase, IDisposable, ICancelC
         }
     }
 
-    /// <inheritdoc/>
-    /// <exception cref="ObjectDisposedException">
-    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
-    /// </exception>
-    public bool IsInProgress
-    {
-        get
-        {
-            if (_disposed)
-            {
-                ThrowDisposed(this);
-            }
-
-            return _commandExecuting;
-        }
-    }
-
     /// <summary>
     /// Создаёт команду отмены операции.
     /// </summary>
@@ -75,7 +58,6 @@ public sealed class CancelCommand : NotifiableCommandBase, IDisposable, ICancelC
         }
 
         _commandExecuting = true;
-        OnPropertyChanged(nameof(IsInProgress));
 
         if (!_cts.IsCancellationRequested)
         {
@@ -100,7 +82,6 @@ public sealed class CancelCommand : NotifiableCommandBase, IDisposable, ICancelC
         }
 
         _commandExecuting = false;
-        OnPropertyChanged(nameof(IsInProgress));
 
         RiseCanExecuteChanged();
     }

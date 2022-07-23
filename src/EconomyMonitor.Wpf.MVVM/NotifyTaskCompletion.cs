@@ -18,23 +18,24 @@ namespace EconomyMonitor.Wpf.MVVM;
 /// </remarks>
 /// <exception cref="ObjectDisposedException"/>
 /// <exception cref="ArgumentNullException"/>
-public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsyncDisposable, ITaskCompletion
+public class NotifyTaskCompletion : NotifyPropertyChangedBase, ITaskCompletion
 {
-    private Task? _taskCompletion;
+    protected readonly Func<object?, CancellationToken, Task> _execution;
 
     private Exception? _exception;
+    private bool _isInProgress;
+    private bool _isCanceled;
+    private bool _isFaulted;
+    private bool _isCompletedSccesfully;
+    private string? _errorMessage;
 
     protected bool _disposed;
-    protected readonly Task _task;
 
     /// <inheritdoc/>
-    /// <remarks>
-    /// Оборачивает <see cref="Task.Status"/>.
-    /// </remarks>
     /// <exception cref="ObjectDisposedException">
     /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
     /// </exception>
-    public TaskStatus Status
+    public bool IsInProgress
     {
         get
         {
@@ -43,18 +44,17 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
                 ThrowDisposed(this);
             }
 
-            return _task.Status;
+            return _isInProgress;
         }
+
+        private set => _ = SetPropertyNotifiable(ref _isInProgress, value);
     }
 
     /// <inheritdoc/>
-    /// <remarks>
-    /// Оборачивает <see cref="Task.IsCompleted"/>.
-    /// </remarks>
     /// <exception cref="ObjectDisposedException">
     /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
     /// </exception>
-    public bool IsCompleted
+    public bool IsCompletedSuccessfully
     {
         get
         {
@@ -63,37 +63,13 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
                 ThrowDisposed(this);
             }
 
-            return _task.IsCompleted;
+            return _isCompletedSccesfully;
         }
+
+        private set => _ = SetPropertyNotifiable(ref _isCompletedSccesfully, value);
     }
 
     /// <inheritdoc/>
-    /// <exception cref="ObjectDisposedException">
-    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
-    /// </exception>
-    public bool IsNotCompleted => !IsCompleted;
-
-    /// <inheritdoc/>
-    /// <exception cref="ObjectDisposedException">
-    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
-    /// </exception>
-    public bool IsSuccessfullyCompleted
-    {
-        get
-        {
-            if (_disposed)
-            {
-                ThrowDisposed(this);
-            }
-
-            return _task.Status == TaskStatus.RanToCompletion;
-        }
-    }
-
-    /// <inheritdoc/>
-    /// <remarks>
-    /// Оборачивает <see cref="Task.IsCanceled"/>.
-    /// </remarks>
     /// <exception cref="ObjectDisposedException">
     /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
     /// </exception>
@@ -106,8 +82,10 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
                 ThrowDisposed(this);
             }
 
-            return _task.IsCanceled;
+            return _isCanceled;
         }
+
+        private set => _ = SetPropertyNotifiable(ref _isCanceled, value);
     }
 
     /// <inheritdoc/>
@@ -125,9 +103,9 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
             {
                 ThrowDisposed(this);
             }
-
-            return _task.IsFaulted;
+            return _isFaulted;
         }
+        private set => _ = SetPropertyNotifiable(ref _isFaulted, value);
     }
 
     /// <inheritdoc/>
@@ -142,8 +120,12 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
             {
                 ThrowDisposed(this);
             }
-
             return _exception;
+        }
+        private set
+        {
+            _ = SetPropertyNotifiable(ref _exception, value);
+            ErrorMessage = _exception?.InnerException?.Message;
         }
     }
 
@@ -162,9 +144,9 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
             {
                 ThrowDisposed(this);
             }
-
-            return Exception?.Message;
+            return _errorMessage;
         }
+        private set => _ = SetPropertyNotifiable(ref _errorMessage, value);
     }
 
     /// <summary>
@@ -174,137 +156,53 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, IDisposable, IAsy
     /// <exception cref="ArgumentNullException">
     /// Возникает, если <paramref name="task"/> оказался <see langword="null"/>.
     /// </exception>
-    public NotifyTaskCompletion(Task task)
+    public NotifyTaskCompletion(Func<object?, CancellationToken, Task> execution)
     {
-        ThrowIfArgumentNull(task);
+        ThrowIfArgumentNull(execution);
 
-        _task = task;
+        _execution = execution;
     }
 
     /// <inheritdoc cref="ITaskCompletion.TaskCompletionAsync"/>
     /// <exception cref="ObjectDisposedException">
     /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
     /// </exception>
-    public Task TaskCompletionAsync()
+    public Task TaskCompletionAsync(object? parameter, CancellationToken cancellationToken = default)
     {
         if (_disposed)
         {
             ThrowDisposed(this);
         }
 
-        return _taskCompletion ??= WatchTaskAsync();
-    }
-
-    /// <summary>
-    /// Высвобождает текущий экземпляр.
-    /// </summary>
-    public void Dispose()
-    {
-        Dispose(disposing: true);
-        GC.SuppressFinalize(this);
-    }
-
-    /// <summary>
-    /// Асинхронно высвобождает текущий экземпляр.
-    /// </summary>
-    public async ValueTask DisposeAsync()
-    {
-        await DisposeAsync(disposing: true).ConfigureAwait(false);
-        GC.SuppressFinalize(this);
+        return WatchTaskAsync(GetExecutionTask(parameter, cancellationToken));
     }
 
     /// <summary>
     /// Ожидает когда задача <see cref="Task"/> завершит выполнение, после чего уводомит об её завршении.
     /// </summary>
-    protected virtual async Task WatchTaskAsync()
+    protected virtual async Task WatchTaskAsync(Task executionTask)
     {
+        IsInProgress = true;
+
         try
         {
-            await _task.ConfigureAwait(false);
+            await executionTask.ConfigureAwait(false);
         }
         catch (Exception ex)
         {
-            _exception = ex;
+            Exception = ex;
         }
 
-        OnPropertyChanged(nameof(Status));
-        OnPropertyChanged(nameof(IsCompleted));
-        OnPropertyChanged(nameof(IsNotCompleted));
-
-        if (IsFaulted)
-        {
-            OnPropertyChanged(nameof(IsFaulted));
-            OnPropertyChanged(nameof(Exception));
-            OnPropertyChanged(nameof(ErrorMessage));
-
-            return;
-        }
-
-        if (IsCanceled)
-        {
-            OnPropertyChanged(nameof(IsCanceled));
-
-            return;
-        }
-
-        OnPropertyChanged(nameof(IsSuccessfullyCompleted));
+        IsInProgress = false;
+        IsFaulted = executionTask.IsFaulted;
+        IsCanceled = executionTask.IsCanceled;
+        IsCompletedSuccessfully = executionTask.IsCompletedSuccessfully;
     }
 
-    /// <inheritdoc cref="Dispose"/>
-    /// <param name="disposing">
-    /// Указывает, нужно ли высвобождать управляемые ресурсы.
-    /// </param>
-    protected virtual void Dispose(bool disposing)
+    private Task GetExecutionTask(object? parameter, CancellationToken cancellationToken)
     {
-        if (_disposed)
-        {
-            return;
-        }
-
-        if (disposing)
-        {
-            _task.Dispose();
-
-            if (_taskCompletion is not null)
-            {
-                if (!_taskCompletion.IsCompleted)
-                {
-                    _taskCompletion.Wait();
-                }
-                _taskCompletion.Dispose();  
-            }
-        }
-
-        _disposed = true;
+        return _execution(parameter, cancellationToken);
     }
 
-    /// <inheritdoc cref="DisposeAsync"/>
-    /// <param name="disposing">
-    /// Указывает, нужно ли высвобождать управляемые ресурсы.
-    /// </param>
-    protected virtual async ValueTask DisposeAsync(bool disposing)
-    {
-        if (_disposed)
-        {
-            return;
-        }
-
-        if (disposing)
-        {
-            _task.Dispose();
-
-            if (_taskCompletion is not null)
-            {
-                if (!_taskCompletion.IsCompleted)
-                {
-                    await _taskCompletion.ConfigureAwait(false);
-                }
-                _taskCompletion.Dispose();  
-            }
-        }
-
-        _disposed = true;
-    }
-
-    Task ITaskCompletion.TaskCompletionAsync() => TaskCompletionAsync();
+    Task ITaskCompletion.TaskCompletionAsync(object? parameter, CancellationToken cancellationToken) => TaskCompletionAsync(parameter, cancellationToken);
 }

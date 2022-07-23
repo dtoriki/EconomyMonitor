@@ -22,6 +22,8 @@ namespace EconomyMonitor.Wpf.MVVM.Generic;
 /// <exception cref="ArgumentNullException"/>
 public sealed class NotifyTaskCompletion<TResult> : NotifyTaskCompletion, ITaskCompletion<TResult>
 {
+    private TResult? _result;
+
     /// <inheritdoc/>
     /// <remarks>
     /// Оборачивает <see cref="Task{TResult}.Result"/>.
@@ -38,10 +40,10 @@ public sealed class NotifyTaskCompletion<TResult> : NotifyTaskCompletion, ITaskC
                 ThrowDisposed(this);
             }
 
-            return _task.Status == TaskStatus.RanToCompletion
-                ? ((Task<TResult>)_task).Result
-                : default;
+            return _result;
         }
+
+        private set => _ = SetPropertyNotifiable(ref _result, value);
     }
 
     /// <summary>
@@ -51,32 +53,16 @@ public sealed class NotifyTaskCompletion<TResult> : NotifyTaskCompletion, ITaskC
     /// <exception cref="ArgumentNullException">
     /// Возникает, если <paramref name="task"/> оказался <see langword="null"/>.
     /// </exception>
-    public NotifyTaskCompletion(Task<TResult> task) : base(task) => ThrowIfArgumentNull(task);
-
-    /// <inheritdoc cref="ITaskCompletion{TResult}.TaskCompletionAsync"/>
-    /// <exception cref="ObjectDisposedException">
-    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
-    /// </exception>
-    new public Task<TResult?> TaskCompletionAsync()
-    {
-        if (_disposed)
-        {
-            ThrowDisposed(this);
-        }
-
-        return (Task<TResult?>)base.TaskCompletionAsync();
-    }
+    public NotifyTaskCompletion(Func<object?, CancellationToken, Task<TResult>> execution) : base(execution) => ThrowIfArgumentNull(execution);
 
     /// <inheritdoc/>
-    protected override async Task WatchTaskAsync()
+    protected override async Task WatchTaskAsync(Task executionTask)
     {
-        await base.WatchTaskAsync().ConfigureAwait(false);
+        await base.WatchTaskAsync(executionTask).ConfigureAwait(false);
 
-        if (IsSuccessfullyCompleted)
+        if (executionTask.IsCompletedSuccessfully)
         {
-            OnPropertyChanged(nameof(Result));
+            Result = ((Task<TResult>)executionTask).Result;
         }
     }
-
-    Task<TResult?> ITaskCompletion<TResult>.TaskCompletionAsync() => TaskCompletionAsync();
 }

@@ -11,14 +11,6 @@ namespace EconomyMonitor.Wpf.MVVM.Commands;
 public interface ICancelCommand : ICommand
 {
     /// <summary>
-    /// Возвращает индикацию выполнения команды.
-    /// </summary>
-    /// <value>
-    /// <see langword="true"/>, если команда выполняется, иначе - <see langword="false"/>.
-    /// </value>
-    bool IsInProgress { get; }
-
-    /// <summary>
     /// Возвращает токен отмены операции.
     /// </summary>
     CancellationToken CancellationToken { get; }
