@@ -26,11 +26,12 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
 {
     private readonly CancelCommand _cancelCommand;
     private readonly IAsyncCommand _asyncCommand;
+    private readonly ITaskCompletion _execution;
+    private readonly ITaskCompletion<bool> _canExecution;
 
-    private ITaskCompletion? _execution;
-    private ITaskCompletion<bool>? _canExecution;
     private Task? _executionTask;
     private Task? _canExecutionTask;
+    private bool _isInProgress;
     private bool _isDisposed;
 
     /// <summary>
@@ -43,17 +44,17 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
     /// Если объект был высвобожден, то всегда имеет значение <see langword="true"/>, 
     /// даже если попытаться задать <see langword="false"/>.
     /// </remarks>
-    protected bool IsDisposed 
-    { 
-        get => _isDisposed; 
-        set => _isDisposed |= value; 
+    protected bool IsDisposed
+    {
+        get => _isDisposed;
+        set => _isDisposed |= value;
     }
 
     /// <inheritdoc/>
     /// <exception cref="ObjectDisposedException">
     /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
     /// </exception>
-    public ITaskCompletion? Execution
+    public ITaskCompletion Execution
     {
         get
         {
@@ -63,16 +64,6 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
             }
 
             return _execution;
-        }
-
-        protected set
-        {
-            if (IsDisposed)
-            {
-                ThrowDisposed(this);
-            }
-
-            _ = SetPropertyNotifiable(ref _execution, value);
         }
     }
 
@@ -90,16 +81,6 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
             }
 
             return _canExecution;
-        }
-
-        protected set
-        {
-            if (IsDisposed)
-            {
-                ThrowDisposed(this);
-            }
-
-            _ = SetPropertyNotifiable(ref _canExecution, value);
         }
     }
 
@@ -120,6 +101,24 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
         }
     }
 
+    /// <inheritdoc/>
+    /// <exception cref="ObjectDisposedException">
+    /// Вызывается, если при обращении текущий экземпляр был уже высвобожден.
+    /// </exception>
+    public bool IsInProgress
+    {
+        get
+        {
+            if (IsDisposed)
+            {
+                ThrowDisposed(this);
+            }
+
+            return _isInProgress;
+        }
+        private set => _ = SetPropertyNotifiable(ref _isInProgress, value);
+    }
+
     /// <summary>
     /// Создаёт экземпляр асинхронной команды.
     /// </summary>
@@ -127,6 +126,8 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
     {
         _asyncCommand = this;
         _cancelCommand = new CancelCommand();
+        _execution = new NotifyTaskCompletion(ExecuteAsync);
+        _canExecution = new NotifyTaskCompletion<bool>(CanExecuteAsync);
     }
 
     /// <summary>
@@ -154,21 +155,11 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
             ThrowDisposed(this);
         }
 
-        if (Execution is IAsyncDisposable asyncDisposable)
-        {
-            await asyncDisposable.DisposeAsync().ConfigureAwait(false);
-        }
-        else if (Execution is IDisposable disposable)
-        {
-            disposable.Dispose();
-        }
-
-        CancelCommand.NotifyCommandStarting();
-        Execution = new NotifyTaskCompletion(ExecuteAsync(parameter, CancelCommand.CancellationToken));
-        RiseCanExecuteChanged();
-        await Execution.TaskCompletionAsync().ConfigureAwait(false);
-        CancelCommand.NotifyCommandFinished();
-        RiseCanExecuteChanged();
+        IsInProgress = true;
+        _cancelCommand.NotifyCommandStarting();
+        await _execution.TaskCompletionAsync(parameter, CancelCommand.CancellationToken).ConfigureAwait(false);
+        IsInProgress = false;
+        _cancelCommand.NotifyCommandFinished();
     }
 
     async Task IAsyncCommand.CanExecuteAsync(object? parameter)
@@ -178,19 +169,11 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
             ThrowDisposed(this);
         }
 
-        if (Execution is null || Execution.IsCompleted || CanExecution is null || CanExecution.IsCompleted)
-        {
-            if (CanExecution is IAsyncDisposable asyncDisposable)
-            {
-                await asyncDisposable.DisposeAsync().ConfigureAwait(false);
-            }
-            else if (CanExecution is IDisposable disposable)
-            {
-                disposable.Dispose();
-            }
-
-            CanExecution = new NotifyTaskCompletion<bool>(CanExecuteAsync(parameter, CancelCommand.CancellationToken));
-        }
+        IsInProgress = true;
+        _cancelCommand.NotifyCommandStarting();
+        await _canExecution.TaskCompletionAsync(parameter).ConfigureAwait(false);
+        IsInProgress = false;
+        _cancelCommand.NotifyCommandFinished();
     }
 
     /// <summary>
@@ -223,26 +206,21 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
             ThrowDisposed(this);
         }
 
-        _canExecutionTask?.Dispose();
-        _cancelCommand.NotifyCommandStarting();
-        _canExecutionTask = _asyncCommand.CanExecuteAsync(parameter);
-
         if (_canExecution is null)
         {
             return true;
         }
 
+        _canExecutionTask?.Dispose();
+        _canExecutionTask = _asyncCommand.CanExecuteAsync(parameter);
+
         if (_canExecution.IsFaulted || _canExecution.IsCanceled)
         {
-            _cancelCommand.NotifyCommandFinished();
-
             return false;
         }
 
-        if (_canExecution.IsSuccessfullyCompleted)
+        if (_canExecution.IsCompletedSuccessfully)
         {
-            _cancelCommand.NotifyCommandFinished();
-
             return _canExecution.Result;
         }
 

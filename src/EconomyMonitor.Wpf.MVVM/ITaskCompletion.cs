@@ -22,10 +22,16 @@ public interface ITaskCompletion
     bool IsCanceled { get; }
 
     /// <summary>
-    /// Возвращает <see langword="true"/>, если выполнение задачи завершилось, 
+    /// Возвращает <see langword="true"/>, если задача выполняется, 
     /// иначе - <see langword="false"/>.
     /// </summary>
-    bool IsCompleted { get; }
+    bool IsInProgress { get; }
+
+    /// <summary>
+    /// Возвращает <see langword="true"/>, если выполнение задачи завершилось успешно, 
+    /// иначе - <see langword="false"/>.
+    /// </summary>
+    bool IsCompletedSuccessfully { get; }
 
     /// <summary>
     /// Возвращает <see langword="true"/>, если выполнение задачи вызвало ошибку, 
@@ -34,25 +40,8 @@ public interface ITaskCompletion
     bool IsFaulted { get; }
 
     /// <summary>
-    /// Возвращает <see langword="true"/>, если выполнение задачи ещё не завершилось, 
-    /// иначе - <see langword="false"/>.
-    /// </summary>
-    bool IsNotCompleted { get; }
-
-    /// <summary>
-    /// Возвращает <see langword="true"/>, если выполнение задачи завершилось успешно, 
-    /// иначе - <see langword="false"/>.
-    /// </summary>
-    bool IsSuccessfullyCompleted { get; }
-
-    /// <summary>
-    /// Возвращает статус выполнения задачи.
-    /// </summary>
-    TaskStatus Status { get; }
-
-    /// <summary>
     /// Возращает выполняемую задачу.
     /// </summary>
     /// <returns>Выполняемая задача.</returns>
-    Task TaskCompletionAsync();
+    Task TaskCompletionAsync(object? parameter, CancellationToken cancellationToken = default);
 }

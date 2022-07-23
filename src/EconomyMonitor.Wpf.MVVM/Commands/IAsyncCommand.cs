@@ -10,9 +10,17 @@ namespace EconomyMonitor.Wpf.MVVM.Commands;
 public interface IAsyncCommand : ICommand
 {
     /// <summary>
+    /// Возвращает индикацию выполнения команды.
+    /// </summary>
+    /// <value>
+    /// <see langword="true"/>, если команда выполняется, иначе - <see langword="false"/>.
+    /// </value>
+    bool IsInProgress { get; }
+
+    /// <summary>
     /// Возвращает объект уведомления завершения работы задачи <see cref="Task"/>.
     /// </summary>
-    ITaskCompletion? Execution { get; }
+    ITaskCompletion Execution { get; }
 
     /// <summary>
     /// Возвращает объект уведомления завершения проверки на возможность запустить команду.
