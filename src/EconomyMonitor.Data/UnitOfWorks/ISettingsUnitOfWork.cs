@@ -48,4 +48,6 @@ public interface ISettingsUnitOfWork
     /// <param name="settings">Экземпляр сохраняемых настроек приложения.</param>
     /// <param name="cancellationToken">Токен отмены операции.</param>
     Task SaveSettingsAsync(ISettings settings, CancellationToken cancellationToken = default);
+
+    Task SaveStartingBudgetAsync(decimal startingBudget, CancellationToken cancellationToken = default);
 }

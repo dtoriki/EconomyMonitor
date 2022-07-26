@@ -4,6 +4,7 @@ using EconomyMonitor.Data.Abstracts.Interfaces.EfSets;
 using EconomyMonitor.Data.Abstracts.Interfaces.Entities;
 using EconomyMonitor.Data.Entities;
 using EconomyMonitor.Data.Mappers;
+using EconomyMonitor.Primitives.Comparers;
 using Microsoft.EntityFrameworkCore;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
@@ -62,6 +63,11 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
         SettingsEntity? settingsEntity = await GetSettingsAsync(withTracking: true, cancellationToken)
             .ConfigureAwait(false);
 
+        if (SettingsEqualityComparer.IsEquals(settings, settingsEntity))
+        {
+            return;
+        }
+
         if (settingsEntity is null)
         {
             SettingsEntity newEntity = _settingsMapper.Map<SettingsEntity>(settings);
@@ -72,8 +78,33 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
             return;
         }
 
-        SettingsEntity updatedEntity = _settingsMapper.Pour(settings, settingsEntity, s => new { s.StartingBudget });
+        SettingsEntity updatedEntity = _settingsMapper.Pour(settings, settingsEntity);
         await _repository.UpdateAsync(updatedEntity, cancellationToken).ConfigureAwait(false);
+    }
+
+    public async Task SaveStartingBudgetAsync(decimal startingBudget, CancellationToken cancellationToken = default)
+    {
+        SettingsEntity? settingsEntity = await GetSettingsAsync(withTracking: true, cancellationToken)
+            .ConfigureAwait(false);
+
+        if (settingsEntity is null)
+        {
+            settingsEntity = new SettingsEntity
+            {
+                StartingBudget = startingBudget
+            };
+
+            await _repository.CreateAsync(settingsEntity, cancellationToken)
+                .ConfigureAwait(false);
+
+            return;
+        }
+
+        settingsEntity.StartingBudget = startingBudget;
+
+        await _repository
+            .UpdateAsync(settingsEntity, cancellationToken)
+            .ConfigureAwait(false);
     }
 
     private Task<SettingsEntity?> GetSettingsAsync(bool withTracking, CancellationToken cancellationToken)
