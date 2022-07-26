@@ -29,4 +29,15 @@ public interface ISettingsMapper : IMapper
     /// <returns></returns>
     [return: NotNullIfNotNull("pourFrom")]
     TDestination? Pour<TDestination, TKey>(ISettings? pourFrom, TDestination pourTo, Func<ISettings, TKey> keySelector) where TDestination : class, ISettings;
+
+    /// <summary>
+    /// Переносит значения свойств экземпляра <paramref name="pourFrom"/>
+    /// в соответствующие свойства экземпляра <paramref name="pourTo"/>. 
+    /// </summary>
+    /// <typeparam name="TDestination">Тип перезаписываемого экземпляра.</typeparam>
+    /// <param name="pourFrom">Экземпляр, значения свойств которого, переносятся. </param>
+    /// <param name="pourTo">Экземпляр, в котороый переносятся значения свойств.</param>
+    /// <returns></returns>
+    [return: NotNullIfNotNull("pourFrom")]
+    TDestination? Pour<TDestination>(ISettings? pourFrom, TDestination pourTo) where TDestination : class, ISettings;
 }

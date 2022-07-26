@@ -8,5 +8,5 @@ public interface ISettings
     /// <summary>
     /// Возвращает или задаёт стартовый бюджет.
     /// </summary>
-    decimal? StartingBudget { get; set; }
+    decimal StartingBudget { get; set; }
 }

@@ -10,7 +10,7 @@ namespace EconomyMonitor.Domain;
 /// </remarks>
 public class Settings : ISettings, IUniqueRequired
 {
-    public decimal? StartingBudget { get; set; }
+    public decimal StartingBudget { get; set; }
 
     public Guid Id { get; set; }
 
