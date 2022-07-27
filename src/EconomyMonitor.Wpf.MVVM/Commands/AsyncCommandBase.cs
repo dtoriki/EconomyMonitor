@@ -116,7 +116,6 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
 
             return _isInProgress;
         }
-        private set => _ = SetPropertyNotifiable(ref _isInProgress, value);
     }
 
     /// <summary>
@@ -155,10 +154,10 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
             ThrowDisposed(this);
         }
 
-        IsInProgress = true;
+        _ = SetPropertyNotifiable(ref _isInProgress, value: true, nameof(IsInProgress));
         _cancelCommand.NotifyCommandStarting();
-        await _execution.TaskCompletionAsync(parameter, CancelCommand.CancellationToken).ConfigureAwait(false);
-        IsInProgress = false;
+        await _execution.TaskCompletionAsync(parameter, CancelCommand.CancellationToken);
+        _ = SetPropertyNotifiable(ref _isInProgress, value: false, nameof(IsInProgress));
         _cancelCommand.NotifyCommandFinished();
     }
 
@@ -169,10 +168,10 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
             ThrowDisposed(this);
         }
 
-        IsInProgress = true;
+        _ = SetPropertyNotifiable(ref _isInProgress, value: true, nameof(IsInProgress));
         _cancelCommand.NotifyCommandStarting();
-        await _canExecution.TaskCompletionAsync(parameter).ConfigureAwait(false);
-        IsInProgress = false;
+        await _canExecution.TaskCompletionAsync(parameter);
+        _ = SetPropertyNotifiable(ref _isInProgress, value: false, nameof(IsInProgress));
         _cancelCommand.NotifyCommandFinished();
     }
 
