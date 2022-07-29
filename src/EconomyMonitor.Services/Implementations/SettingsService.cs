@@ -3,6 +3,7 @@ using EconomyMonitor.Data.Abstracts.Interfaces.Entities;
 using EconomyMonitor.Data.Mappers;
 using EconomyMonitor.Data.UnitOfWorks;
 using EconomyMonitor.Domain;
+using EconomyMonitor.Primitives.Comparers;
 using static EconomyMonitor.Helpers.DisposeHelper;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
@@ -50,17 +51,26 @@ internal sealed class SettingsService : ISettingsService, IDisposable, IAsyncDis
 
     public ISettings? GetCurrentSettingsValue() => _settings;
 
-    public Task<ISettings?> UploadSettingsAsync(CancellationToken cancellationToken = default)
+    public Task<ISettings?> LoadSettingsAsync(CancellationToken cancellationToken = default)
     {
         return FetchSettingsAsync(cancellationToken);
     }
 
-    public async Task<bool> SaveSettingsAsync(ISettings settings, CancellationToken cancellationToken)
+    public async Task<bool> SaveSettingsAsync(ISettings settings, CancellationToken cancellationToken = default)
     {
         if (_isDisposed)
         {
             ThrowDisposed(this);
         }
+
+        if (SettingsEqualityComparer.IsEquals(settings, _settings))
+        {
+            return true;
+        }
+
+        await SemaphoreSlim
+            .WaitAsync(Timeout, cancellationToken)
+            .ConfigureAwait(false);
 
         try
         {
@@ -72,34 +82,38 @@ internal sealed class SettingsService : ISettingsService, IDisposable, IAsyncDis
             return false;
         }
 
-        await UpdateSettingsAsync(settings, cancellationToken)
-            .ConfigureAwait(false);
+        UpdateSettings(settings);
+
+        SemaphoreSlim.Release();
 
         return true;
     }
 
-    private async Task<ISettings?> FetchSettingsAsync(CancellationToken cancellationToken)
+    public async Task<bool> SaveStartingBudgetAsync(decimal startingBudget, CancellationToken cancellationToken = default)
     {
-        ISettingsEntity? settingsEntity = await _settingsUnitOfWork
-            .GetSettingsNoTrackingAsync(cancellationToken)
-            .ConfigureAwait(false);
+        if (_isDisposed)
+        {
+            ThrowDisposed(this);
+        }
 
-        await UpdateSettingsAsync(settingsEntity, cancellationToken)
-            .ConfigureAwait(false);
-
-        return _settings;
-    }
-
-    private async Task UpdateSettingsAsync(ISettings? settings, CancellationToken cancellationToken)
-    {
         await SemaphoreSlim
             .WaitAsync(Timeout, cancellationToken)
             .ConfigureAwait(false);
 
-        _settings = _settingsMapper.Map<Settings>(settings);
-        _isSettingsFetched = true;
+        try
+        {
+            await _settingsUnitOfWork.SaveStartingBudgetAsync(startingBudget, cancellationToken);
+        }
+        catch
+        {
+            return false;
+        }
+
+        UpdateSettings(settings => settings.StartingBudget = startingBudget);
 
         SemaphoreSlim.Release();
+
+        return true;
     }
 
     public void Dispose()
@@ -130,5 +144,38 @@ internal sealed class SettingsService : ISettingsService, IDisposable, IAsyncDis
         }
 
         _isDisposed = true;
+    }
+
+    private async Task<ISettings?> FetchSettingsAsync(CancellationToken cancellationToken)
+    {
+        await SemaphoreSlim
+            .WaitAsync(Timeout, cancellationToken)
+            .ConfigureAwait(false);
+
+        ISettingsEntity? settingsEntity = await _settingsUnitOfWork
+            .GetSettingsNoTrackingAsync(cancellationToken)
+            .ConfigureAwait(false);
+
+        UpdateSettings(settingsEntity);
+
+        SemaphoreSlim.Release();
+
+        return _settings;
+    }
+
+    private void UpdateSettings(Action<ISettings> settingsFactory)
+    {
+        Settings settings = new();
+        settingsFactory(settings);
+
+        UpdateSettings(settings);
+
+        SemaphoreSlim.Release();
+    }
+
+    private void UpdateSettings(ISettings? settings)
+    {
+        _settings = _settingsMapper.Map<Settings>(settings);
+        _isSettingsFetched = true;
     }
 }
