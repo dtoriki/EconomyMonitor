@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using EconomyMonitor.Abstacts;
 using static EconomyMonitor.Helpers.ThrowHelper;
 
@@ -57,5 +58,14 @@ public class SettingsEqualityComparer : IEqualityComparer<ISettings>
         return HashCode.Combine(obj.StartingBudget);
     }
 
-    
+    /// <summary>
+    /// Определяет равенство двух экземпляров типа <see cref="ISettings"/>.
+    /// </summary>
+    /// <param name="x">Первый экземпляр типа <see cref="ISettings"/>.</param>
+    /// <param name="y">Второй экземпляр типа <see cref="ISettings"/>.</param>
+    /// <returns><see langword="true"/>, если экземпляры равны, иначе - <see langword="false"/>.</returns>
+    public static bool IsEquals(ISettings? x, ISettings? y)
+    {
+        return new SettingsEqualityComparer().Equals(x, y);
+    }
 }
