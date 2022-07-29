@@ -59,7 +59,7 @@ public static class AppHosting
 #if DEBUG
                 config.SetupDevConfiguration();
 #else
-                config.ConfigureConfiguration();
+                config.SetupConfiguration();
 #endif
 
             })

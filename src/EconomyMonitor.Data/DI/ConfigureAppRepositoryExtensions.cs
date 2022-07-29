@@ -68,7 +68,7 @@ public static class ConfigureAppRepositoryExtensions
     /// <exception cref="NullReferenceException">
     /// Возникает, если не удалось найти строку подключения.
     /// </exception>
-    public static IServiceCollection ConfigureSqliteAppRepository(this IServiceCollection services)
+    public static IServiceCollection ConfigureSqliteAppRepositoryScoped(this IServiceCollection services)
     {
         string? connectionString = services.GetSqliteConnectionString();
         if (ThrowIfNull(connectionString))

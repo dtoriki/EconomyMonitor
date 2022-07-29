@@ -21,4 +21,10 @@ public static class ConfigureServicesExtensions
             .ConfigureSettingsUnitOfWork()
             .AddScoped<ISettingsService, SettingsService>();
     }
+
+    public static IServiceCollection ConfigureBudgetServiceScoped(this IServiceCollection services)
+    {
+        return services
+            .AddScoped<IBudgetService, BudgetService>();
+    }
 }
