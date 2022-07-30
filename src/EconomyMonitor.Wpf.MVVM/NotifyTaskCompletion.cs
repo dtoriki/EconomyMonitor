@@ -186,7 +186,7 @@ public class NotifyTaskCompletion : NotifyPropertyChangedBase, ITaskCompletion
 
         try
         {
-            await executionTask.ConfigureAwait(false);
+            await executionTask;
         }
         catch (Exception ex)
         {

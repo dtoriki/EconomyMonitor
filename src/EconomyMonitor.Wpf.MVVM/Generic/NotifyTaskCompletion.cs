@@ -58,7 +58,7 @@ public sealed class NotifyTaskCompletion<TResult> : NotifyTaskCompletion, ITaskC
     /// <inheritdoc/>
     protected override async Task WatchTaskAsync(Task executionTask)
     {
-        await base.WatchTaskAsync(executionTask).ConfigureAwait(false);
+        await base.WatchTaskAsync(executionTask);
 
         if (executionTask.IsCompletedSuccessfully)
         {
