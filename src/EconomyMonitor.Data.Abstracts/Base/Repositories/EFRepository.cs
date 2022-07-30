@@ -68,10 +68,8 @@ public abstract class EfRepository : DbContext, IRepository
 
         _ = ThrowIfArgumentNull(entity);
 
-        await Set<TEntity>().AddAsync(entity, cancellationToken)
-            .ConfigureAwait(false);
-
-        await SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        await Set<TEntity>().AddAsync(entity, cancellationToken);
+        await SaveChangesAsync(cancellationToken);
 
         return entity.Id;
     }
@@ -112,11 +110,8 @@ public abstract class EfRepository : DbContext, IRepository
 
         TEntity[] entitiesArray = entities as TEntity[] ?? entities.ToArray();
 
-        await Set<TEntity>()
-            .AddRangeAsync(entitiesArray, cancellationToken)
-            .ConfigureAwait(false);
-
-        await SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        await Set<TEntity>().AddRangeAsync(entitiesArray, cancellationToken);
+        await SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
@@ -192,17 +187,14 @@ public abstract class EfRepository : DbContext, IRepository
     public async Task DeleteByIdAsync<TEntity>(Guid id, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
-        TEntity? entity = await FindAsync<TEntity>(id, cancellationToken)
-            .ConfigureAwait(false);
-
+        TEntity? entity = await FindAsync<TEntity>(id, cancellationToken);
         if (entity is null)
         {
             return;
         }
 
         DeleteInternal(entity);
-
-        await SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        await SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
@@ -291,9 +283,8 @@ public abstract class EfRepository : DbContext, IRepository
     public async Task UpdateAsync<TEntity>(TEntity entity, CancellationToken cancellationToken = default)
         where TEntity : class, IEntity
     {
-        await UpdateInternalAsync(entity, cancellationToken).ConfigureAwait(false);
-
-        await SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+        await UpdateInternalAsync(entity, cancellationToken);
+        await SaveChangesAsync(cancellationToken);
     }
 
     /// <inheritdoc/>
@@ -330,7 +321,7 @@ public abstract class EfRepository : DbContext, IRepository
 
         foreach(TEntity entity in entitiesArray)
         {
-            await UpdateInternalAsync(entity, cancellationToken).ConfigureAwait(false);
+            await UpdateInternalAsync(entity, cancellationToken);
         }
 
         await SaveChangesAsync(cancellationToken);
@@ -401,8 +392,7 @@ public abstract class EfRepository : DbContext, IRepository
 
         foreach (Guid id in idsArray)
         {
-            TEntity? entity = await FindAsync<TEntity>(id, cancellationToken).ConfigureAwait(false);
-
+            TEntity? entity = await FindAsync<TEntity>(id, cancellationToken);
             if (entity is not null)
             {
                 yield return entity;
@@ -436,7 +426,7 @@ public abstract class EfRepository : DbContext, IRepository
             return;
         }
 
-        await base.DisposeAsync().ConfigureAwait(false);
+        await base.DisposeAsync();
         GC.SuppressFinalize(this);
         _isDisposed = true;
     }
@@ -590,7 +580,7 @@ public abstract class EfRepository : DbContext, IRepository
 
         _ = ThrowIfArgumentNull(entity);
 
-        if (await FindAsync<TEntity>(entity.Id, cancellationToken).ConfigureAwait(false) is null)
+        if (await FindAsync<TEntity>(entity.Id, cancellationToken) is null)
         {
             return;
         }

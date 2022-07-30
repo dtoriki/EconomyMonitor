@@ -143,7 +143,7 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
     /// </summary>
     public async ValueTask DisposeAsync()
     {
-        await DisposeAsync(disposing: true).ConfigureAwait(false);
+        await DisposeAsync(disposing: true);
         GC.SuppressFinalize(this);
     }
 
@@ -249,17 +249,17 @@ public abstract class AsyncCommandBase : NotifiableCommandBase, IAsyncCommand, I
 
             if (Execution is IAsyncDisposable execution)
             {
-                await execution.DisposeAsync().ConfigureAwait(false);
+                await execution.DisposeAsync();
             }
 
             if (CanExecution is IAsyncDisposable canExecution)
             {
-                await canExecution.DisposeAsync().ConfigureAwait(false);
+                await canExecution.DisposeAsync();
             }
 
             if (CancelCommand is IAsyncDisposable cancelCommand)
             {
-                await cancelCommand.DisposeAsync().ConfigureAwait(false);
+                await cancelCommand.DisposeAsync();
             }
 
             Dispose(disposing);

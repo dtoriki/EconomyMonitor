@@ -16,9 +16,7 @@ internal sealed class BudgetService : IDisposable, IAsyncDisposable, IBudgetServ
 
     public async Task<decimal> GetBudgetAsync(CancellationToken cancellationToken = default)
     {
-        ISettings? settings = await _settingsService
-            .GetSettingsAsync(cancellationToken)
-            .ConfigureAwait(false);
+        ISettings? settings = await _settingsService.GetSettingsAsync(cancellationToken);
 
         decimal startingBudget = settings?.StartingBudget ?? decimal.Zero;
 
@@ -27,9 +25,7 @@ internal sealed class BudgetService : IDisposable, IAsyncDisposable, IBudgetServ
 
     public async Task SetBudgetAsync(decimal budget, CancellationToken cancellationToken = default)
     {
-        await _settingsService
-            .SaveStartingBudgetAsync(budget, cancellationToken)
-            .ConfigureAwait(false);
+        await _settingsService.SaveStartingBudgetAsync(budget, cancellationToken);
     }
 
     public void Dispose()

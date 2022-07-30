@@ -34,8 +34,7 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
             ThrowDisposed(this);
         }
 
-        SettingsEntity? settingsEntity = await GetSettingsAsync(withTracking: true, cancellationToken)
-            .ConfigureAwait(false);
+        SettingsEntity? settingsEntity = await GetSettingsAsync(withTracking: true, cancellationToken);
 
         return settingsEntity;
     }
@@ -47,8 +46,7 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
             ThrowDisposed(this);
         }
 
-        SettingsEntity? settingsEntity = await GetSettingsAsync(withTracking: false, cancellationToken)
-            .ConfigureAwait(false);
+        SettingsEntity? settingsEntity = await GetSettingsAsync(withTracking: false, cancellationToken);
 
         return settingsEntity;
     }
@@ -60,8 +58,7 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
             return;
         }
 
-        SettingsEntity? settingsEntity = await GetSettingsAsync(withTracking: true, cancellationToken)
-            .ConfigureAwait(false);
+        SettingsEntity? settingsEntity = await GetSettingsAsync(withTracking: true, cancellationToken);
 
         if (SettingsEqualityComparer.IsEquals(settings, settingsEntity))
         {
@@ -72,20 +69,18 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
         {
             SettingsEntity newEntity = _settingsMapper.Map<SettingsEntity>(settings);
 
-            await _repository.CreateAsync(newEntity, cancellationToken)
-                .ConfigureAwait(false);
+            await _repository.CreateAsync(newEntity, cancellationToken);
 
             return;
         }
 
         SettingsEntity updatedEntity = _settingsMapper.Pour(settings, settingsEntity);
-        await _repository.UpdateAsync(updatedEntity, cancellationToken).ConfigureAwait(false);
+        await _repository.UpdateAsync(updatedEntity, cancellationToken);
     }
 
     public async Task SaveStartingBudgetAsync(decimal startingBudget, CancellationToken cancellationToken = default)
     {
-        SettingsEntity? settingsEntity = await GetSettingsAsync(withTracking: true, cancellationToken)
-            .ConfigureAwait(false);
+        SettingsEntity? settingsEntity = await GetSettingsAsync(withTracking: true, cancellationToken);
 
         if (settingsEntity is null)
         {
@@ -94,17 +89,14 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
                 StartingBudget = startingBudget
             };
 
-            await _repository.CreateAsync(settingsEntity, cancellationToken)
-                .ConfigureAwait(false);
+            await _repository.CreateAsync(settingsEntity, cancellationToken);
 
             return;
         }
 
         settingsEntity.StartingBudget = startingBudget;
 
-        await _repository
-            .UpdateAsync(settingsEntity, cancellationToken)
-            .ConfigureAwait(false);
+        await _repository.UpdateAsync(settingsEntity, cancellationToken);
     }
 
     private Task<SettingsEntity?> GetSettingsAsync(bool withTracking, CancellationToken cancellationToken)
@@ -123,8 +115,7 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
 
     private IQueryable<SettingsEntity> ReadAllSettingsInternal()
     {
-        return _repository
-            .ReadAll<SettingsEntity>();
+        return _repository.ReadAll<SettingsEntity>();
     }
 
     public void Dispose()
@@ -147,7 +138,7 @@ internal sealed class SettingsUnitOfWork<TRepository> : ISettingsUnitOfWork, IDi
             return;
         }
 
-        await _repository.DisposeAsync().ConfigureAwait(false);
+        await _repository.DisposeAsync();
         GC.SuppressFinalize(this);
 
         _disposed = true;

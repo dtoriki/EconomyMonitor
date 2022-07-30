@@ -68,14 +68,11 @@ internal sealed class SettingsService : ISettingsService, IDisposable, IAsyncDis
             return true;
         }
 
-        await SemaphoreSlim
-            .WaitAsync(Timeout, cancellationToken)
-            .ConfigureAwait(false);
+        await SemaphoreSlim.WaitAsync(Timeout, cancellationToken);
 
         try
         {
-            await _settingsUnitOfWork.SaveSettingsAsync(settings, cancellationToken)
-                .ConfigureAwait(false);
+            await _settingsUnitOfWork.SaveSettingsAsync(settings, cancellationToken);
         }
         catch
         {
@@ -96,9 +93,7 @@ internal sealed class SettingsService : ISettingsService, IDisposable, IAsyncDis
             ThrowDisposed(this);
         }
 
-        await SemaphoreSlim
-            .WaitAsync(Timeout, cancellationToken)
-            .ConfigureAwait(false);
+        await SemaphoreSlim.WaitAsync(Timeout, cancellationToken);
 
         try
         {
@@ -138,7 +133,7 @@ internal sealed class SettingsService : ISettingsService, IDisposable, IAsyncDis
             return;
         }
 
-        if (await DisposeObjectAsync(_settingsUnitOfWork).ConfigureAwait(false))
+        if (await DisposeObjectAsync(_settingsUnitOfWork))
         {
             GC.SuppressFinalize(this);
         }
@@ -148,13 +143,9 @@ internal sealed class SettingsService : ISettingsService, IDisposable, IAsyncDis
 
     private async Task<ISettings?> FetchSettingsAsync(CancellationToken cancellationToken)
     {
-        await SemaphoreSlim
-            .WaitAsync(Timeout, cancellationToken)
-            .ConfigureAwait(false);
+        await SemaphoreSlim.WaitAsync(Timeout, cancellationToken);
 
-        ISettingsEntity? settingsEntity = await _settingsUnitOfWork
-            .GetSettingsNoTrackingAsync(cancellationToken)
-            .ConfigureAwait(false);
+        ISettingsEntity? settingsEntity = await _settingsUnitOfWork.GetSettingsNoTrackingAsync(cancellationToken);
 
         UpdateSettings(settingsEntity);
 

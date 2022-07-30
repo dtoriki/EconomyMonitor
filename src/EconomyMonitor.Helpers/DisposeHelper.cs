@@ -31,7 +31,7 @@ public static class DisposeHelper
     {
         if (obj is IAsyncDisposable asyncDisposable)
         {
-            await asyncDisposable.DisposeAsync().ConfigureAwait(false);
+            await asyncDisposable.DisposeAsync();
 
             return true;
         }
