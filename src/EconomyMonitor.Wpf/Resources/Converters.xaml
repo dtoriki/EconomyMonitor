@@ -1,0 +1,12 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:converters="clr-namespace:EconomyMonitor.Wpf.MVVM.Converters">
+
+    <converters:DateTimeToDateOnlyConverter x:Key="DATETIME_TO_DATEONLY_CONVERTER"/>
+    <converters:EnumToDisplayNameConverter x:Key="ENUM_TO_DISPLAY_NAME_CONVERTER"/>
+    <converters:DecimalToStringConverter x:Key="DECIMAL_TO_STRING_CONVERTER"/>
+    <converters:TrueIsCollapseFalseIsVisibleConverter x:Key="TRUE_IS_COLLAPSE_FALSE_IS_VISIBLE_CONVERTER"/>
+    <converters:TrueIsVisibleFalseIsHiddenConverter x:Key="TRUE_IS_VISIBLE_FALSE_IS_HIDDEN_CONVERTER"/>
+    <converters:TrueIsVisibleFalseIsCollapseConverter x:Key="TRUE_IS_VISIBLE_FALSE_IS_COLLAPSE_CONVERTER"/>
+
+</ResourceDictionary>

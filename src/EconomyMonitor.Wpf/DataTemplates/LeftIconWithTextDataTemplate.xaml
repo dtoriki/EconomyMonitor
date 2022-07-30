@@ -7,12 +7,12 @@
                     mc:Ignorable="d">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Styles/StackPanels/HorizontalOrientedCenterAlignmentStackPanel.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Styles/old/StackPanels/HorizontalCentredStackPanel.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <DataTemplate x:Key="LeftIconWithTextDataTemplate"
                   DataType="primitives:IconWithText">
-        <StackPanel Style="{StaticResource HorizontalOrientedCenterAlignmentStackPanel}"
+        <StackPanel Style="{StaticResource HorizontalCentredStackPanel}"
                     
                     d:DataContext="{d:DesignInstance primitives:IconWithText}">
             <materialDesign:PackIcon Kind="{Binding Icon}" 

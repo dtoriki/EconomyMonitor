@@ -1,8 +1,0 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                    xmlns:converters="clr-namespace:EconomyMonitor.Wpf.MVVM.Converters">
-
-    <converters:DateTimeToDateOnlyConverter x:Key="DateTimeToDateOnlyConverter"/>
-    <converters:EnumToDisplayNameConverter x:Key="EnumToDisplayNameConverter"/>
-
-</ResourceDictionary>

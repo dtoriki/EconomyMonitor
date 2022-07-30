@@ -1,0 +1,170 @@
+<StackPanel x:Class="EconomyMonitor.Wpf.MVVM.Controls.StackPanels.BudgetInfoStackPanel"
+            x:ClassModifier="internal"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:viewmodels="clr-namespace:EconomyMonitor.Wpf.MVVM.ViewModels"
+            mc:Ignorable="d" 
+            DataContext="{x:Static viewmodels:ViewModelLocator.BudgetInfoViewModel}"
+            d:DataContext="{d:DesignInstance viewmodels:BudgetInfoViewModel}"
+            Orientation="Horizontal"
+            VerticalAlignment="Center"
+            Width="auto"
+            HorizontalAlignment="Left">
+
+    <StackPanel.Resources>
+        <Style x:Key="BudgetInfoStackPanelStyle"
+               TargetType="StackPanel">
+
+            <Setter Property="Orientation" Value="Horizontal"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="7"/>
+            <Setter Property="Width" Value="auto"/>
+            <Setter Property="Height" Value="auto"/>
+
+        </Style>
+    </StackPanel.Resources>
+
+    <i:Interaction.Triggers>
+        <i:EventTrigger EventName="Loaded">
+            <i:InvokeCommandAction Command="{Binding LoadBudgetCommand, Mode=OneWay}"/>
+        </i:EventTrigger>
+    </i:Interaction.Triggers>
+
+    <materialDesign:ColorZone Mode="PrimaryDark"
+                              HorizontalAlignment="Stretch"
+                              VerticalAlignment="Stretch"
+                              Width="200"
+                              Height="auto"
+                              CornerRadius="10"
+                              Padding="10"
+                              VerticalContentAlignment="Stretch">
+
+        <materialDesign:Card>
+            <StackPanel Height="60">
+                <StackPanel Visibility="{Binding LoadBudgetCommand.IsInProgress, Converter={StaticResource TRUE_IS_VISIBLE_FALSE_IS_COLLAPSE_CONVERTER}}"
+                            Style="{StaticResource BudgetInfoStackPanelStyle}">
+
+                    <ProgressBar Style="{StaticResource MaterialDesignCircularProgressBar}"
+                                 HorizontalAlignment="Center"
+                                 VerticalAlignment="Center"
+                                 Margin="5"
+                                 IsIndeterminate="True"
+                                 Value="0"/>
+
+                    <TextBlock Style="{StaticResource MaterialDesignCharacterCounterTextBlock}"
+                               Width="auto"
+                               Height="auto"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Text="{StaticResource LOADING}"
+                               FontSize="20"/>
+
+                </StackPanel>
+
+                <Grid Visibility="{Binding IsEditMode, Converter={StaticResource TRUE_IS_VISIBLE_FALSE_IS_COLLAPSE_CONVERTER}}"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                Grid.Column="0">
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="{StaticResource BUDGET}"
+                                       Style="{StaticResource MaterialDesignCharacterCounterTextBlock}"
+                                       FontSize="16"/>
+                            <TextBox Style="{StaticResource MaterialDesignTextBox}"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Left"
+                                     Width="130"
+                                     FontSize="22">
+                                <TextBox.Text>
+                                    <Binding Path="BudgetAsString"
+                                             Converter="{StaticResource DECIMAL_TO_STRING_CONVERTER}"
+                                             UpdateSourceTrigger="PropertyChanged">
+                                        <Binding.ValidationRules>
+                                            <StaticResource ResourceKey="DECIMAL_VALIDATION_RULE"/>
+                                        </Binding.ValidationRules>
+                                    </Binding>
+                                </TextBox.Text>
+                            </TextBox>
+                        </StackPanel>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Grid.Column="1">
+                        <Button Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                Command="{Binding CancelEditBudgetCommand, Mode=OneWay}">
+
+                            <materialDesign:PackIcon Kind="{StaticResource CANCEL_ICON}"
+                                                     Width="auto"/>
+
+                        </Button>
+
+                        <Button Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                Command="{Binding SaveBudgetCommand, Mode=OneWay}">
+
+                            <materialDesign:PackIcon Kind="{StaticResource SAVE_ICON}"
+                                                     Width="auto"/>
+
+                        </Button>
+                    </StackPanel>
+                </Grid>
+
+                <Grid Visibility="{Binding IsEditMode, Converter={StaticResource TRUE_IS_COLLAPSE_FALSE_IS_VISIBLE_CONVERTER}}"
+                      HorizontalAlignment="Stretch"
+                      VerticalAlignment="Stretch">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Orientation="Horizontal"
+                                Grid.Column="0">
+                        <StackPanel>
+                            <TextBlock Text="{StaticResource BUDGET}"
+                                       Style="{StaticResource MaterialDesignCharacterCounterTextBlock}"
+                                       FontSize="16"/>
+                            <TextBlock Style="{StaticResource MaterialDesignHeadline5TextBlock}"
+                                       VerticalAlignment="Bottom"
+                                       HorizontalAlignment="Left"
+                                       Width="auto"
+                                       FontSize="22"
+                                       Margin="1 4 2 2"
+                                       Text="{Binding Budget, Mode=OneWay}"/>
+                        </StackPanel>
+                    </StackPanel>
+                    
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Grid.Column="1">
+                        <Button Style="{StaticResource MaterialDesignToolForegroundButton}"
+                                Command="{Binding StartEditBudgetCommand, Mode=OneWay}"
+                                HorizontalAlignment="Right"
+                                VerticalAlignment="Bottom">
+
+                            <materialDesign:PackIcon Kind="{StaticResource EDIT_ICON}"
+                                                     Width="auto"
+                                                     HorizontalAlignment="Right"
+                                                     VerticalAlignment="Bottom"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+            </StackPanel>
+        </materialDesign:Card>
+    </materialDesign:ColorZone>
+</StackPanel>

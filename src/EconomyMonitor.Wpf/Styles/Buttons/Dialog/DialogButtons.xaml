@@ -1,8 +1,0 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
-
-    <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Styles/Buttons/Dialog/DialogButton.Accept.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Styles/Buttons/Dialog/DialogButton.Cancel.xaml"/>
-    </ResourceDictionary.MergedDictionaries>
-
-</ResourceDictionary>
