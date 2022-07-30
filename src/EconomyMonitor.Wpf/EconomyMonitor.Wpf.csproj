@@ -19,12 +19,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<Page Update="DataTemplates\LeftIconWithTextDataTemplate.xaml">
-			<XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-		</Page>
-	</ItemGroup>
-
-	<ItemGroup>
 		<ProjectReference Include="..\EconomyMonitor.Abstacts\EconomyMonitor.Abstacts.csproj" />
 		<ProjectReference Include="..\EconomyMonitor.DI\EconomyMonitor.DI.csproj" />
 		<ProjectReference Include="..\EconomyMonitor.Migrations\EconomyMonitor.Migrations.csproj" />
