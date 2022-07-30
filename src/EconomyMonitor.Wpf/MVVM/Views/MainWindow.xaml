@@ -5,33 +5,48 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:header="clr-namespace:EconomyMonitor.Wpf.MVVM.Controls.Header"
-        xmlns:viewmodels="clr-namespace:EconomyMonitor.Wpf.MVVM.ViewModels"
-        xmlns:application="clr-namespace:EconomyMonitor.Wpf.MVVM.ViewModels.Application"
+        xmlns:cards="clr-namespace:EconomyMonitor.Wpf.MVVM.Controls.Cards" xmlns:stackpanels="clr-namespace:EconomyMonitor.Wpf.MVVM.Controls.StackPanels"
         mc:Ignorable="d"
         Height="750"
         Width="1100"
         Background="{StaticResource PrimaryHueLightBrush}"
         ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
-        WindowStyle="None"
-        DataContext="{x:Static viewmodels:ViewModelLocator.ApplicationViewModel}"
-        d:DataContext="{d:DesignInstance application:ApplicationViewModel}">
+        WindowStyle="None">
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <!-- Window state -->
-        <materialDesign:ColorZone Mode="PrimaryDark"
-                                  Grid.Row="0"
+        <!--#region Состояние окна-->
+        <materialDesign:ColorZone Grid.Row="0"
+                                  Mode="PrimaryDark"
+                                  materialDesign:ShadowAssist.ShadowDepth="Depth2"
+                                  materialDesign:ShadowAssist.Darken="False"
+                                  materialDesign:ShadowAssist.ShadowEdges="Bottom"
+                                  Panel.ZIndex="10">
+            <cards:HeaderCard />
+        </materialDesign:ColorZone>
+        <!--#endregion Состояние окна-->
+        <materialDesign:ColorZone Grid.Row="1"
+                                  Width="auto"
+                                  HorizontalAlignment="Left"
+                                  Mode="PrimaryMid"
+                                  CornerRadius="0 0 10 0"
                                   materialDesign:ShadowAssist.ShadowDepth="Depth1"
                                   materialDesign:ShadowAssist.Darken="False"
                                   materialDesign:ShadowAssist.ShadowEdges="Bottom">
-            <header:HeaderCard DataContext="{Binding Header}"/>
+
+            <StackPanel>
+                <StackPanel Orientation="Vertical"
+                            Margin="10">
+                    <StackPanel>
+                    </StackPanel>
+                    <stackpanels:BudgetInfoStackPanel/>
+                </StackPanel>
+            </StackPanel>
         </materialDesign:ColorZone>
-        <ContentControl Grid.Row="1" 
-                        Content="{Binding Header.SelectedItem.UIElement}"/>
     </Grid>
 </Window>

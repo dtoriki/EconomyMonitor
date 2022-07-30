@@ -7,21 +7,6 @@ namespace EconomyMonitor.Wpf.MVVM.Converters;
 
 internal sealed class DateTimeToDateOnlyConverter : IValueConverter
 {
-    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value is not DateTime dateTime)
-        {
-            Throw<InvalidCastException>(string.Format(
-                WRONG_TYPE_RECEIVED,
-                nameof(DateTime),
-                value.GetType().Name));
-
-            return null;
-        }
-
-        return DateOnly.FromDateTime(dateTime);
-    }
-
     public object? Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         if (value is not DateOnly dateOnly)
@@ -35,5 +20,20 @@ internal sealed class DateTimeToDateOnlyConverter : IValueConverter
         }
 
         return dateOnly.ToDateTime(TimeOnly.MinValue);
+    }
+
+    public object? ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not DateTime dateTime)
+        {
+            Throw<InvalidCastException>(string.Format(
+                WRONG_TYPE_RECEIVED,
+                nameof(DateTime),
+                value.GetType().Name));
+
+            return null;
+        }
+
+        return DateOnly.FromDateTime(dateTime);
     }
 }

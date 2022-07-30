@@ -1,9 +1,0 @@
-<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:primitives="clr-namespace:EconomyMonitor.Wpf.MVVM.Primitives"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
-
-    <primitives:IconWithText x:Key="CONTROL_BUTTON_ICON_WITH_TEXT" Icon="Ruble" Text="Контроль"/>
-    <primitives:IconWithText x:Key="PERIOD_BUTTON_ICON_WITH_TEXT" Icon="DateRange" Text="Периоды"/>
-    <primitives:IconWithText x:Key="GRAPHICS_BUTTON_ICON_WITH_TEXT" Icon="GraphBar" Text="Графики"/>
-
-</ResourceDictionary>
