@@ -3,7 +3,6 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/ColorBrushes.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/Icons.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/IconWithTextButtons.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/Literals.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/EconomyMonitor.Wpf;component/Resources/Properties/Thickness.xaml"/>
     </ResourceDictionary.MergedDictionaries>
