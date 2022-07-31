@@ -59,4 +59,19 @@ public static class ExceptionMessages
     /// Возвращает сообщение "Не удалось найти строку подключения к хранилищу данных.".
     /// </summary>
     public const string CONNECTION_STRING_WAS_NOT_FOUND = "Не удалось найти строку подключения к хранилищу данных.";
+
+    /// <summary>
+    /// Возвращает сообщение "Не удалось получить свойства для изменения.".
+    /// </summary>
+    public const string PROPERTIES_FOR_SET_NOT_FOUND = "Не удалось получить свойства для изменения.";
+
+    /// <summary>
+    /// Возвращает сообщение "Свойство "{0}" только для чтения.".
+    /// </summary>
+    public const string READ_ONLY_PROPERTY = "Свойство \"{0}\" только для чтения.";
+
+    /// <summary>
+    /// Возвращает сообщение "Отсутствует свойство "{0}".".
+    /// </summary>
+    public const string PROPERTY_MISSED = "Отсутствует свойство \"{0}\".";
 }
